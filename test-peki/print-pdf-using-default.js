@@ -19,54 +19,50 @@ const qzroot = path.join(__dirname, "..");
 const pdfSample = path.join(qzroot, "assets", "pdf_sample.pdf");
 
 function print(x) { console.log(x); }
+function sleep(x) { return new Promise(resolve => setTimeout(resolve, x)); }
 
 ///////////////////////////////////////////////////////////////////////////
 
-qz.websocket.connect()
+( async () => {
 
-	.then( () => { return qz.printers.find(); } )
+	await qz.websocket.connect();
 
-	.then( (found) => {
-		print("Printer list:");
-		for ( var i = 0; i < found.length; i++ )
-			print("  " + found[i]);
-	} )
+	const printers = await qz.printers.find();
+	print("Printer list:");
+	printers.forEach( f => print("  " + f) );
 
-	.then( () => { return qz.printers.getDefault(); } )
+	const found = await qz.printers.getDefault();
+	print("Set printer to default (" + found + ")");
 
-	.then( (found) => {
-		print("Set printer to default (" + found + ")");
-		var config = qz.configs.create(found);
+	var config = qz.configs.create(found);
+	var data = [{
+		type: 'pixel',
+		format: 'pdf',
+		flavor: 'file',
+		// A bit of explanation is in order here.
+		// We're in the testing directory, we go back into the root, and the to the PDF sample to print it.
+		data: "file://" + pdfSample
+	}];
 
-		var data = [{
-			type: 'pixel',
-			format: 'pdf',
-			flavor: 'file',
-			// A bit of explanation is in order here.
-			// We're in the testing directory, we go back into the root, and the to the PDF sample to print it.
-			data: "file://" + pdfSample
-		}];
+	// The error catch without exiting ensures disconnection happens even on error
+	await qz.print(config, data).catch(function(e) { console.error(e); });
+	await qz.websocket.disconnect();
 
-		return qz.print(config, data).catch(function(e) { console.error(e); });
-	} )
+	// I'm aware of how stupid this is, LMAO
+	// This is here because I assume printers don't have some sort of return value
+	// I could listen on the directory and wait for the PDF to appear there, but it may appear before writing to it is finished
+	// We'll see
+	print("Waiting 1.5 seconds to make sure the PDF is there");
+	await sleep(1500);
 
-	.then( (x) => {
-		// Ensures disconnect happens even on error
-		qz.websocket.disconnect().then(async () => {
+	pdfPath = path.join("/", "var", "spool", "cups-pdf", username);
+	pdfList = fs.readdirSync(pdfPath);
+	pdfTarget = pdfList[pdfList.length - 1];
 
-			// I'm aware of how stupid this is, LMAO!
-			print("Waiting 3 seconds to make sure the PDF is there");
-			await new Promise(resolve => setTimeout(resolve, 3000));
+	print("Listing contents of " + pdfPath + ": " + pdfList);
+	print("Target: " + path.join(pdfPath, pdfTarget));
 
-			pdfPath = path.join("/", "var", "spool", "cups-pdf", username);
-			pdfList = fs.readdirSync(pdfPath);
-			pdfTarget = pdfList[pdfList.length - 1];
+	console.log("Exiting...");
+	process.exit(0);
 
-			print("Listing contents of " + pdfPath + ": " + pdfList);
-			print("Target: " + path.join(pdfPath, pdfTarget));
-
-			console.log("Exiting...");
-			process.exit(0);
-
-		} );
-	} )
+} )();
