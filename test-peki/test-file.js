@@ -1,19 +1,7 @@
-// Prints a PDF.
-// Opens that PDF and the PDF we're comparing two and saves them as PNG.
-// Compares the PNGs.
 
-// Get an OS-agnostic path from strings
-// Given how I'm using CUPS-PDF,
-//   as of now I'm assuming we're running these on Linux systems
-//   and I'll adjust it for Mac down the line.
-// const path = require('path');
+// Node, ES libraries
 import path from "path";
-
-// List files in a directory
-// const fs = require('fs');
 import fs from "fs";
-
-// Had to be included for EcmaScript
 import os from "os";
 import { fileURLToPath } from "url";
 
@@ -21,12 +9,9 @@ import { fileURLToPath } from "url";
 // If one thing runs on EcmaScript, EVERYTHING runs on EcmaScript
 // Well, either that or we call Node multiple times for a single PDF check (once for the Ecma stuff, once for CommonJS)
 // For now, let me just have an MVP
-import { pdf2pixels } from "./utils/pdf2png.mjs";
-import pixelmatch from "pixelmatch";
-import { PNG } from 'pngjs';
+import { pixelsComp } from "./utils/pixelsComp.mjs";
 
 // Piece de resistance!
-// const qz = require("../js/qz-tray");
 import qz from "../js/qz-tray.js";
 
 ///////////////////////////////////////////////////////////////////////////
@@ -42,38 +27,6 @@ const pdfSample = path.join(qzroot, "assets", "pdf_sample.pdf");
 
 function print(x) { console.log(x); }
 function sleep(x) { return new Promise(resolve => setTimeout(resolve, x)); }
-
-///////////////////////////////////////////////////////////////////////////
-
-async function same(path1, path2) {
-
-	try {
-
-		const img1 = await pdf2pixels(path1);
-		const img2 = await pdf2pixels(path2);
-		print("aaa"); // Doesn't print, files also don't exist
-
-		if (img1.width !== img2.width || img1.height !== img2.height) {
-			throw new Error("Images have different dimensions");
-		}
-
-		const diffBuffer = new Uint8ClampedArray(img1.width * img1.height * 4);
-
-		const numDiffPixels = pixelmatch(
-			img1.data,
-			img2.data,
-			diffBuffer,
-			img1.width,
-			img1.height,
-			{ threshold: 0.1 }
-		);
-
-		return numDiffPixels === 0;
-
-	}
-	catch (error) { throw error; }
-
-}
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -126,13 +79,13 @@ async function same(path1, path2) {
 
 	var file1 = path.join(pdfPath, pdfTarget);
 	var file2 = path.join(qzroot, "test-peki", "assets", "basic.pdf");
-	var res = await same(file1, file2);
+	var res = await pixelsComp(file1, file2);
 
 	if ( res ) { print(" -> Files are identical!"); }
 	else       { print(" -> Files are different!"); }
 
 	var file2 = path.join(qzroot, "test-peki", "assets", "rotated.pdf");
-	var res = await same(file1, file2);
+	var res = await pixelsComp(file1, file2);
 
 	if ( res ) { print(" -> Files are identical!"); }
 	else       { print(" -> Files are different!"); }

@@ -23,7 +23,6 @@ export async function pdf2pixels(pdfPath) {
 		});
 
 		const pdfDocument = await loadingTask.promise;
-		console.log("# PDF document loaded.");
 
 		const page = await pdfDocument.getPage(1);
 		const canvasFactory = pdfDocument.canvasFactory;
