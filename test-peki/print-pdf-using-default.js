@@ -21,6 +21,20 @@ const pdfSample = path.join(qzroot, "assets", "pdf_sample.pdf");
 function print(x) { console.log(x); }
 function sleep(x) { return new Promise(resolve => setTimeout(resolve, x)); }
 
+function same(path1, path2) {
+
+	  try {
+
+		const buffer1 = fs.readFileSync(path1);
+		const buffer2 = fs.readFileSync(path2);
+
+		if (buffer1.length !== buffer2.length) { return false; }
+		return Buffer.compare(buffer1, buffer2) === 0;
+
+	  } catch (error) { throw error; }
+
+}
+
 ///////////////////////////////////////////////////////////////////////////
 
 ( async () => {
@@ -34,7 +48,7 @@ function sleep(x) { return new Promise(resolve => setTimeout(resolve, x)); }
 	const found = await qz.printers.getDefault();
 	print("Set printer to default (" + found + ")");
 
-	var config = qz.configs.create(found);
+	const config = qz.configs.create(found);
 	var data = [{
 		type: 'pixel',
 		format: 'pdf',
@@ -56,13 +70,33 @@ function sleep(x) { return new Promise(resolve => setTimeout(resolve, x)); }
 	await sleep(1500);
 
 	pdfPath = path.join("/", "var", "spool", "cups-pdf", username);
+
 	pdfList = fs.readdirSync(pdfPath);
-	pdfTarget = pdfList[pdfList.length - 1];
+	pdfList = pdfList.map(f => ({
+		file: f,
+		time: fs.statSync(path.join(pdfPath, f)).mtime.getTime()
+	}));
+	pdfList.sort((a, b) => b.time - a.time);
 
-	print("Listing contents of " + pdfPath + ": " + pdfList);
+	pdfTarget = pdfList[0].file;
+
+	print("Listing contents of " + pdfPath + ": " + pdfList.map(f => f.file));
 	print("Target: " + path.join(pdfPath, pdfTarget));
+	print("Compare to: " + path.join(qzroot, "test-peki", "assets", "printPDF.pdf"));
 
-	console.log("Exiting...");
+	if (
+		same(
+			path.join(pdfPath, pdfTarget),
+			path.join(qzroot, "test-peki", "assets", "printPDF.pdf")
+		)
+	) {
+		print(" -> Files are identical!");
+	}
+	else {
+		print(" -> Files are different!");
+	}
+
+	print("Exiting...");
 	process.exit(0);
 
 } )();
