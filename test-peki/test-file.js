@@ -21,9 +21,9 @@ import { fileURLToPath } from "url";
 // If one thing runs on EcmaScript, EVERYTHING runs on EcmaScript
 // Well, either that or we call Node multiple times for a single PDF check (once for the Ecma stuff, once for CommonJS)
 // For now, let me just have an MVP
-import { pdf2png } from "./utils/pdf2png.mjs";
+import { pdf2pixels } from "./utils/pdf2png.mjs";
 import pixelmatch from "pixelmatch";
-import {PNG} from 'pngjs';
+import { PNG } from 'pngjs';
 
 // Piece de resistance!
 // const qz = require("../js/qz-tray");
@@ -49,28 +49,22 @@ async function same(path1, path2) {
 
 	try {
 
-		await pdf2png(path1, "1.png");
-		await pdf2png(path2, "2.png");
+		const img1 = await pdf2pixels(path1);
+		const img2 = await pdf2pixels(path2);
 		print("aaa"); // Doesn't print, files also don't exist
-
-		const img1 = PNG.sync.read(fs.readFileSync('1.png'));
-		const img2 = PNG.sync.read(fs.readFileSync('2.png'));
-		const {width, height} = img1;
-		const diff = new PNG({width, height});
 
 		if (img1.width !== img2.width || img1.height !== img2.height) {
 			throw new Error("Images have different dimensions");
 		}
 
-		// print(fs.readFileSync("1.png"));
-		// print(fs.readFileSync("2.png"));
+		const diffBuffer = new Uint8ClampedArray(img1.width * img1.height * 4);
 
 		const numDiffPixels = pixelmatch(
 			img1.data,
 			img2.data,
-			diff.data,
-			width,
-			height,
+			diffBuffer,
+			img1.width,
+			img1.height,
 			{ threshold: 0.1 }
 		);
 
@@ -128,19 +122,20 @@ async function same(path1, path2) {
 
 	print("Listing contents of " + pdfPath + ": " + pdfList.map(f => f.file));
 	print("Target: " + path.join(pdfPath, pdfTarget));
-	print("Compare to: " + path.join(qzroot, "test-peki", "assets", "printPDF.pdf"));
+	print("Compare to: " + path.join(qzroot, "test-peki", "assets", "basic.pdf"));
 
-	if (
-		await same(
-			path.join(pdfPath, pdfTarget),
-			path.join(qzroot, "test-peki", "assets", "printPDF.pdf")
-		)
-	) {
-		print(" -> Files are identical!");
-	}
-	else {
-		print(" -> Files are different!");
-	}
+	var file1 = path.join(pdfPath, pdfTarget);
+	var file2 = path.join(qzroot, "test-peki", "assets", "basic.pdf");
+	var res = await same(file1, file2);
+
+	if ( res ) { print(" -> Files are identical!"); }
+	else       { print(" -> Files are different!"); }
+
+	var file2 = path.join(qzroot, "test-peki", "assets", "rotated.pdf");
+	var res = await same(file1, file2);
+
+	if ( res ) { print(" -> Files are identical!"); }
+	else       { print(" -> Files are different!"); }
 
 	print("Exiting...");
 	process.exit(0);

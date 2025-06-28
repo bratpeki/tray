@@ -8,7 +8,8 @@ const CMAP_PACKED = true;
 const STANDARD_FONT_DATA_URL = "../node_modules/pdfjs-dist/standard_fonts/";
 
 // Main function to load PDF and convert first page to PNG
-export async function pdf2png(pdfPath, outputImagePath) {
+// OLD: export async function pdf2png(pdfPath, outputImagePath)
+export async function pdf2pixels(pdfPath) {
 
 	try {
 
@@ -41,13 +42,25 @@ export async function pdf2png(pdfPath, outputImagePath) {
 		const renderTask = page.render(renderContext);
 		await renderTask.promise;
 
-		const image = canvasAndContext.canvas.toBuffer("image/png");
-		fs.writeFileSync(outputImagePath, image);
-		console.log(`Image written to ${outputImagePath}`);
+		const imageData = canvasAndContext.context.getImageData(
+			0,
+			0,
+			viewport.width,
+			viewport.height
+		);
 
 		page.cleanup();
 
-	} catch (err) { console.error("Failed to process PDF:", err); }
+		return {
+			data: imageData.data,
+			width: viewport.width,
+			height: viewport.height
+		};
+
+	} catch (err) {
+		console.error("Failed to process PDF:", err);
+		// throw err;
+	}
 
 }
 
