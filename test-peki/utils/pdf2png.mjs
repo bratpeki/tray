@@ -8,7 +8,7 @@ const CMAP_PACKED = true;
 const STANDARD_FONT_DATA_URL = "../node_modules/pdfjs-dist/standard_fonts/";
 
 // Main function to load PDF and convert first page to PNG
-export async function processPdfToImage(pdfPath, outputImagePath) {
+export async function pdf2png(pdfPath, outputImagePath) {
 
 	try {
 
@@ -51,5 +51,5 @@ export async function processPdfToImage(pdfPath, outputImagePath) {
 
 }
 
-await processPdfToImage("./assets/rot.pdf", "rot.png");
-await processPdfToImage("./assets/norot.pdf", "norot.png");
+// await pdf2png("../assets/rot.pdf", "rot.png");
+// await pdf2png("../assets/norot.pdf", "norot.png");

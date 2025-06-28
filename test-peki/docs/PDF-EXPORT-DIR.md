@@ -4,12 +4,12 @@ In `/etc/cups/cups-pdf.conf`, there's this:
 
 ```
 ### Key: Out (config)
-##  CUPS-PDF output directory 
-##  special qualifiers: 
+##  CUPS-PDF output directory
+##  special qualifiers:
 ##     ${HOME} will be expanded to the user's home directory
 ##     ${USER} will be expanded to the user name
 ##  in case it is an NFS export make sure it is exported without
-##  root_squash! 
+##  root_squash!
 ### Default: /var/spool/cups-pdf/${USER}
 
 #Out /var/spool/cups-pdf/${USER}

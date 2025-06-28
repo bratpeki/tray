@@ -1,19 +1,41 @@
+// Prints a PDF.
+// Opens that PDF and the PDF we're comparing two and saves them as PNG.
+// Compares the PNGs.
+
 // Get an OS-agnostic path from strings
 // Given how I'm using CUPS-PDF,
 //   as of now I'm assuming we're running these on Linux systems
 //   and I'll adjust it for Mac down the line.
-const path = require('path');
+// const path = require('path');
+import path from "path";
 
 // List files in a directory
-const fs = require('fs');
+// const fs = require('fs');
+import fs from "fs";
+
+// Had to be included for EcmaScript
+import os from "os";
+import { fileURLToPath } from "url";
+
+// This uses PDFJS-DIST, which runs on EcmaScript
+// If one thing runs on EcmaScript, EVERYTHING runs on EcmaScript
+// Well, either that or we call Node multiple times for a single PDF check (once for the Ecma stuff, once for CommonJS)
+// For now, let me just have an MVP
+import { pdf2png } from "./utils/pdf2png.mjs";
+import pixelmatch from "pixelmatch";
+import {PNG} from 'pngjs';
 
 // Piece de resistance!
-const qz = require("../js/qz-tray");
+// const qz = require("../js/qz-tray");
+import qz from "../js/qz-tray.js";
 
 ///////////////////////////////////////////////////////////////////////////
 
 // OS username
-const username = require("os").userInfo().username;
+const username = os.userInfo().username;
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const qzroot = path.join(__dirname, "..");
 const pdfSample = path.join(qzroot, "assets", "pdf_sample.pdf");
@@ -21,17 +43,41 @@ const pdfSample = path.join(qzroot, "assets", "pdf_sample.pdf");
 function print(x) { console.log(x); }
 function sleep(x) { return new Promise(resolve => setTimeout(resolve, x)); }
 
-function same(path1, path2) {
+///////////////////////////////////////////////////////////////////////////
 
-	  try {
+async function same(path1, path2) {
 
-		const buffer1 = fs.readFileSync(path1);
-		const buffer2 = fs.readFileSync(path2);
+	try {
 
-		if (buffer1.length !== buffer2.length) { return false; }
-		return Buffer.compare(buffer1, buffer2) === 0;
+		await pdf2png(path1, "1.png");
+		await pdf2png(path2, "2.png");
+		print("aaa"); // Doesn't print, files also don't exist
 
-	  } catch (error) { throw error; }
+		const img1 = PNG.sync.read(fs.readFileSync('1.png'));
+		const img2 = PNG.sync.read(fs.readFileSync('2.png'));
+		const {width, height} = img1;
+		const diff = new PNG({width, height});
+
+		if (img1.width !== img2.width || img1.height !== img2.height) {
+			throw new Error("Images have different dimensions");
+		}
+
+		// print(fs.readFileSync("1.png"));
+		// print(fs.readFileSync("2.png"));
+
+		const numDiffPixels = pixelmatch(
+			img1.data,
+			img2.data,
+			diff.data,
+			width,
+			height,
+			{ threshold: 0.1 }
+		);
+
+		return numDiffPixels === 0;
+
+	}
+	catch (error) { throw error; }
 
 }
 
@@ -69,23 +115,23 @@ function same(path1, path2) {
 	print("Waiting 1.5 seconds to make sure the PDF is there");
 	await sleep(1500);
 
-	pdfPath = path.join("/", "var", "spool", "cups-pdf", username);
+	const pdfPath = path.join("/", "var", "spool", "cups-pdf", username);
 
-	pdfList = fs.readdirSync(pdfPath);
+	var pdfList = fs.readdirSync(pdfPath);
 	pdfList = pdfList.map(f => ({
 		file: f,
 		time: fs.statSync(path.join(pdfPath, f)).mtime.getTime()
 	}));
 	pdfList.sort((a, b) => b.time - a.time);
 
-	pdfTarget = pdfList[0].file;
+	const pdfTarget = pdfList[0].file;
 
 	print("Listing contents of " + pdfPath + ": " + pdfList.map(f => f.file));
 	print("Target: " + path.join(pdfPath, pdfTarget));
 	print("Compare to: " + path.join(qzroot, "test-peki", "assets", "printPDF.pdf"));
 
 	if (
-		same(
+		await same(
 			path.join(pdfPath, pdfTarget),
 			path.join(qzroot, "test-peki", "assets", "printPDF.pdf")
 		)
