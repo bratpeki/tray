@@ -46,8 +46,8 @@ export async function rgbaComp(img1, img2) {
 
 	}
 
-	catch (err) {
-		console.error("ERROR (rgbaComp): ", err);
+	catch (err) { // TODO: Currently, throwing here and in pdf2rgba prints an error which is also printed later, see to that
+		console.error("ERROR (rgbaComp): ", err.message);
 		throw err; // Pass it along, so the code doesn't keep running
 	}
 

@@ -21,6 +21,8 @@ const __dirname = path.dirname(__filename);
 const qzroot = path.join(__dirname, "..");
 const pdfSample = path.join(qzroot, "assets", "pdf_sample.pdf");
 
+///////////////////////////////////////////////////////////////////////////
+
 function sleep(x) { return new Promise(resolve => setTimeout(resolve, x)); }
 
 // OS-dependent code here in the future
@@ -84,17 +86,13 @@ function getMostRecentPrinted() {
 		getMostRecentPrinted(),
 		toAssetFolderPath("basic.pdf")
 	);
-
-	if ( res ) { console.log(" -> Files are identical!"); } // This
-	else       { console.log(" -> Files are different!"); }
+	console.assert(res === true);
 
 	var res = await pdfComp(
 		getMostRecentPrinted(),
 		toAssetFolderPath("rotated.pdf")
 	);
-
-	if ( res ) { console.log(" -> Files are identical!"); }
-	else       { console.log(" -> Files are different!"); } // This
+	console.assert(res === false);
 
 	console.log("Exiting...");
 	process.exit(0);
