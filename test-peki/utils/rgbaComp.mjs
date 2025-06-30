@@ -1,21 +1,24 @@
 
-import { pdf2pixels } from "./pdf2pixels.mjs";
-
 import pixelmatch from "pixelmatch";
 
-import { PNG } from "pngjs";
-import fs from "fs";
+// If we need the diff image:
+//
+// import { PNG } from "pngjs";
+// import fs from "fs";
 
-export async function pixelsComp(path1, path2) {
+export async function rgbaComp(img1, img2) {
 
 	try {
 
-		const img1 = await pdf2pixels(path1);
-		const img2 = await pdf2pixels(path2);
-
 		// Pixelmatch doesn't check this, so it's up to us
 		if (img1.width !== img2.width || img1.height !== img2.height) {
-			throw new Error("Images have different dimensions");
+			throw new Error(
+				"Images have different dimensions (" +
+				img1.width.toString() + "x" + img1.height.toString() +
+				" and " +
+				img2.width.toString() + "x" + img2.height.toString() +
+				")"
+			);
 		}
 
 		// RGBA buffer, four bytes per pixel
@@ -32,7 +35,7 @@ export async function pixelsComp(path1, path2) {
 			{ threshold: 0.1 }
 		);
 
-		// If we want the output generated
+		// If we want the output diff as a PNG:
 		//
 		// const {width, height} = img1;
 		// const diff = new PNG({width, height});
@@ -42,7 +45,11 @@ export async function pixelsComp(path1, path2) {
 		return numDiffPixels === 0;
 
 	}
-	catch (error) { throw error; }
+
+	catch (err) {
+		console.error("ERROR (rgbaComp): ", err);
+		throw err; // Pass it along, so the code doesn't keep running
+	}
 
 }
 
