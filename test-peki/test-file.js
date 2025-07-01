@@ -1,5 +1,5 @@
 
-// Node, ES libraries
+// Node libraries
 import path from "path";
 import fs from "fs";
 import os from "os";
@@ -48,6 +48,7 @@ function getMostRecentPrinted() {
 	pdfList.sort((a, b) => b.time - a.time);
 
 	return toPrintedFolderPath(pdfList[0].file);
+
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -60,6 +61,8 @@ function getMostRecentPrinted() {
 	console.log("Printer list:");
 	printers.forEach( f => console.log("  " + f) );
 
+	// TODO: There's a chance the default printer is not a PDF printer
+	//       That's probably gonna involve some naming convention we keep between ourselves
 	const found = await qz.printers.getDefault();
 	console.log("Set printer to default (" + found + ")");
 
@@ -82,17 +85,8 @@ function getMostRecentPrinted() {
 	console.log("Waiting 1.5 seconds to make sure the PDF is there");
 	await sleep(1500);
 
-	var res = await pdfComp(
-		getMostRecentPrinted(),
-		toAssetFolderPath("basic.pdf")
-	);
-	console.assert(res === true);
-
-	var res = await pdfComp(
-		getMostRecentPrinted(),
-		toAssetFolderPath("rotated.pdf")
-	);
-	console.assert(res === false);
+	console.assert( await pdfComp(getMostRecentPrinted(), toAssetFolderPath("basic.pdf"))   === true );
+	console.assert( await pdfComp(getMostRecentPrinted(), toAssetFolderPath("rotated.pdf")) === false );
 
 	console.log("Exiting...");
 	process.exit(0);
