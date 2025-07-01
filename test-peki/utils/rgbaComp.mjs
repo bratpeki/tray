@@ -3,10 +3,10 @@ import pixelmatch from "pixelmatch";
 
 // If we need the diff image:
 //
-// import { PNG } from "pngjs";
-// import fs from "fs";
+import { PNG } from "pngjs";
+import fs from "fs";
 
-export async function rgbaComp(img1, img2) {
+export async function rgbaComp( img1, img2, makeDiff = false ) {
 
 	// Pixelmatch doesn't check this, so it's up to us
 	if (img1.width !== img2.width || img1.height !== img2.height) {
@@ -34,11 +34,12 @@ export async function rgbaComp(img1, img2) {
 	);
 
 	// If we want the output diff as a PNG:
-	//
-	// const {width, height} = img1;
-	// const diff = new PNG({width, height});
-	// diff.data = diffBuffer;
-	// fs.writeFileSync('diff.png', PNG.sync.write(diff));
+	if (makeDiff) {
+		const {width, height} = img1;
+		const diff = new PNG({width, height});
+		diff.data = diffBuffer;
+		fs.writeFileSync('diff.png', PNG.sync.write(diff));
+	}
 
 	return numDiffPixels === 0;
 
