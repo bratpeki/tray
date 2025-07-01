@@ -2,6 +2,10 @@
 import { rgbaComp } from "./rgbaComp.mjs";
 import { pdf2rgba } from "./pdf2rgba.mjs";
 
+// Compares if the PDFs are the same
+// Returns a boolean if they're the same
+// Currently return false if it runs into an error
+// I'm considering an enum-like idea with 0/1 being results of the check and 2 being an error return value
 export async function pdfComp(path1, path2) {
 
 	try {
@@ -10,7 +14,7 @@ export async function pdfComp(path1, path2) {
 		return await rgbaComp(img1, img2);
 	} catch (err) {
 		console.error("ERROR (pdfComp): " + err.message);
-		throw err; // TODO: Might be a bit overkill
+		return false;
 	}
 
 }
