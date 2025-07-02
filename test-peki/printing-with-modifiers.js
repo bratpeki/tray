@@ -31,13 +31,13 @@ function sleep(x) { return new Promise(resolve => setTimeout(resolve, x)); }
 	await qz.websocket.connect();
 
 	const printers = await qz.printers.find();
-	console.log("Printer list:");
-	printers.forEach( f => console.log("  " + f) );
+	//// console.log("Printer list:");
+	//// printers.forEach( f => console.log("  " + f) );
 
 	// TODO: There's a chance the default printer is not a PDF printer
 	//       That's probably gonna involve some naming convention we keep between ourselves
 	const found = await qz.printers.getDefault();
-	console.log("Set printer to default (" + found + ")");
+	//// console.log("Set printer to default (" + found + ")");
 
 	const config = qz.configs.create(
 		found,
@@ -54,7 +54,7 @@ function sleep(x) { return new Promise(resolve => setTimeout(resolve, x)); }
 	await qz.print(config, data).catch(function(e) { console.error(e); });
 	await qz.websocket.disconnect();
 
-	console.log("Exiting...");
+	//// console.log("Exiting...");
 	process.exit(0);
 
 } )();
