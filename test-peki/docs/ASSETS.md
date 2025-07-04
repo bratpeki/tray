@@ -1,10 +1,42 @@
 Aspects that need to be tested are:
 
-- Orientation
-- Rotation
-- Scale Content
-- Margins
-- Margins per side
-- Size
+- [ ] HTML
+    - [ ] Vector
+        - [ ] Orientation
+        - [ ] ~~Rotation~~ (Skipped, https://github.com/qzind/tray/issues/529)
+        - [ ] Scale Content
+        - [ ] Margins
+        - [ ] Margins per side
+        - [ ] Size
+    - [ ] Raster
+        - [ ] Orientation
+        - [ ] Rotation
+        - [ ] Scale Content
+        - [ ] Margins
+        - [ ] Margins per side
+        - [ ] Size
 
-These should be tested for both `Rasteize=On` and `Off`.
+- [ ] PDF
+    - [ ] Vector
+        - [ ] Orientation
+        - [ ] Rotation
+        - [ ] Scale Content
+        - [ ] Margins
+        - [ ] Margins per side
+        - [ ] Size
+    - [ ] Raster
+        - [ ] Orientation
+        - [ ] Rotation
+        - [ ] Scale Content
+        - [ ] Margins
+        - [ ] Margins per side
+        - [ ] Size
+
+- [ ] Image
+    - [ ] Raster
+        - [ ] Orientation
+        - [ ] Rotation
+        - [ ] Scale Content
+        - [ ] Margins
+        - [ ] Margins per side
+        - [ ] Size
