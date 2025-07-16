@@ -11,7 +11,7 @@ import { watchForNewPdf } from "./utils/watchForNewPdf.mjs";
 // Piece de resistance!
 import qz from "../js/qz-tray.js";
 
-///////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////// Variables
 
 // OS username
 const username = os.userInfo().username;
@@ -40,7 +40,7 @@ switch ( os.platform() ) {
 
 }
 
-///////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////// Functions
 
 function sleep(x) { return new Promise(resolve => setTimeout(resolve, x)); }
 
@@ -73,7 +73,7 @@ function getMostRecentPrinted() {
 
 }
 
-///////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////// Finding the PDF printer
 
 try {
 
@@ -84,11 +84,11 @@ try {
 		const found = await qz.printers.find("pdf");
 		console.log("USING PRINTER: " + found)
 
-///////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////// Vector, no modifications
 
-		const config = qz.configs.create(
+		var config = qz.configs.create(
 			found,
-			{ rotation: 45 }
+			{ size: {width: 8.5, height: 11}, units: 'in' }
 		);
 
 		var data = [{
@@ -100,14 +100,83 @@ try {
 
 		await qz.print(config, data).catch(function(e) { console.error(e); });
 
-		const newPDF = await watchForNewPdf(pdfPath);
+		var newPDF = await watchForNewPdf(pdfPath);
+
+		await fs.promises.rename(
+			newPDF,
+			toAssetFolderPath(["linux_cupspdf", "vector", "basic.pdf"])
+		);
+
+/////////////////////////////////////////////////////////////////////////// Raster, no modifications
+
+		var config = qz.configs.create(
+			found,
+			{ rasterize: true, size: {width: 8.5, height: 11}, units: 'in' }
+		);
+
+		var data = [{
+			type: 'pixel',
+			format: 'pdf',
+			flavor: 'file',
+			data: "file://" + pdfSample
+		}];
+
+		await qz.print(config, data).catch(function(e) { console.error(e); });
+
+		var newPDF = await watchForNewPdf(pdfPath);
+
+		await fs.promises.rename(
+			newPDF,
+			toAssetFolderPath(["linux_cupspdf", "raster", "basic.pdf"])
+		);
+
+/////////////////////////////////////////////////////////////////////////// Vector, rotated 45 degrees
+
+		var config = qz.configs.create(
+			found,
+			{ rotation: 45, size: {width: 8.5, height: 11}, units: 'in' }
+		);
+
+		var data = [{
+			type: 'pixel',
+			format: 'pdf',
+			flavor: 'file',
+			data: "file://" + pdfSample
+		}];
+
+		await qz.print(config, data).catch(function(e) { console.error(e); });
+
+		var newPDF = await watchForNewPdf(pdfPath);
+
+		await fs.promises.rename(
+			newPDF,
+			toAssetFolderPath(["linux_cupspdf", "vector", "rot45.pdf"])
+		);
+
+/////////////////////////////////////////////////////////////////////////// Raster, rotated 45 degrees
+
+		var config = qz.configs.create(
+			found,
+			{ rotation: 45, rasterize: true, size: {width: 8.5, height: 11}, units: 'in' }
+		);
+
+		var data = [{
+			type: 'pixel',
+			format: 'pdf',
+			flavor: 'file',
+			data: "file://" + pdfSample
+		}];
+
+		await qz.print(config, data).catch(function(e) { console.error(e); });
+
+		var newPDF = await watchForNewPdf(pdfPath);
 
 		await fs.promises.rename(
 			newPDF,
 			toAssetFolderPath(["linux_cupspdf", "raster", "rot45.pdf"])
 		);
 
-///////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////// Closing
 
 		await qz.websocket.disconnect();
 		process.exit(0);
