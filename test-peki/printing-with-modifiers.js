@@ -43,6 +43,7 @@ function sleep(x) { return new Promise(resolve => setTimeout(resolve, x)); }
 		found,
 		{ rotation: 45 }
 	);
+
 	var data = [{
 		type: 'pixel',
 		format: 'pdf',

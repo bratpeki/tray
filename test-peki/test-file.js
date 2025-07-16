@@ -101,7 +101,7 @@ function getMostRecentPrinted() {
 	await sleep(1500);
 
 	console.assert( await pdfComp(getMostRecentPrinted(), toAssetFolderPath("basic.pdf"))   === true );
-	// console.assert( await pdfComp(getMostRecentPrinted(), toAssetFolderPath("rotated.pdf")) === false );
+	console.assert( await pdfComp(getMostRecentPrinted(), toAssetFolderPath("rotated.pdf")) === false );
 
 	//// console.log("Exiting...");
 	process.exit(0);

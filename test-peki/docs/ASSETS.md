@@ -3,7 +3,7 @@ Aspects that need to be tested are:
 - [ ] HTML
     - [ ] Vector
         - [ ] Orientation
-        - [ ] ~~Rotation~~ (Skipped, https://github.com/qzind/tray/issues/529)
+        - [x] ~~Rotation~~ (Skipped, https://github.com/qzind/tray/issues/529)
         - [ ] Scale Content
         - [ ] Margins
         - [ ] Margins per side
