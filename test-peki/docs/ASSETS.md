@@ -22,16 +22,16 @@ Aspects that need to be tested are:
         - [x] Orientation
         - [x] Rotation
         - [ ] Scale Content
-        - [ ] Margins
-        - [ ] Margins per side
+        - [x] Margins
+        - [x] Margins per side
         - [ ] Size
     - [ ] Raster
         - [x] Base
         - [x] Orientation
         - [x] Rotation
         - [ ] Scale Content
-        - [ ] Margins
-        - [ ] Margins per side
+        - [x] Margins
+        - [x] Margins per side
         - [ ] Size
 
 - [ ] Image

@@ -1,6 +1,8 @@
 
 // Common amongst all items
-const usual = { size: { width: 8.5, height: 11 }, units: "in" }
+const usual = { size: { width: 8.5, height: 11 }, units: "in" };
+
+const a4 = { size: { width: 210, height: 297 }, units: "mm" };
 
 const printConfigs = [
 
@@ -114,6 +116,23 @@ const printConfigs = [
 			margins: { top: 2, left: 2 }
 		},
 		outputPath: ["linux_cupspdf", "raster", "margin_top_left.pdf"],
+	},
+
+	{
+		name: "Vector, size (A4)",
+		options: {
+			...a4
+		},
+		outputPath: ["linux_cupspdf", "vector", "size_a4.pdf"],
+	},
+
+	{
+		name: "Raster, size (A4)",
+		options: {
+			...a4,
+			rasterize: true
+		},
+		outputPath: ["linux_cupspdf", "raster", "size_a4.pdf"],
 	},
 
 ];

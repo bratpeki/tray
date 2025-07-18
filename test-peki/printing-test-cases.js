@@ -96,6 +96,9 @@ try {
 
 /////////////////////////////////////////////////////////////////////////// Printing
 
+		// TODO: I'm currently only checking for PDFs
+		//       HTML and Image are skipping some stuff, so they don't all share the same rules
+		//       Also, 'data' won't be the same, obviously
 		for (const configDef of printConfigs) {
 
 			console.log(`Processing: ${configDef.name}`);
