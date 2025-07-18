@@ -84,19 +84,21 @@ try {
 		const found = await qz.printers.find("pdf");
 		console.log("USING PRINTER: " + found)
 
-/////////////////////////////////////////////////////////////////////////// Vector, no modifications
+/////////////////////////////////////////////////////////////////////////// Setting 'data'
 
-		var config = qz.configs.create(
-			found,
-			{ size: {width: 8.5, height: 11}, units: 'in' }
-		);
-
-		var data = [{
+		const data = [{
 			type: 'pixel',
 			format: 'pdf',
 			flavor: 'file',
 			data: "file://" + pdfSample
 		}];
+
+/////////////////////////////////////////////////////////////////////////// Vector, base
+
+		var config = qz.configs.create(
+			found,
+			{ size: {width: 8.5, height: 11}, units: 'in' }
+		);
 
 		await qz.print(config, data).catch(function(e) { console.error(e); });
 
@@ -107,19 +109,12 @@ try {
 			toAssetFolderPath(["linux_cupspdf", "vector", "basic.pdf"])
 		);
 
-/////////////////////////////////////////////////////////////////////////// Raster, no modifications
+/////////////////////////////////////////////////////////////////////////// Raster, base
 
 		var config = qz.configs.create(
 			found,
 			{ rasterize: true, size: {width: 8.5, height: 11}, units: 'in' }
 		);
-
-		var data = [{
-			type: 'pixel',
-			format: 'pdf',
-			flavor: 'file',
-			data: "file://" + pdfSample
-		}];
 
 		await qz.print(config, data).catch(function(e) { console.error(e); });
 
@@ -137,13 +132,6 @@ try {
 			{ rotation: 45, size: {width: 8.5, height: 11}, units: 'in' }
 		);
 
-		var data = [{
-			type: 'pixel',
-			format: 'pdf',
-			flavor: 'file',
-			data: "file://" + pdfSample
-		}];
-
 		await qz.print(config, data).catch(function(e) { console.error(e); });
 
 		var newPDF = await watchForNewPdf(pdfPath);
@@ -160,13 +148,6 @@ try {
 			{ rotation: 45, rasterize: true, size: {width: 8.5, height: 11}, units: 'in' }
 		);
 
-		var data = [{
-			type: 'pixel',
-			format: 'pdf',
-			flavor: 'file',
-			data: "file://" + pdfSample
-		}];
-
 		await qz.print(config, data).catch(function(e) { console.error(e); });
 
 		var newPDF = await watchForNewPdf(pdfPath);
@@ -174,6 +155,71 @@ try {
 		await fs.promises.rename(
 			newPDF,
 			toAssetFolderPath(["linux_cupspdf", "raster", "rot45.pdf"])
+		);
+
+/////////////////////////////////////////////////////////////////////////// Vector, orientation:reverse-landscape
+
+		var config = qz.configs.create(
+			found,
+			{ orientation: "reverse-landscape", size: {width: 8.5, height: 11}, units: 'in' }
+		);
+
+		await qz.print(config, data).catch(function(e) { console.error(e); });
+
+		var newPDF = await watchForNewPdf(pdfPath);
+
+		await fs.promises.rename(
+			newPDF,
+			toAssetFolderPath(["linux_cupspdf", "vector", "orient_revland.pdf"])
+		);
+
+/////////////////////////////////////////////////////////////////////////// Vector, orientation:landscape
+
+		var config = qz.configs.create(
+			found,
+			{ orientation: "landscape", size: {width: 8.5, height: 11}, units: 'in' }
+		);
+
+		await qz.print(config, data).catch(function(e) { console.error(e); });
+
+		var newPDF = await watchForNewPdf(pdfPath);
+
+		await fs.promises.rename(
+			newPDF,
+			toAssetFolderPath(["linux_cupspdf", "vector", "orient_land.pdf"])
+		);
+
+
+/////////////////////////////////////////////////////////////////////////// Raster, orientation:reverse-landscape
+
+		var config = qz.configs.create(
+			found,
+			{ orientation: "reverse-landscape", rasterize: true, size: {width: 8.5, height: 11}, units: 'in' }
+		);
+
+		await qz.print(config, data).catch(function(e) { console.error(e); });
+
+		var newPDF = await watchForNewPdf(pdfPath);
+
+		await fs.promises.rename(
+			newPDF,
+			toAssetFolderPath(["linux_cupspdf", "raster", "orient_revland.pdf"])
+		);
+
+/////////////////////////////////////////////////////////////////////////// Raster, orientation:landscape
+
+		var config = qz.configs.create(
+			found,
+			{ orientation: "landscape", rasterize: true, size: {width: 8.5, height: 11}, units: 'in' }
+		);
+
+		await qz.print(config, data).catch(function(e) { console.error(e); });
+
+		var newPDF = await watchForNewPdf(pdfPath);
+
+		await fs.promises.rename(
+			newPDF,
+			toAssetFolderPath(["linux_cupspdf", "raster", "orient_land.pdf"])
 		);
 
 /////////////////////////////////////////////////////////////////////////// Closing

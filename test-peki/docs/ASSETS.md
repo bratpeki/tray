@@ -18,15 +18,17 @@ Aspects that need to be tested are:
 
 - [ ] PDF
     - [ ] Vector
-        - [ ] Orientation
-        - [ ] Rotation
+        - [x] Base
+        - [x] Orientation
+        - [x] Rotation
         - [ ] Scale Content
         - [ ] Margins
         - [ ] Margins per side
         - [ ] Size
     - [ ] Raster
-        - [ ] Orientation
-        - [ ] Rotation
+        - [x] Base
+        - [x] Orientation
+        - [x] Rotation
         - [ ] Scale Content
         - [ ] Margins
         - [ ] Margins per side
