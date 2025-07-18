@@ -7,6 +7,7 @@ import os from "os";
 import { fileURLToPath } from "url";
 
 import { watchForNewPdf } from "./utils/watchForNewPdf.mjs";
+import { printConfigs } from "./utils/printConfigs.mjs";
 
 // Piece de resistance!
 import qz from "../js/qz-tray.js";
@@ -82,7 +83,7 @@ try {
 		await qz.websocket.connect();
 
 		const found = await qz.printers.find("pdf");
-		console.log("USING PRINTER: " + found)
+		console.log(`USING PRINTER: ${found}`)
 
 /////////////////////////////////////////////////////////////////////////// Setting 'data'
 
@@ -93,134 +94,28 @@ try {
 			data: "file://" + pdfSample
 		}];
 
-/////////////////////////////////////////////////////////////////////////// Vector, base
+/////////////////////////////////////////////////////////////////////////// Printing
 
-		var config = qz.configs.create(
-			found,
-			{ size: {width: 8.5, height: 11}, units: 'in' }
-		);
+		for (const configDef of printConfigs) {
 
-		await qz.print(config, data).catch(function(e) { console.error(e); });
+			console.log(`Processing: ${configDef.name}`);
 
-		var newPDF = await watchForNewPdf(pdfPath);
+			const config = qz.configs.create(found, configDef.options);
 
-		await fs.promises.rename(
-			newPDF,
-			toAssetFolderPath(["linux_cupspdf", "vector", "basic.pdf"])
-		);
+			await qz.print(config, data).catch( function (e) { console.error(e); } );
 
-/////////////////////////////////////////////////////////////////////////// Raster, base
+			const newPDF = await watchForNewPdf(pdfPath);
 
-		var config = qz.configs.create(
-			found,
-			{ rasterize: true, size: {width: 8.5, height: 11}, units: 'in' }
-		);
+			// Quoting: https://www.geeksforgeeks.org/javascript/node-js-fs-rename-method/
+			//
+			// If a file already exists at the new path, it will be overwritten by the operation.
+			//
+			// So we're okay with running this even when assets exist.
+			// TODO: This can be problematic if there's an old asset we no longer need, since we don't delete it.
 
-		await qz.print(config, data).catch(function(e) { console.error(e); });
+			await fs.promises.rename(newPDF, toAssetFolderPath(configDef.outputPath));
 
-		var newPDF = await watchForNewPdf(pdfPath);
-
-		await fs.promises.rename(
-			newPDF,
-			toAssetFolderPath(["linux_cupspdf", "raster", "basic.pdf"])
-		);
-
-/////////////////////////////////////////////////////////////////////////// Vector, rotated 45 degrees
-
-		var config = qz.configs.create(
-			found,
-			{ rotation: 45, size: {width: 8.5, height: 11}, units: 'in' }
-		);
-
-		await qz.print(config, data).catch(function(e) { console.error(e); });
-
-		var newPDF = await watchForNewPdf(pdfPath);
-
-		await fs.promises.rename(
-			newPDF,
-			toAssetFolderPath(["linux_cupspdf", "vector", "rot45.pdf"])
-		);
-
-/////////////////////////////////////////////////////////////////////////// Raster, rotated 45 degrees
-
-		var config = qz.configs.create(
-			found,
-			{ rotation: 45, rasterize: true, size: {width: 8.5, height: 11}, units: 'in' }
-		);
-
-		await qz.print(config, data).catch(function(e) { console.error(e); });
-
-		var newPDF = await watchForNewPdf(pdfPath);
-
-		await fs.promises.rename(
-			newPDF,
-			toAssetFolderPath(["linux_cupspdf", "raster", "rot45.pdf"])
-		);
-
-/////////////////////////////////////////////////////////////////////////// Vector, orientation:reverse-landscape
-
-		var config = qz.configs.create(
-			found,
-			{ orientation: "reverse-landscape", size: {width: 8.5, height: 11}, units: 'in' }
-		);
-
-		await qz.print(config, data).catch(function(e) { console.error(e); });
-
-		var newPDF = await watchForNewPdf(pdfPath);
-
-		await fs.promises.rename(
-			newPDF,
-			toAssetFolderPath(["linux_cupspdf", "vector", "orient_revland.pdf"])
-		);
-
-/////////////////////////////////////////////////////////////////////////// Vector, orientation:landscape
-
-		var config = qz.configs.create(
-			found,
-			{ orientation: "landscape", size: {width: 8.5, height: 11}, units: 'in' }
-		);
-
-		await qz.print(config, data).catch(function(e) { console.error(e); });
-
-		var newPDF = await watchForNewPdf(pdfPath);
-
-		await fs.promises.rename(
-			newPDF,
-			toAssetFolderPath(["linux_cupspdf", "vector", "orient_land.pdf"])
-		);
-
-
-/////////////////////////////////////////////////////////////////////////// Raster, orientation:reverse-landscape
-
-		var config = qz.configs.create(
-			found,
-			{ orientation: "reverse-landscape", rasterize: true, size: {width: 8.5, height: 11}, units: 'in' }
-		);
-
-		await qz.print(config, data).catch(function(e) { console.error(e); });
-
-		var newPDF = await watchForNewPdf(pdfPath);
-
-		await fs.promises.rename(
-			newPDF,
-			toAssetFolderPath(["linux_cupspdf", "raster", "orient_revland.pdf"])
-		);
-
-/////////////////////////////////////////////////////////////////////////// Raster, orientation:landscape
-
-		var config = qz.configs.create(
-			found,
-			{ orientation: "landscape", rasterize: true, size: {width: 8.5, height: 11}, units: 'in' }
-		);
-
-		await qz.print(config, data).catch(function(e) { console.error(e); });
-
-		var newPDF = await watchForNewPdf(pdfPath);
-
-		await fs.promises.rename(
-			newPDF,
-			toAssetFolderPath(["linux_cupspdf", "raster", "orient_land.pdf"])
-		);
+		}
 
 /////////////////////////////////////////////////////////////////////////// Closing
 
