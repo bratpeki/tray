@@ -28,7 +28,7 @@ let pdfPath;
 switch ( os.platform() ) {
 
 	case "win32":
-		pdfPath = "";
+		pdfPath = ""; // TODO
 		break;
 
 	case "linux":
@@ -99,9 +99,10 @@ try {
 		// TODO: I'm currently only checking for PDFs
 		//       HTML and Image are skipping some stuff, so they don't all share the same rules
 		//       Also, 'data' won't be the same, obviously
+
 		for (const configDef of printConfigs) {
 
-			console.log(`Processing: ${configDef.name}`);
+			console.log(`Processing '${configDef.name}'...`);
 
 			const config = qz.configs.create(found, configDef.options);
 
