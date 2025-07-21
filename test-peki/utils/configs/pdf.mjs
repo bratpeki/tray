@@ -1,10 +1,12 @@
 
-// Common amongst all items
-const usual = { size: { width: 8.5, height: 11 }, units: "in" };
-
+// Sizes
+const us_letter = { size: { width: 8.5, height: 11 }, units: "in" };
 const a4 = { size: { width: 210, height: 297 }, units: "mm" };
 
-const printConfigs = [
+// Common amongst all items
+const usual = us_letter;
+
+const pdfConfigs = [
 
 	{
 		name: "Vector, base",
@@ -137,5 +139,5 @@ const printConfigs = [
 
 ];
 
-export { printConfigs };
+export { pdfConfigs };
 

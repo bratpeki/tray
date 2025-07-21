@@ -4,9 +4,9 @@ import path from "path";
 import { getDocument } from "pdfjs-dist/legacy/build/pdf.mjs";
 
 // External resource URLs
-const CMAP_URL = "../node_modules/pdfjs-dist/cmaps/";
+const CMAP_URL = "../../node_modules/pdfjs-dist/cmaps/";
 const CMAP_PACKED = true;
-const STANDARD_FONT_DATA_URL = "../node_modules/pdfjs-dist/standard_fonts/";
+const STANDARD_FONT_DATA_URL = "../../node_modules/pdfjs-dist/standard_fonts/";
 
 // Converts PDF files on 'pdfPath' to a pixel buffer
 // The output is a buffer array of size W*H*4, each pixel needs 4 bytes for RGBA values

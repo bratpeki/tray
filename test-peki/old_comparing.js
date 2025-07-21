@@ -5,7 +5,7 @@ import fs from "fs";
 import os from "os";
 import { fileURLToPath } from "url";
 
-import { pdfComp } from "./utils/pdfComp.mjs"
+import { pdfComp } from "./utils/functions/pdfComp.mjs"
 
 // Piece de resistance!
 import qz from "../js/qz-tray.js";
@@ -100,6 +100,7 @@ function getMostRecentPrinted() {
 	//// console.log("Waiting 1.5 seconds to make sure the PDF is there");
 	await sleep(1500);
 
+	// PEKI: This started failing when I moved the default from A4 to US Letter due to incompatible size
 	console.assert( await pdfComp(getMostRecentPrinted(), toAssetFolderPath("basic.pdf"))   === true );
 	console.assert( await pdfComp(getMostRecentPrinted(), toAssetFolderPath("rotated.pdf")) === false );
 

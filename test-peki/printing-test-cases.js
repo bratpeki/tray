@@ -6,8 +6,8 @@ import fs from "fs";
 import os from "os";
 import { fileURLToPath } from "url";
 
-import { watchForNewPdf } from "./utils/watchForNewPdf.mjs";
-import { printConfigs } from "./utils/printConfigs.mjs";
+import { watchForNewPdf } from "./utils/functions/watchForNewPdf.mjs";
+import { pdfConfigs } from "./utils/configs/pdf.mjs";
 
 // Piece de resistance!
 import qz from "../js/qz-tray.js";
@@ -100,7 +100,7 @@ try {
 		//       HTML and Image are skipping some stuff, so they don't all share the same rules
 		//       Also, 'data' won't be the same, obviously
 
-		for (const configDef of printConfigs) {
+		for (const configDef of pdfConfigs ) {
 
 			console.log(`Processing '${configDef.name}'...`);
 
