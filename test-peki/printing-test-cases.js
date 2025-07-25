@@ -32,7 +32,7 @@ switch ( os.platform() ) {
 		break;
 
 	case "linux":
-		pdfPath = path.join("/", "var", "spool", "cups-pdf", username);;
+		pdfPath = path.join("/", "var", "spool", "cups-pdf", username);
 		break;
 
 	case "darwin":
@@ -116,6 +116,9 @@ try {
 			//
 			// So we're okay with running this even when assets exist.
 			// TODO: This can be problematic if there's an old asset we no longer need, since we don't delete it.
+
+			// Experimentally confirmed fs.rename doesn't make new directories
+			// Currently, all preparations of the folders is done in the Makefile
 
 			await fs.promises.rename(newPDF, toAssetFolderPath(configDef.outputPath));
 

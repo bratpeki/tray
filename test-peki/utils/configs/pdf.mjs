@@ -1,10 +1,30 @@
 
+import os from "os";
+
 // Sizes
 const us_letter = { size: { width: 8.5, height: 11 }, units: "in" };
 const a4 = { size: { width: 210, height: 297 }, units: "mm" };
 
 // Common amongst all items
 const usual = us_letter;
+
+let outPath = "";
+
+switch ( os.platform() ) {
+
+	case "win32":
+		outPath = ""; // TODO
+		break;
+
+	case "linux":
+		outPath = "linux_cupspdfs";
+		break;
+
+	case "darwin":
+		outPath = "macos_pdfwriter";
+		break;
+
+}
 
 const pdfConfigs = [
 
@@ -13,7 +33,7 @@ const pdfConfigs = [
 		options: {
 			...usual
 		},
-		outputPath: ["linux_cupspdf", "vector", "basic.pdf"],
+		outputPath: [outPath, "vector", "basic.pdf"],
 	},
 
 	{
@@ -22,7 +42,7 @@ const pdfConfigs = [
 			...usual,
 			rasterize: true
 		},
-		outputPath: ["linux_cupspdf", "raster", "basic.pdf"],
+		outputPath: [outPath, "raster", "basic.pdf"],
 	},
 
 	{
@@ -31,7 +51,7 @@ const pdfConfigs = [
 			...usual,
 			rotation: 45
 		},
-		outputPath: ["linux_cupspdf", "vector", "rot45.pdf"],
+		outputPath: [outPath, "vector", "rot45.pdf"],
 	},
 
 	{
@@ -41,7 +61,7 @@ const pdfConfigs = [
 			rasterize: true,
 			rotation: 45
 		},
-		outputPath: ["linux_cupspdf", "raster", "rot45.pdf"],
+		outputPath: [outPath, "raster", "rot45.pdf"],
 	},
 
 	{
@@ -50,7 +70,7 @@ const pdfConfigs = [
 			...usual,
 			orientation: "reverse-landscape"
 		},
-		outputPath: ["linux_cupspdf", "vector", "orient_revland.pdf"],
+		outputPath: [outPath, "vector", "orient_revland.pdf"],
 	},
 
 	{
@@ -59,7 +79,7 @@ const pdfConfigs = [
 			...usual,
 			orientation: "landscape"
 		},
-		outputPath: ["linux_cupspdf", "vector", "orient_land.pdf"],
+		outputPath: [outPath, "vector", "orient_land.pdf"],
 	},
 
 	{
@@ -69,7 +89,7 @@ const pdfConfigs = [
 			rasterize: true,
 			orientation: "reverse-landscape"
 		},
-		outputPath: ["linux_cupspdf", "raster", "orient_revland.pdf"],
+		outputPath: [outPath, "raster", "orient_revland.pdf"],
 	},
 
 	{
@@ -79,7 +99,7 @@ const pdfConfigs = [
 			rasterize: true,
 			orientation: "landscape"
 		},
-		outputPath: ["linux_cupspdf", "raster", "orient_land.pdf"],
+		outputPath: [outPath, "raster", "orient_land.pdf"],
 	},
 
 	{
@@ -88,7 +108,7 @@ const pdfConfigs = [
 			...usual,
 			margins: 2
 		},
-		outputPath: ["linux_cupspdf", "vector", "margin_all.pdf"],
+		outputPath: [outPath, "vector", "margin_all.pdf"],
 	},
 
 	{
@@ -98,7 +118,7 @@ const pdfConfigs = [
 			rasterize: true,
 			margins: 2
 		},
-		outputPath: ["linux_cupspdf", "raster", "margin_all.pdf"],
+		outputPath: [outPath, "raster", "margin_all.pdf"],
 	},
 
 	{
@@ -107,7 +127,7 @@ const pdfConfigs = [
 			...usual,
 			margins: { top: 2, left: 2 }
 		},
-		outputPath: ["linux_cupspdf", "vector", "margin_top_left.pdf"],
+		outputPath: [outPath, "vector", "margin_top_left.pdf"],
 	},
 
 	{
@@ -117,7 +137,7 @@ const pdfConfigs = [
 			rasterize: true,
 			margins: { top: 2, left: 2 }
 		},
-		outputPath: ["linux_cupspdf", "raster", "margin_top_left.pdf"],
+		outputPath: [outPath, "raster", "margin_top_left.pdf"],
 	},
 
 	{
@@ -125,7 +145,7 @@ const pdfConfigs = [
 		options: {
 			...a4
 		},
-		outputPath: ["linux_cupspdf", "vector", "size_a4.pdf"],
+		outputPath: [outPath, "vector", "size_a4.pdf"],
 	},
 
 	{
@@ -134,7 +154,7 @@ const pdfConfigs = [
 			...a4,
 			rasterize: true
 		},
-		outputPath: ["linux_cupspdf", "raster", "size_a4.pdf"],
+		outputPath: [outPath, "raster", "size_a4.pdf"],
 	},
 
 ];
