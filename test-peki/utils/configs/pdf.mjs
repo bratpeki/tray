@@ -26,138 +26,138 @@ switch ( os.platform() ) {
 
 }
 
-const pdfConfigs = [
+const configsPdf = [
 
 	{
-		name: "Vector, base",
+		name: "PDF: Vector, base",
 		options: {
 			...usual
 		},
-		outputPath: [outPath, "vector", "basic.pdf"],
+		outputPath: [outPath, "pdf", "vector", "basic.pdf"],
 	},
 
 	{
-		name: "Raster, base",
+		name: "PDF: Raster, base",
 		options: {
 			...usual,
 			rasterize: true
 		},
-		outputPath: [outPath, "raster", "basic.pdf"],
+		outputPath: [outPath, "pdf", "raster", "basic.pdf"],
 	},
 
 	{
-		name: "Vector, rotated 45 degrees",
+		name: "PDF: Vector, rotated 45 degrees",
 		options: {
 			...usual,
 			rotation: 45
 		},
-		outputPath: [outPath, "vector", "rot45.pdf"],
+		outputPath: [outPath, "pdf", "vector", "rot45.pdf"],
 	},
 
 	{
-		name: "Raster, rotated 45 degrees",
+		name: "PDF: Raster, rotated 45 degrees",
 		options: {
 			...usual,
 			rasterize: true,
 			rotation: 45
 		},
-		outputPath: [outPath, "raster", "rot45.pdf"],
+		outputPath: [outPath, "pdf", "raster", "rot45.pdf"],
 	},
 
 	{
-		name: "Vector, orientation:reverse-landscape",
+		name: "PDF: Vector, orientation:reverse-landscape",
 		options: {
 			...usual,
 			orientation: "reverse-landscape"
 		},
-		outputPath: [outPath, "vector", "orient_revland.pdf"],
+		outputPath: [outPath, "pdf", "vector", "orient_revland.pdf"],
 	},
 
 	{
-		name: "Vector, orientation:landscape",
+		name: "PDF: Vector, orientation:landscape",
 		options: {
 			...usual,
 			orientation: "landscape"
 		},
-		outputPath: [outPath, "vector", "orient_land.pdf"],
+		outputPath: [outPath, "pdf", "vector", "orient_land.pdf"],
 	},
 
 	{
-		name: "Raster, orientation:reverse-landscape",
+		name: "PDF: Raster, orientation:reverse-landscape",
 		options: {
 			...usual,
 			rasterize: true,
 			orientation: "reverse-landscape"
 		},
-		outputPath: [outPath, "raster", "orient_revland.pdf"],
+		outputPath: [outPath, "pdf", "raster", "orient_revland.pdf"],
 	},
 
 	{
-		name: "Raster, orientation:landscape",
+		name: "PDF: Raster, orientation:landscape",
 		options: {
 			...usual,
 			rasterize: true,
 			orientation: "landscape"
 		},
-		outputPath: [outPath, "raster", "orient_land.pdf"],
+		outputPath: [outPath, "pdf", "raster", "orient_land.pdf"],
 	},
 
 	{
-		name: "Vector, uniform margin",
+		name: "PDF: Vector, uniform margin",
 		options: {
 			...usual,
 			margins: 2
 		},
-		outputPath: [outPath, "vector", "margin_all.pdf"],
+		outputPath: [outPath, "pdf", "vector", "margin_all.pdf"],
 	},
 
 	{
-		name: "Raster, uniform margin",
+		name: "PDF: Raster, uniform margin",
 		options: {
 			...usual,
 			rasterize: true,
 			margins: 2
 		},
-		outputPath: [outPath, "raster", "margin_all.pdf"],
+		outputPath: [outPath, "pdf", "raster", "margin_all.pdf"],
 	},
 
 	{
-		name: "Vector, top and left margin",
+		name: "PDF: Vector, top and left margin",
 		options: {
 			...usual,
 			margins: { top: 2, left: 2 }
 		},
-		outputPath: [outPath, "vector", "margin_top_left.pdf"],
+		outputPath: [outPath, "pdf", "vector", "margin_top_left.pdf"],
 	},
 
 	{
-		name: "Raster, top and left margin",
+		name: "PDF: Raster, top and left margin",
 		options: {
 			...usual,
 			rasterize: true,
 			margins: { top: 2, left: 2 }
 		},
-		outputPath: [outPath, "raster", "margin_top_left.pdf"],
+		outputPath: [outPath, "pdf", "raster", "margin_top_left.pdf"],
 	},
 
 	{
-		name: "Vector, size (A4)",
+		name: "PDF: Vector, size (A4)",
 		options: {
 			...a4
 		},
-		outputPath: [outPath, "vector", "size_a4.pdf"],
+		outputPath: [outPath, "pdf", "vector", "size_a4.pdf"],
 	},
 
 	{
-		name: "Raster, size (A4)",
+		name: "PDF: Raster, size (A4)",
 		options: {
 			...a4,
 			rasterize: true
 		},
-		outputPath: [outPath, "raster", "size_a4.pdf"],
+		outputPath: [outPath, "pdf", "raster", "size_a4.pdf"],
 	},
 
 ];
 
-export { pdfConfigs };
+export { configsPdf };
 

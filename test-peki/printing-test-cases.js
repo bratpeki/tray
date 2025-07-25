@@ -7,7 +7,9 @@ import os from "os";
 import { fileURLToPath } from "url";
 
 import { watchForNewPdf } from "./utils/functions/watchForNewPdf.mjs";
-import { pdfConfigs } from "./utils/configs/pdf.mjs";
+
+import { configsPdf } from "./utils/configs/pdf.mjs";
+import { configsImage } from "./utils/configs/image.mjs";
 
 // Piece de resistance!
 import qz from "../js/qz-tray.js";
@@ -21,7 +23,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const qzroot = path.join(__dirname, "..");
-const pdfSample = path.join(qzroot, "assets", "pdf_sample.pdf");
+
+const samplePdf = path.join(qzroot, "assets", "pdf_sample.pdf");
+const sampleImage = path.join(qzroot, "assets", "img", "image_sample.png");
 
 let pdfPath;
 
@@ -87,26 +91,33 @@ try {
 
 /////////////////////////////////////////////////////////////////////////// Setting 'data'
 
-		const data = [{
+		const dataPdf = [{
 			type: 'pixel',
 			format: 'pdf',
 			flavor: 'file',
-			data: "file://" + pdfSample
+			data: "file://" + samplePdf
 		}];
 
-/////////////////////////////////////////////////////////////////////////// Printing
+        var dataImage = [{
+			type: 'pixel',
+			format: 'image',
+			flavor: 'file',
+			data: "file://" + sampleImage
+		}];
+
+/////////////////////////////////////////////////////////////////////////// Printing: PDF
 
 		// TODO: I'm currently only checking for PDFs
 		//       HTML and Image are skipping some stuff, so they don't all share the same rules
 		//       Also, 'data' won't be the same, obviously
 
-		for (const configDef of pdfConfigs ) {
+		for (const configDef of configsPdf ) {
 
 			console.log(`Processing '${configDef.name}'...`);
 
 			const config = qz.configs.create(found, configDef.options);
 
-			await qz.print(config, data).catch( function (e) { console.error(e); } );
+			await qz.print(config, dataPdf).catch( function (e) { console.error(e); } );
 
 			const newPDF = await watchForNewPdf(pdfPath);
 
@@ -119,6 +130,22 @@ try {
 
 			// Experimentally confirmed fs.rename doesn't make new directories
 			// Currently, all preparations of the folders is done in the Makefile
+
+			await fs.promises.rename(newPDF, toAssetFolderPath(configDef.outputPath));
+
+		}
+
+/////////////////////////////////////////////////////////////////////////// Printing: Image
+
+		for (const configDef of configsImage ) {
+
+			console.log(`Processing '${configDef.name}'...`);
+
+			const config = qz.configs.create(found, configDef.options);
+
+			await qz.print(config, dataImage).catch( function (e) { console.error(e); } );
+
+			const newPDF = await watchForNewPdf(pdfPath);
 
 			await fs.promises.rename(newPDF, toAssetFolderPath(configDef.outputPath));
 
