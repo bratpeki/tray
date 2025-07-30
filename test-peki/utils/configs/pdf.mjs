@@ -17,7 +17,7 @@ switch ( os.platform() ) {
 		break;
 
 	case "linux":
-		outPath = "linux_cupspdfs";
+		outPath = "linux_cupspdf";
 		break;
 
 	case "darwin":

@@ -7,13 +7,16 @@ async function createNecessaryDirectories() {
 
     'assets',
 
-    path.join('assets', 'linux_cupspdfs'),
+    path.join('assets', 'linux_cupspdf'),
 
-    path.join('assets', 'linux_cupspdfs', 'pdf', 'vector'),
-    path.join('assets', 'linux_cupspdfs', 'pdf', 'raster'),
+    path.join('assets', 'linux_cupspdf', 'pdf', 'vector'),
+    path.join('assets', 'linux_cupspdf', 'pdf', 'raster'),
 
-    path.join('assets', 'linux_cupspdfs', 'img', 'vector'),
-    path.join('assets', 'linux_cupspdfs', 'img', 'raster'),
+    path.join('assets', 'linux_cupspdf', 'img', 'vector'),
+    path.join('assets', 'linux_cupspdf', 'img', 'raster'),
+
+    path.join('assets', 'linux_cupspdf', 'html', 'vector'),
+    path.join('assets', 'linux_cupspdf', 'html', 'raster'),
 
     path.join('assets', 'macos_pdfwriter'),
 
@@ -22,6 +25,9 @@ async function createNecessaryDirectories() {
 
     path.join('assets', 'macos_pdfwriter', 'img', 'vector'),
     path.join('assets', 'macos_pdfwriter', 'img', 'raster'),
+
+    path.join('assets', 'macos_pdfwriter', 'html', 'vector'),
+    path.join('assets', 'macos_pdfwriter', 'html', 'raster'),
 
   ];
 

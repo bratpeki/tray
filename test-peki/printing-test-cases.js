@@ -10,6 +10,7 @@ import { watchForNewPdf } from "./utils/functions/watchForNewPdf.mjs";
 
 import { configsPdf } from "./utils/configs/pdf.mjs";
 import { configsImage } from "./utils/configs/image.mjs";
+import { configsHtml } from "./utils/configs/html.mjs";
 
 // Piece de resistance!
 import qz from "../js/qz-tray.js";
@@ -98,11 +99,33 @@ try {
 			data: "file://" + samplePdf
 		}];
 
-        var dataImage = [{
+		var dataImage = [{
 			type: 'pixel',
 			format: 'image',
 			flavor: 'file',
 			data: "file://" + sampleImage
+		}];
+
+		var dataHtml = [{
+			type: 'pixel',
+			format: 'html',
+			flavor: 'plain',
+			data: '<html>' + // TODO: Try this out with tabs
+				'<body>' +
+				'  <table style="font-family: monospace; width: 100%">' +
+				'    <tr>' +
+				'      <td>' +
+				'        <h2>* QZ Tray HTML Sample Print *</h2>' +
+				'        <span style="color: #D00;">Version:</span> ' + await qz.api.getVersion() + '<br/>' +
+				'        <span style="color: #D00;">Source:</span> https://qz.io/' +
+				'      </td>' +
+				'      <td align="right">' +
+				'        <img src="' + sampleImage + '" />' +
+				'      </td>' +
+				'    </tr>' +
+				'  </table>' +
+				'</body>' +
+				'</html>'
 		}];
 
 /////////////////////////////////////////////////////////////////////////// Printing: PDF
@@ -144,6 +167,22 @@ try {
 			const config = qz.configs.create(found, configDef.options);
 
 			await qz.print(config, dataImage).catch( function (e) { console.error(e); } );
+
+			const newPDF = await watchForNewPdf(pdfPath);
+
+			await fs.promises.rename(newPDF, toAssetFolderPath(configDef.outputPath));
+
+		}
+
+/////////////////////////////////////////////////////////////////////////// Printing: HTML
+
+		for (const configDef of configsHtml ) {
+
+			console.log(`Processing '${configDef.name}'...`);
+
+			const config = qz.configs.create(found, configDef.options);
+
+			await qz.print(config, dataHtml).catch( function (e) { console.error(e); } );
 
 			const newPDF = await watchForNewPdf(pdfPath);
 
