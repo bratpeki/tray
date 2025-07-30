@@ -79,6 +79,11 @@ function getMostRecentPrinted() {
 
 }
 
+// TODO: Purely for testing purposes
+const isPrintPdf = false;
+const isPrintImage = false;
+const isPrintHtml = true;
+
 /////////////////////////////////////////////////////////////////////////// Finding the PDF printer
 
 try {
@@ -99,14 +104,14 @@ try {
 			data: "file://" + samplePdf
 		}];
 
-		var dataImage = [{
+		const dataImage = [{
 			type: 'pixel',
 			format: 'image',
 			flavor: 'file',
 			data: "file://" + sampleImage
 		}];
 
-		var dataHtml = [{
+		const dataHtml = [{
 			type: 'pixel',
 			format: 'html',
 			flavor: 'plain',
@@ -134,6 +139,7 @@ try {
 		//       HTML and Image are skipping some stuff, so they don't all share the same rules
 		//       Also, 'data' won't be the same, obviously
 
+		if ( isPrintPdf )
 		for (const configDef of configsPdf ) {
 
 			console.log(`Processing '${configDef.name}'...`);
@@ -160,6 +166,7 @@ try {
 
 /////////////////////////////////////////////////////////////////////////// Printing: Image
 
+		if ( isPrintImage )
 		for (const configDef of configsImage ) {
 
 			console.log(`Processing '${configDef.name}'...`);
@@ -176,6 +183,7 @@ try {
 
 /////////////////////////////////////////////////////////////////////////// Printing: HTML
 
+		if ( isPrintHtml )
 		for (const configDef of configsHtml ) {
 
 			console.log(`Processing '${configDef.name}'...`);
