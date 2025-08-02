@@ -29,18 +29,6 @@ switch ( os.platform() ) {
 const configsHtml = [
 
 	{
-		name: "HTML: TESTING, EMPTY",
-		options: {
-			position: { x: 960, y: 540 }, // Not 0,0
-			spool: {}, // Not null
-			scaleContent: false
-		},
-		outputPath: [outPath, "html", "empty.pdf"],
-	},
-
-	/*
-
-	{
 		name: "HTML: Vector, base",
 		options: {
 			...usual
@@ -168,8 +156,6 @@ const configsHtml = [
 		},
 		outputPath: [outPath, "html", "raster", "size_a4.pdf"],
 	},
-
-	*/
 
 ];
 

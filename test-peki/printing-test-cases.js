@@ -125,7 +125,8 @@ try {
 				'        <span style="color: #D00;">Source:</span> https://qz.io/' +
 				'      </td>' +
 				'      <td align="right">' +
-				'        <img src="' + sampleImage + '" />' +
+				'        <img src="file://' + sampleImage + '" />' +
+				// '        <img src="' + "https://demo.qz.io/assets/img/image_sample.png" + '" />' +
 				'      </td>' +
 				'    </tr>' +
 				'  </table>' +
