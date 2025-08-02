@@ -115,7 +115,7 @@ try {
 			type: 'pixel',
 			format: 'html',
 			flavor: 'plain',
-			data: '<html>' + // TODO: Try this out with tabs
+			data: '<html>' +
 				'<body>' +
 				'  <table style="font-family: monospace; width: 100%">' +
 				'    <tr>' +
@@ -140,7 +140,7 @@ try {
 		//       Also, 'data' won't be the same, obviously
 
 		if ( isPrintPdf )
-		for (const configDef of configsPdf ) {
+		for ( const configDef of configsPdf ) {
 
 			console.log(`Processing '${configDef.name}'...`);
 
@@ -167,7 +167,7 @@ try {
 /////////////////////////////////////////////////////////////////////////// Printing: Image
 
 		if ( isPrintImage )
-		for (const configDef of configsImage ) {
+		for ( const configDef of configsImage ) {
 
 			console.log(`Processing '${configDef.name}'...`);
 
@@ -184,7 +184,7 @@ try {
 /////////////////////////////////////////////////////////////////////////// Printing: HTML
 
 		if ( isPrintHtml )
-		for (const configDef of configsHtml ) {
+		for ( const configDef of configsHtml ) {
 
 			console.log(`Processing '${configDef.name}'...`);
 
