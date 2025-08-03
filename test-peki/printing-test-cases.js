@@ -80,8 +80,8 @@ function getMostRecentPrinted() {
 }
 
 // TODO: Purely for testing purposes
-const isPrintPdf = false;
-const isPrintImage = false;
+const isPrintPdf = true;
+const isPrintImage = true;
 const isPrintHtml = true;
 
 /////////////////////////////////////////////////////////////////////////// Finding the PDF printer
@@ -111,6 +111,12 @@ try {
 			data: "file://" + sampleImage
 		}];
 
+		// Tray HTML printing jobs block external images by default.
+		// The one exception are paths matching "demo/assets", for the purposes of "Print HTML"
+		//
+		// A quick look at 'qz-tray -h' reveals that setting 'security.data.protocols' allows any image to be passed for printing
+		//
+		// Image links in HTML files have to be prepended with the protocol, which is why 'file://' is added to 'sampleImage'
 		const dataHtml = [{
 			type: 'pixel',
 			format: 'html',
@@ -126,7 +132,6 @@ try {
 				'      </td>' +
 				'      <td align="right">' +
 				'        <img src="file://' + sampleImage + '" />' +
-				// '        <img src="' + "https://demo.qz.io/assets/img/image_sample.png" + '" />' +
 				'      </td>' +
 				'    </tr>' +
 				'  </table>' +

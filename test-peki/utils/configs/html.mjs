@@ -45,6 +45,8 @@ const configsHtml = [
 		outputPath: [outPath, "html", "raster", "basic.pdf"],
 	},
 
+	// Skipping vector and rotation: https://github.com/qzind/tray/issues/529
+	/*
 	{
 		name: "HTML: Vector, rotated 45 degrees",
 		options: {
@@ -53,6 +55,7 @@ const configsHtml = [
 		},
 		outputPath: [outPath, "html", "vector", "rot45.pdf"],
 	},
+	*/
 
 	{
 		name: "HTML: Raster, rotated 45 degrees",
@@ -74,15 +77,6 @@ const configsHtml = [
 	},
 
 	{
-		name: "HTML: Vector, orientation:landscape",
-		options: {
-			...usual,
-			orientation: "landscape"
-		},
-		outputPath: [outPath, "html", "vector", "orient_land.pdf"],
-	},
-
-	{
 		name: "HTML: Raster, orientation:reverse-landscape",
 		options: {
 			...usual,
@@ -90,6 +84,15 @@ const configsHtml = [
 			orientation: "reverse-landscape"
 		},
 		outputPath: [outPath, "html", "raster", "orient_revland.pdf"],
+	},
+
+	{
+		name: "HTML: Vector, orientation:landscape",
+		options: {
+			...usual,
+			orientation: "landscape"
+		},
+		outputPath: [outPath, "html", "vector", "orient_land.pdf"],
 	},
 
 	{

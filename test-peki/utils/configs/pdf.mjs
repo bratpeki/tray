@@ -74,15 +74,6 @@ const configsPdf = [
 	},
 
 	{
-		name: "PDF: Vector, orientation:landscape",
-		options: {
-			...usual,
-			orientation: "landscape"
-		},
-		outputPath: [outPath, "pdf", "vector", "orient_land.pdf"],
-	},
-
-	{
 		name: "PDF: Raster, orientation:reverse-landscape",
 		options: {
 			...usual,
@@ -90,6 +81,15 @@ const configsPdf = [
 			orientation: "reverse-landscape"
 		},
 		outputPath: [outPath, "pdf", "raster", "orient_revland.pdf"],
+	},
+
+	{
+		name: "PDF: Vector, orientation:landscape",
+		options: {
+			...usual,
+			orientation: "landscape"
+		},
+		outputPath: [outPath, "pdf", "vector", "orient_land.pdf"],
 	},
 
 	{

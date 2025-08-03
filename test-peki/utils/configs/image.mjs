@@ -76,15 +76,6 @@ const configsImage = [
 	},
 
 	{
-		name: "IMAGE: Vector, orientation:landscape",
-		options: {
-			...usual,
-			orientation: "landscape"
-		},
-		outputPath: [outPath, "img", "vector", "orient_land.pdf"],
-	},
-
-	{
 		name: "IMAGE: Raster, orientation:reverse-landscape",
 		options: {
 			...usual,
@@ -92,6 +83,15 @@ const configsImage = [
 			orientation: "reverse-landscape"
 		},
 		outputPath: [outPath, "img", "raster", "orient_revland.pdf"],
+	},
+
+	{
+		name: "IMAGE: Vector, orientation:landscape",
+		options: {
+			...usual,
+			orientation: "landscape"
+		},
+		outputPath: [outPath, "img", "vector", "orient_land.pdf"],
 	},
 
 	{
