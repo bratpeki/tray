@@ -79,7 +79,32 @@ function getMostRecentPrinted() {
 
 }
 
-// TODO: Purely for testing purposes
+async function processPrintJobs(configs, data, foundPrinter) {
+
+	if ( !configs || configs.length === 0 ) return;
+
+	for ( const configDef of configs ) {
+
+		console.log(`Processing '${configDef.name}'...`);
+
+		try {
+
+			const config = qz.configs.create(foundPrinter, configDef.options);
+			await qz.print(config, data);
+
+			const newPDF = await watchForNewPdf(pdfPath);
+			await fs.promises.rename(newPDF, toAssetFolderPath(configDef.outputPath));
+
+		}
+
+		catch (e) {
+			console.error(`Error processing '${configDef.name}':`, e);
+		}
+	}
+
+}
+
+// In case we wanna skip some batch of jobs
 const isPrintPdf = true;
 const isPrintImage = true;
 const isPrintHtml = true;
@@ -97,6 +122,13 @@ try {
 
 /////////////////////////////////////////////////////////////////////////// Setting 'data'
 
+		// Tray HTML printing jobs block external resources by default.
+		// The one exception are paths matching "demo/assets", for the purposes of "Print PDF", "Print Image" and "Print HTML"
+		//
+		// A quick look at 'qz-tray -h' reveals that setting 'security.data.protocols' allows any image to be passed for printing
+		//
+		// Image links in HTML files have to be prepended with the protocol, which is why 'file://' is added to 'samplePdf' and 'sampleImage'
+
 		const dataPdf = [{
 			type: 'pixel',
 			format: 'pdf',
@@ -111,12 +143,6 @@ try {
 			data: "file://" + sampleImage
 		}];
 
-		// Tray HTML printing jobs block external images by default.
-		// The one exception are paths matching "demo/assets", for the purposes of "Print HTML"
-		//
-		// A quick look at 'qz-tray -h' reveals that setting 'security.data.protocols' allows any image to be passed for printing
-		//
-		// Image links in HTML files have to be prepended with the protocol, which is why 'file://' is added to 'sampleImage'
 		const dataHtml = [{
 			type: 'pixel',
 			format: 'html',
@@ -139,70 +165,11 @@ try {
 				'</html>'
 		}];
 
-/////////////////////////////////////////////////////////////////////////// Printing: PDF
+/////////////////////////////////////////////////////////////////////////// Printing
 
-		// TODO: I'm currently only checking for PDFs
-		//       HTML and Image are skipping some stuff, so they don't all share the same rules
-		//       Also, 'data' won't be the same, obviously
-
-		if ( isPrintPdf )
-		for ( const configDef of configsPdf ) {
-
-			console.log(`Processing '${configDef.name}'...`);
-
-			const config = qz.configs.create(found, configDef.options);
-
-			await qz.print(config, dataPdf).catch( function (e) { console.error(e); } );
-
-			const newPDF = await watchForNewPdf(pdfPath);
-
-			// Quoting: https://www.geeksforgeeks.org/javascript/node-js-fs-rename-method/
-			//
-			// If a file already exists at the new path, it will be overwritten by the operation.
-			//
-			// So we're okay with running this even when assets exist.
-			// TODO: This can be problematic if there's an old asset we no longer need, since we don't delete it.
-
-			// Experimentally confirmed fs.rename doesn't make new directories
-			// Currently, all preparations of the folders is done in the Makefile
-
-			await fs.promises.rename(newPDF, toAssetFolderPath(configDef.outputPath));
-
-		}
-
-/////////////////////////////////////////////////////////////////////////// Printing: Image
-
-		if ( isPrintImage )
-		for ( const configDef of configsImage ) {
-
-			console.log(`Processing '${configDef.name}'...`);
-
-			const config = qz.configs.create(found, configDef.options);
-
-			await qz.print(config, dataImage).catch( function (e) { console.error(e); } );
-
-			const newPDF = await watchForNewPdf(pdfPath);
-
-			await fs.promises.rename(newPDF, toAssetFolderPath(configDef.outputPath));
-
-		}
-
-/////////////////////////////////////////////////////////////////////////// Printing: HTML
-
-		if ( isPrintHtml )
-		for ( const configDef of configsHtml ) {
-
-			console.log(`Processing '${configDef.name}'...`);
-
-			const config = qz.configs.create(found, configDef.options);
-
-			await qz.print(config, dataHtml).catch( function (e) { console.error(e); } );
-
-			const newPDF = await watchForNewPdf(pdfPath);
-
-			await fs.promises.rename(newPDF, toAssetFolderPath(configDef.outputPath));
-
-		}
+		if ( isPrintPdf ) await processPrintJobs(configsPdf, dataPdf, found);
+		if ( isPrintHtml ) await processPrintJobs(configsImage, dataImage, found);
+		if ( isPrintImage ) await processPrintJobs(configsHtml, dataHtml, found);
 
 /////////////////////////////////////////////////////////////////////////// Closing
 

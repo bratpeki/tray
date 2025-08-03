@@ -1,4 +1,6 @@
 
+// TODO: This might be a hack, and using plain 'sleep' might be better
+
 import fs from "fs";
 import path from "path";
 
