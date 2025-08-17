@@ -105,8 +105,8 @@ async function processPrintJobs(configs, data, foundPrinter) {
 }
 
 // In case we wanna skip some batch of jobs
-const isPrintPdf = false;
-const isPrintImage = false;
+const isPrintPdf = true;
+const isPrintImage = true;
 const isPrintHtml = true;
 
 /////////////////////////////////////////////////////////////////////////// Finding the PDF printer

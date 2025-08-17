@@ -1,6 +1,8 @@
 
 import os from "os";
 
+import { calculateOutPath } from "../functions/calculateOutPath.mjs"
+
 // Sizes
 const us_letter = { size: { width: 8.5, height: 11 }, units: "in" };
 const a4 = { size: { width: 210, height: 297 }, units: "mm" };
@@ -8,23 +10,7 @@ const a4 = { size: { width: 210, height: 297 }, units: "mm" };
 // Common amongst all items
 const usual = us_letter;
 
-let outPath = "";
-
-switch ( os.platform() ) {
-
-	case "win32":
-		outPath = ""; // TODO
-		break;
-
-	case "linux":
-		outPath = "linux_cupspdf";
-		break;
-
-	case "darwin":
-		outPath = "macos_pdfwriter";
-		break;
-
-}
+const outPath = calculateOutPath();
 
 const configsPdf = [
 

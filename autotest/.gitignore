@@ -1,5 +1,5 @@
 node_modules/
-assets/
+baseline/
 .DS_Store
 diff.png
 package-lock.json
