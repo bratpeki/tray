@@ -7,16 +7,13 @@ import os from "os";
 import { fileURLToPath } from "url";
 
 import { watchForNewPdf } from "./utils/functions/watchForNewPdf.mjs";
+import { calculatePdfPrintPath } from "./utils/functions/calculatePdfPrintPath.mjs";
 
 import { configsPdf } from "./utils/configs/pdf.mjs";
 import { configsImage } from "./utils/configs/image.mjs";
 import { configsHtml } from "./utils/configs/html.mjs";
 
 /////////////////////////////////////////////////////////////////////////// Variables
-
-// OS username
-// TODO: username or userName? I'm thinking it's one word, so the former
-const username = os.userInfo().username;
 
 // Recreations of the '__filename' and '__dirname' variables from CommonJS
 // https://stackoverflow.com/q/46745014
@@ -30,23 +27,7 @@ const sampleImagePath = path.join(qzRoot, "assets", "img", "image_sample.png");
 
 // Where the PDF printer prints the prints...
 // She sells seashells by the seashore
-let pdfPrintPath;
-
-switch ( os.platform() ) {
-
-	case "win32":
-		pdfPrintPath = ""; // TODO
-		break;
-
-	case "linux":
-		pdfPrintPath = path.join("/", "var", "spool", "cups-pdf", username);
-		break;
-
-	case "darwin":
-		pdfPrintPath = path.join("/", "private", "var", "spool", "pdfwriter", username);
-		break;
-
-}
+let pdfPrintPath = calculatePdfPrintPath();
 
 /////////////////////////////////////////////////////////////////////////// Importing the QZ Tray API
 
@@ -62,17 +43,12 @@ const qz = (
 // Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import#importing_defaults
 
 // For the NPM module, using ECMAScript:
-// You would, of course, need to run 'npm install qz-tray'
 // import qz from "qz-tray";
+// You would, of course, need to run 'npm install qz-tray'
 
 /////////////////////////////////////////////////////////////////////////// Functions
 
 function sleep(x) { return new Promise(resolve => setTimeout(resolve, x)); }
-
-// Printed PDF
-function toPrintedFolderPath(filename) {
-	return path.join(pdfPrintPath, filename);
-}
 
 // QZ printed PDF assets
 // Accepts a list since you can specify OS and raster/vector
@@ -83,7 +59,9 @@ function toAssetFolderPath(filenames) {
 	return tmp;
 }
 
-// Returns the full path
+// Returns the full path of the newest file in pdfPrintPath
+// TODO: Currently unused
+// TODO: We should also discuss "sleep + getMostRecentPrinted" vs "file listener" for getting the latest PDF
 function getMostRecentPrinted() {
 
 	var pdfList = fs.readdirSync(pdfPrintPath);
@@ -95,10 +73,11 @@ function getMostRecentPrinted() {
 	}));
 	pdfList.sort((a, b) => b.time - a.time);
 
-	return toPrintedFolderPath(pdfList[0].file);
+	return path.join(pdfPrintPath, pdfList[0].file);
 
 }
 
+// Does printing, finding and stashing into the "assets" folder
 async function processPrintJobs(configs, data, foundPrinter) {
 
 	if ( !configs || configs.length === 0 ) return;
