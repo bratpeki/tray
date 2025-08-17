@@ -12,39 +12,58 @@ import { configsPdf } from "./utils/configs/pdf.mjs";
 import { configsImage } from "./utils/configs/image.mjs";
 import { configsHtml } from "./utils/configs/html.mjs";
 
-// Piece de resistance!
-import qz from "../js/qz-tray.js";
-
 /////////////////////////////////////////////////////////////////////////// Variables
 
 // OS username
+// TODO: username or userName? I'm thinking it's one word, so the former
 const username = os.userInfo().username;
 
+// Recreations of the '__filename' and '__dirname' variables from CommonJS
+// https://stackoverflow.com/q/46745014
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const qzroot = path.join(__dirname, "..");
+const qzRoot = path.join(__dirname, "..");
 
-const samplePdf = path.join(qzroot, "assets", "pdf_sample.pdf");
-const sampleImage = path.join(qzroot, "assets", "img", "image_sample.png");
+const samplePdfPath = path.join(qzRoot, "assets", "pdf_sample.pdf");
+const sampleImagePath = path.join(qzRoot, "assets", "img", "image_sample.png");
 
-let pdfPath;
+// Where the PDF printer prints the prints...
+// She sells seashells by the seashore
+let pdfPrintPath;
 
 switch ( os.platform() ) {
 
 	case "win32":
-		pdfPath = ""; // TODO
+		pdfPrintPath = ""; // TODO
 		break;
 
 	case "linux":
-		pdfPath = path.join("/", "var", "spool", "cups-pdf", username);
+		pdfPrintPath = path.join("/", "var", "spool", "cups-pdf", username);
 		break;
 
 	case "darwin":
-		pdfPath = path.join("/", "private", "var", "spool", "pdfwriter", username);
+		pdfPrintPath = path.join("/", "private", "var", "spool", "pdfwriter", username);
 		break;
 
 }
+
+/////////////////////////////////////////////////////////////////////////// Importing the QZ Tray API
+
+// For a local Tray module reference via a relative path:
+import qz from "../js/qz-tray.js"
+
+// For a dynamic path:
+/*
+const qz = (
+	await import(path.join(qzRoot, "js", "qz-tray.js"))
+).default;
+*/
+// Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import#importing_defaults
+
+// For the NPM module, using ECMAScript:
+// You would, of course, need to run 'npm install qz-tray'
+// import qz from "qz-tray";
 
 /////////////////////////////////////////////////////////////////////////// Functions
 
@@ -52,14 +71,14 @@ function sleep(x) { return new Promise(resolve => setTimeout(resolve, x)); }
 
 // Printed PDF
 function toPrintedFolderPath(filename) {
-	return path.join(pdfPath, filename);
+	return path.join(pdfPrintPath, filename);
 }
 
 // QZ printed PDF assets
 // Accepts a list since you can specify OS and raster/vector
 function toAssetFolderPath(filenames) {
 	// TODO: qzroot + autotest = __dirname
-	var tmp = path.join(qzroot, "autotest", "assets");
+	var tmp = path.join(qzRoot, "autotest", "assets");
 	filenames.forEach( f => { tmp = path.join(tmp, f); } );
 	return tmp;
 }
@@ -67,12 +86,12 @@ function toAssetFolderPath(filenames) {
 // Returns the full path
 function getMostRecentPrinted() {
 
-	var pdfList = fs.readdirSync(pdfPath);
+	var pdfList = fs.readdirSync(pdfPrintPath);
 	if ( pdfList.length === 0 ) throw new Error("pdfList is empty!");
 
 	pdfList = pdfList.map(f => ({
 		file: f,
-		time: fs.statSync(path.join(pdfPath, f)).mtime.getTime()
+		time: fs.statSync(path.join(pdfPrintPath, f)).mtime.getTime()
 	}));
 	pdfList.sort((a, b) => b.time - a.time);
 
@@ -93,7 +112,7 @@ async function processPrintJobs(configs, data, foundPrinter) {
 			const config = qz.configs.create(foundPrinter, configDef.options);
 			await qz.print(config, data);
 
-			const newPDF = await watchForNewPdf(pdfPath);
+			const newPDF = await watchForNewPdf(pdfPrintPath);
 			await fs.promises.rename(newPDF, toAssetFolderPath(configDef.outputPath));
 
 		}
@@ -134,14 +153,14 @@ try {
 			type: 'pixel',
 			format: 'pdf',
 			flavor: 'file',
-			data: "file://" + samplePdf
+			data: "file://" + samplePdfPath
 		}];
 
 		const dataImage = [{
 			type: 'pixel',
 			format: 'image',
 			flavor: 'file',
-			data: "file://" + sampleImage
+			data: "file://" + sampleImagePath
 		}];
 
 		const dataHtml = [{
@@ -158,7 +177,7 @@ try {
 				'        <span style="color: #D00;">Source:</span> https://qz.io/' +
 				'      </td>' +
 				'      <td align="right">' +
-				'        <img src="file://' + sampleImage + '" />' +
+				'        <img src="file://' + sampleImagePath + '" />' +
 				'      </td>' +
 				'    </tr>' +
 				'  </table>' +
