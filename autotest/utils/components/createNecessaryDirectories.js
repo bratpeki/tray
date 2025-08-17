@@ -5,29 +5,29 @@ async function createNecessaryDirectories() {
 
 	const directoriesToCreate = [
 
-		'assets',
+		'baseline',
 
-		path.join('assets', 'linux_cupspdf'),
+		path.join('baseline', 'linux_cupspdf'),
 
-		path.join('assets', 'linux_cupspdf', 'pdf', 'vector'),
-		path.join('assets', 'linux_cupspdf', 'pdf', 'raster'),
+		path.join('baseline', 'linux_cupspdf', 'pdf', 'vector'),
+		path.join('baseline', 'linux_cupspdf', 'pdf', 'raster'),
 
-		path.join('assets', 'linux_cupspdf', 'img', 'vector'),
-		path.join('assets', 'linux_cupspdf', 'img', 'raster'),
+		path.join('baseline', 'linux_cupspdf', 'img', 'vector'),
+		path.join('baseline', 'linux_cupspdf', 'img', 'raster'),
 
-		path.join('assets', 'linux_cupspdf', 'html', 'vector'),
-		path.join('assets', 'linux_cupspdf', 'html', 'raster'),
+		path.join('baseline', 'linux_cupspdf', 'html', 'vector'),
+		path.join('baseline', 'linux_cupspdf', 'html', 'raster'),
 
-		path.join('assets', 'macos_pdfwriter'),
+		path.join('baseline', 'macos_pdfwriter'),
 
-		path.join('assets', 'macos_pdfwriter', 'pdf', 'vector'),
-		path.join('assets', 'macos_pdfwriter', 'pdf', 'raster'),
+		path.join('baseline', 'macos_pdfwriter', 'pdf', 'vector'),
+		path.join('baseline', 'macos_pdfwriter', 'pdf', 'raster'),
 
-		path.join('assets', 'macos_pdfwriter', 'img', 'vector'),
-		path.join('assets', 'macos_pdfwriter', 'img', 'raster'),
+		path.join('baseline', 'macos_pdfwriter', 'img', 'vector'),
+		path.join('baseline', 'macos_pdfwriter', 'img', 'raster'),
 
-		path.join('assets', 'macos_pdfwriter', 'html', 'vector'),
-		path.join('assets', 'macos_pdfwriter', 'html', 'raster'),
+		path.join('baseline', 'macos_pdfwriter', 'html', 'vector'),
+		path.join('baseline', 'macos_pdfwriter', 'html', 'raster'),
 
 	];
 

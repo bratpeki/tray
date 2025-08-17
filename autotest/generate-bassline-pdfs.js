@@ -1,9 +1,9 @@
+
 // https://qz.io/api/qz.configs
 
 // Node libraries
 import path from "path";
 import fs from "fs";
-import os from "os";
 import { fileURLToPath } from "url";
 
 import { watchForNewPdf } from "./utils/functions/watchForNewPdf.mjs";
@@ -50,11 +50,11 @@ const qz = (
 
 function sleep(x) { return new Promise(resolve => setTimeout(resolve, x)); }
 
-// QZ printed PDF assets
+// QZ printed PDF baseline assets
 // Accepts a list since you can specify OS and raster/vector
 function toAssetFolderPath(filenames) {
 	// TODO: qzroot + autotest = __dirname
-	var tmp = path.join(qzRoot, "autotest", "assets");
+	var tmp = path.join(qzRoot, "autotest", "baseline");
 	filenames.forEach( f => { tmp = path.join(tmp, f); } );
 	return tmp;
 }
@@ -77,7 +77,7 @@ function getMostRecentPrinted() {
 
 }
 
-// Does printing, finding and stashing into the "assets" folder
+// Does printing, finding and stashing into the "baseline" folder
 async function processPrintJobs(configs, data, foundPrinter) {
 
 	if ( !configs || configs.length === 0 ) return;
@@ -99,13 +99,14 @@ async function processPrintJobs(configs, data, foundPrinter) {
 		catch (e) {
 			console.error(`Error processing '${configDef.name}':`, e);
 		}
+
 	}
 
 }
 
 // In case we wanna skip some batch of jobs
-const isPrintPdf = true;
-const isPrintImage = true;
+const isPrintPdf = false;
+const isPrintImage = false;
 const isPrintHtml = true;
 
 /////////////////////////////////////////////////////////////////////////// Finding the PDF printer
@@ -167,8 +168,8 @@ try {
 /////////////////////////////////////////////////////////////////////////// Printing
 
 		if ( isPrintPdf ) await processPrintJobs(configsPdf, dataPdf, found);
-		if ( isPrintHtml ) await processPrintJobs(configsImage, dataImage, found);
-		if ( isPrintImage ) await processPrintJobs(configsHtml, dataHtml, found);
+		if ( isPrintImage ) await processPrintJobs(configsImage, dataImage, found);
+		if ( isPrintHtml ) await processPrintJobs(configsHtml, dataHtml, found);
 
 /////////////////////////////////////////////////////////////////////////// Closing
 
@@ -177,6 +178,9 @@ try {
 
 	} )();
 
-} catch (err) {
+}
+
+catch (err) {
 	console.error(err.message);
 }
+
