@@ -58,7 +58,8 @@ function toPrintedFolderPath(filename) {
 // QZ printed PDF assets
 // Accepts a list since you can specify OS and raster/vector
 function toAssetFolderPath(filenames) {
-	var tmp = path.join(qzroot, "test-peki", "assets");
+	// TODO: qzroot + autotest = __dirname
+	var tmp = path.join(qzroot, "autotest", "assets");
 	filenames.forEach( f => { tmp = path.join(tmp, f); } );
 	return tmp;
 }
