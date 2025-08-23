@@ -1,5 +1,6 @@
 # Made on Linux
 # Now also tested on Mac
 all:
-	node utils/components/createNecessaryDirectories.js
+	# node utils/components/createNecessaryDirectories.js
 	node ./generate-bassline-pdfs.js
+	# node ./compare-all-in-two-folders.js
