@@ -3,40 +3,16 @@ import fs from "fs";
 import path from "path";
 import util from "util";
 
+// Return simple strings of all files in the folder
 // Shamelessly copied from https://stackoverflow.com/a/46391945
-const traverse = function(dir, result = []) {
-
-	fs.readdirSync(dir).forEach((file) => {
-
-		const fPath = path.resolve(dir, file);
-
-		const fileStats = { file, path: fPath };
-
-		if (fs.statSync(fPath).isDirectory()) {
-			fileStats.type = 'dir';
-			fileStats.files = [];
-			result.push(fileStats);
-			return traverse(fPath, fileStats.files)
-		}
-
-		fileStats.type = 'file';
-		result.push(fileStats);
-
-	});
-
-	return result;
-
-};
-
-// Return simple strings of PDF paths
-const traverse2 = function(dir, result = []) {
+function traverse(dir, result = []) {
 
 	fs.readdirSync(dir).forEach((file) => {
 
 		const fPath = path.resolve(dir, file);
 
 		if (fs.statSync(fPath).isDirectory()) {
-			return traverse2(fPath, result)
+			return traverse(fPath, result)
 		}
 
 		result.push(fPath);
@@ -47,31 +23,38 @@ const traverse2 = function(dir, result = []) {
 
 };
 
+function getPathBits(pth) {
+	return path.normalize(pth).split(path.sep).filter(Boolean);
+}
+
 async function comparePdfsInFolders(baseline, latest) {
 
-	var baselineFiles = [];
-	traverse2(baseline, baselineFiles);
+	var baselineFiles = []; traverse(baseline, baselineFiles);
+	var latestFiles = []; traverse(latest, latestFiles);
 
-	var latestFiles = [];
-	traverse2(latest, latestFiles);
+	if ( baselineFiles.length != latestFiles.length )
+		throw new Error("Not the same number of files!");
 
-	// This output has [Object]s
-	// console.log(baselineFiles);
+	for ( var i = 0; i < baselineFiles.length; i++ ) {
 
-	// Full output:
-	// console.log(util.inspect(baselineFiles, { depth: null }));
+		const baselineFile = baselineFiles[i];
+		const baselineResolve = path.resolve(baseline);
+		const baselineRelative = path.relative(baselineResolve, baselineFile);
 
-	baselineFiles.forEach( (baselineFile) => {
+		const latestFile = latestFiles[i];
+		const latestResolve = path.resolve(latest);
 
-		const pathFull = path.dirname(baselineFile);
-		const pathBits = path.normalize(pathFull).split(path.sep).filter(Boolean);
+		// Okay so... This is what we need:
+		// latestResolve + baselineRelative
+		const latestCraftedPath = path.join( latestResolve, baselineRelative )
 
-		console.log(baselineFile);
-		console.log(pathFull);
-		console.log(pathBits);
+		console.log(`Full path:             ${baselineFile}`);
+		console.log(`Just the initial bit:  ${baselineResolve}`);
+		console.log(`Relative path:         ${baselineRelative}`);
+		console.log(`Crafted path to check: ${latestCraftedPath}`);
 		console.log("");
-
-	});
+		// console.log(`${}`);
+	};
 
 }
 
