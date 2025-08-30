@@ -63,13 +63,17 @@ async function comparePdfsInFolders(baseline, latest) {
 
 	baselineFiles.forEach( (baselineFile) => {
 
+		const pathFull = path.dirname(baselineFile);
+		const pathBits = path.normalize(pathFull).split(path.sep).filter(Boolean);
+
 		console.log(baselineFile);
-		console.log(`  ${path.dirname(baselineFile)}`);
-		console.log(`  ${path.basename(baselineFile)}`);
+		console.log(pathFull);
+		console.log(pathBits);
+		console.log("");
 
 	});
 
 }
 
-await comparePdfsInFolders("baseline", "peepee");
+await comparePdfsInFolders("baseline", "other");
 
