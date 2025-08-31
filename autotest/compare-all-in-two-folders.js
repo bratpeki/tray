@@ -1,60 +1,66 @@
 
-import fs from "fs";
+import fs from "fs/promises";
 import path from "path";
 import util from "util";
 
-// Return simple strings of all files in the folder
-// Shamelessly copied from https://stackoverflow.com/a/46391945
-function traverse(dir, result = []) {
+import { pdfComp } from "./utils/functions/pdfComp.mjs"
 
-	fs.readdirSync(dir).forEach((file) => {
+// Returns a list of strings containing paths to each and every file in the folder
+// Recursively searches
+async function traverse(dir, result = []) {
 
+	const files = await fs.readdir(dir);
+
+	for (const file of files) {
 		const fPath = path.resolve(dir, file);
-
-		if (fs.statSync(fPath).isDirectory()) {
-			return traverse(fPath, result)
+		const stat = await fs.stat(fPath);
+		if (stat.isDirectory()) {
+			await traverse(fPath, result);
+		} else {
+			result.push(fPath);
 		}
+	}
 
-		result.push(fPath);
-
-	});
-
-	return result;
-
-};
-
-function getPathBits(pth) {
-	return path.normalize(pth).split(path.sep).filter(Boolean);
 }
 
 async function comparePdfsInFolders(baseline, latest) {
 
-	var baselineFiles = []; traverse(baseline, baselineFiles);
-	var latestFiles = []; traverse(latest, latestFiles);
+	var waserr = false;
 
-	if ( baselineFiles.length != latestFiles.length )
-		throw new Error("Not the same number of files!");
+	var baselineFiles = []; await traverse(baseline, baselineFiles);
+	var latestFiles = []; await traverse(latest, latestFiles);
 
-	for ( var i = 0; i < baselineFiles.length; i++ ) {
+	// if ( baselineFiles.length != latestFiles.length ) throw new Error("Not the same number of files!");
 
-		const baselineFile = baselineFiles[i];
+	for (const baselineFile of baselineFiles) {
+
 		const baselineResolve = path.resolve(baseline);
 		const baselineRelative = path.relative(baselineResolve, baselineFile);
 
-		const latestFile = latestFiles[i];
 		const latestResolve = path.resolve(latest);
+		const latestCraftedPath = path.join(latestResolve, baselineRelative);
 
-		// Okay so... This is what we need:
-		// latestResolve + baselineRelative
-		const latestCraftedPath = path.join( latestResolve, baselineRelative )
+		try {
+			await fs.stat(latestCraftedPath);
+		} catch {
+			console.log(`File ${latestCraftedPath} doesn't exist`);
+			waserr = true;
+			continue;
+		}
 
-		console.log(`Full path:             ${baselineFile}`);
-		console.log(`Just the initial bit:  ${baselineResolve}`);
-		console.log(`Relative path:         ${baselineRelative}`);
-		console.log(`Crafted path to check: ${latestCraftedPath}`);
+		console.log("Comparing:");
+		console.log(`  ${baselineFile}`);
+		console.log(`  ${latestCraftedPath}`);
+		const pdfCompRes = await pdfComp(baselineFile, latestCraftedPath);
+		if ( pdfCompRes === false ) {
+			console.log(`File ${latestCraftedPath} doesn't match`);
+			waserr = true;
+		}
 		console.log("");
-		// console.log(`${}`);
-	};
+
+	}
+
+	if (!waserr) console.log("All OK");
 
 }
 
