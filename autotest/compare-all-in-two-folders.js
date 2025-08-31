@@ -1,7 +1,6 @@
 
 import fs from "fs/promises";
 import path from "path";
-import util from "util";
 
 import { pdfComp } from "./utils/functions/pdfComp.mjs"
 
@@ -26,6 +25,7 @@ async function traverse(dir, result = []) {
 async function comparePdfsInFolders(baseline, latest) {
 
 	var waserr = false;
+	var errarr = []
 
 	var baselineFiles = []; await traverse(baseline, baselineFiles);
 	var latestFiles = []; await traverse(latest, latestFiles);
@@ -40,9 +40,8 @@ async function comparePdfsInFolders(baseline, latest) {
 		const latestResolve = path.resolve(latest);
 		const latestCraftedPath = path.join(latestResolve, baselineRelative);
 
-		try {
-			await fs.stat(latestCraftedPath);
-		} catch {
+		try { await fs.stat(latestCraftedPath); }
+		catch {
 			console.log(`File ${latestCraftedPath} doesn't exist`);
 			waserr = true;
 			continue;
@@ -51,16 +50,27 @@ async function comparePdfsInFolders(baseline, latest) {
 		console.log("Comparing:");
 		console.log(`  ${baselineFile}`);
 		console.log(`  ${latestCraftedPath}`);
+
 		const pdfCompRes = await pdfComp(baselineFile, latestCraftedPath);
 		if ( pdfCompRes === false ) {
-			console.log(`File ${latestCraftedPath} doesn't match`);
+			console.log(`  Error: Files don't match`);
+			errarr.push(baselineRelative)
 			waserr = true;
+		}
+		else {
+			console.log(`  Success`);
 		}
 		console.log("");
 
 	}
 
-	if (!waserr) console.log("All OK");
+	if (!waserr)
+		console.log("All OK");
+
+	else {
+		console.log("Not OK");
+		console.log(errarr);
+	}
 
 }
 
