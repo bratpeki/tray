@@ -1,6 +1,15 @@
 
-import fs from "fs";
-import path from "path";
+// This module export pdf2rgba
+//
+// Converts PDF files on 'pdfPath' to a pixel buffer
+// The output is a buffer array of size W*H*4, each pixel needs 4 bytes for RGBA values
+//
+// So, the format of the output is a dict with the format {data, width, height}
+// "data" is a Uint8Array with the format [ R,G,B,A, R,G,B,A, R,G,B,A, ... ]
+//
+// pdfPath - The path to the PDF file we want to generate the RGBA buffer of
+
+import fs from "fs/promises";
 import { getDocument } from "pdfjs-dist/legacy/build/pdf.mjs";
 
 // External resource URLs
@@ -8,15 +17,10 @@ const CMAP_URL = "../../node_modules/pdfjs-dist/cmaps/";
 const CMAP_PACKED = true;
 const STANDARD_FONT_DATA_URL = "../../node_modules/pdfjs-dist/standard_fonts/";
 
-// Converts PDF files on 'pdfPath' to a pixel buffer
-// The output is a buffer array of size W*H*4, each pixel needs 4 bytes for RGBA values
-//
-// So, the format of the output is a dict with the format {data, width, height}
-// "data" is a Uint8Array with the format [ R,G,B,A, R,G,B,A, R,G,B,A, ... ]
 export async function pdf2rgba(pdfPath) {
 
 	// Raw PDF file data
-	const data = new Uint8Array(fs.readFileSync(pdfPath));
+	const data = new Uint8Array(await fs.readFile(pdfPath));
 
 	// https://mozilla.github.io/pdf.js/api/draft/module-pdfjsLib.html
 	//

@@ -2,7 +2,6 @@
 import pixelmatch from "pixelmatch";
 
 // If we need the diff image:
-//
 import { PNG } from "pngjs";
 import fs from "fs";
 

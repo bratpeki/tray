@@ -1,7 +1,14 @@
 
-// https://qz.io/api/qz.configs
+// This module exports the "generatePdfs" function
+//
+// Signature:
+// async function generatePdfs( outputFolder, isPrintPdf = true, isPrintImage = true, isPrintHtml = true )
+//
+// outputPath - The root of the PDF folder hierarchy where we wanna export
+//              The OS is detected, then the proper folder is populared
+// isPrint{X} - Used to bypass certain printing rules
+//              If we wanna just print the image PDFs, only isPrintImage will be true
 
-// Node libraries
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
@@ -86,75 +93,77 @@ export async function generatePdfs( outputFolder, isPrintPdf = true, isPrintImag
 
 	try {
 
-		( async () => {
+		await qz.websocket.connect();
 
-			await qz.websocket.connect();
-
-			const found = await qz.printers.find("pdf");
-			console.log(`USING PRINTER: ${found}`)
+		const found = await qz.printers.find("pdf");
+		if (!found) throw new Error("ERROR (generatePdfs): No suitable PDF printer found");
+		console.log(`USING PRINTER: ${found}`)
 
 	/////////////////////////////////////////////////////////////////////////// Setting 'data'
 
-			// Tray HTML printing jobs block external resources by default.
-			// The one exception are paths matching "demo/assets", for the purposes of "Print PDF", "Print Image" and "Print HTML"
-			//
-			// A quick look at 'qz-tray -h' reveals that setting 'security.data.protocols' allows any image to be passed for printing
-			//
-			// Image links in HTML files have to be prepended with the protocol, which is why 'file://' is added to 'samplePdf' and 'sampleImage'
+		// Tray HTML printing jobs block external resources by default.
+		// The one exception are paths matching "demo/assets", for the purposes of "Print PDF", "Print Image" and "Print HTML"
+		//
+		// A quick look at 'qz-tray -h' reveals that setting 'security.data.protocols' allows any image to be passed for printing
+		//
+		// Image links in HTML files have to be prepended with the protocol, which is why 'file://' is added to 'samplePdf' and 'sampleImage'
 
-			const dataPdf = [{
-				type: 'pixel',
-				format: 'pdf',
-				flavor: 'file',
-				data: "file://" + samplePdfPath
-			}];
+		const dataPdf = [{
+			type: 'pixel',
+			format: 'pdf',
+			flavor: 'file',
+			data: "file://" + samplePdfPath
+		}];
 
-			const dataImage = [{
-				type: 'pixel',
-				format: 'image',
-				flavor: 'file',
-				data: "file://" + sampleImagePath
-			}];
+		const dataImage = [{
+			type: 'pixel',
+			format: 'image',
+			flavor: 'file',
+			data: "file://" + sampleImagePath
+		}];
 
-			const dataHtml = [{
-				type: 'pixel',
-				format: 'html',
-				flavor: 'plain',
-				data: '<html>' +
-					'<body>' +
-					'  <table style="font-family: monospace; width: 100%">' +
-					'    <tr>' +
-					'      <td>' +
-					'        <h2>* QZ Tray HTML Sample Print *</h2>' +
-					'        <span style="color: #D00;">Version:</span> ' + await qz.api.getVersion() + '<br/>' +
-					'        <span style="color: #D00;">Source:</span> https://qz.io/' +
-					'      </td>' +
-					'      <td align="right">' +
-					'        <img src="file://' + sampleImagePath + '" />' +
-					'      </td>' +
-					'    </tr>' +
-					'  </table>' +
-					'</body>' +
-					'</html>'
-			}];
+		const qzVersion = await qz.api.getVersion();
+
+		const dataHtml = [{
+			type: 'pixel',
+			format: 'html',
+			flavor: 'plain',
+			data: `
+				<html>
+				<body>
+					<table style="font-family: monospace; width: 100%">
+					<tr>
+						<td>
+						<h2>* QZ Tray HTML Sample Print *</h2>
+						<span style="color: #D00;">Version:</span> ${qzVersion}<br/>
+						<span style="color: #D00;">Source:</span> https://qz.io/
+						</td>
+						<td align="right">
+						<img src="file://${sampleImagePath}" />
+						</td>
+					</tr>
+					</table>
+				</body>
+				</html>
+			`
+		}];
 
 	/////////////////////////////////////////////////////////////////////////// Printing
 
-			if ( isPrintPdf ) await processPrintJobs(outputFolder, configsPdf, dataPdf, found);
-			if ( isPrintImage ) await processPrintJobs(outputFolder, configsImage, dataImage, found);
-			if ( isPrintHtml ) await processPrintJobs(outputFolder, configsHtml, dataHtml, found);
+		if ( isPrintPdf ) await processPrintJobs(outputFolder, configsPdf, dataPdf, found);
+		if ( isPrintImage ) await processPrintJobs(outputFolder, configsImage, dataImage, found);
+		if ( isPrintHtml ) await processPrintJobs(outputFolder, configsHtml, dataHtml, found);
 
 	/////////////////////////////////////////////////////////////////////////// Closing
 
-			await qz.websocket.disconnect();
-			process.exit(0);
-
-		} )();
+		await qz.websocket.disconnect();
+		return;
 
 	}
 
 	catch (err) {
-		console.error(err.message);
+		console.error(`ERROR (generatePdfs): ${err.message}`);
+		throw err;
 	}
 
 }
