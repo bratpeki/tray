@@ -1,26 +1,35 @@
 
-import qz from "../js/qz-tray.js";
+import qz from "../../../js/qz-tray.js";
 
-///////////////////////////////////////////////////////////////////////////
-
+/**
+ * Truncates the number down to the desired number of decimal places
+ * @param { Number } number - The number to truncate
+ * @param { Number } decimalPlaces - The number of decimal places
+ * @returns { Number } Truncated number
+ */
 function truncate( number, decimalPlaces ) {
 	return Math.trunc( number * Math.pow(10, decimalPlaces) ) / Math.pow(10, decimalPlaces);
 }
-
-///////////////////////////////////////////////////////////////////////////
 
 ( async () => {
 
 	await qz.websocket.connect();
 
-	const found = await qz.printers.getDefault();
+	const data = await qz.printers.details();
 
-	var data = await qz.printers.details();
-	// includes returns the first item that satisfies the condition
-	// maybe filter is more fitting
-	data = data.find( (p) => p.name.toLowerCase().includes("pdf") );
+	// NOTE:
+	// "includes" returns the first item that satisfies the condition
+	// maybe "filter" is more fitting
+	//
+	// TODO: "pdf" or general solution? Maybe this can be moved to a function?
+	const pdfPrinter = data.find( (p) => p.name.toLowerCase().includes("pdf") );
+	if (!pdfPrinter) {
+		console.error("No PDF printer found");
+		await qz.websocket.disconnect();
+		process.exit(1);
+	}
 
-	data.sizes.forEach( (s) => {
+	pdfPrinter.sizes.forEach( (s) => {
 		console.log( `${s.name} (in) : w=${truncate(s.in.width, 2)}, h=${truncate(s.in.height, 2)}` );
 		console.log( `${s.name} (mm) : w=${truncate(s.mm.width, 2)}, h=${truncate(s.mm.height, 2)}` );
 	} );

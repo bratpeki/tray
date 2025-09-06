@@ -9,7 +9,7 @@
 //
 // pdfPath - The path to the PDF file we want to generate the RGBA buffer of
 
-import fs from "fs/promises";
+import { promises as fs } from "fs";
 import { getDocument } from "pdfjs-dist/legacy/build/pdf.mjs";
 
 // External resource URLs

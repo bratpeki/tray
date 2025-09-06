@@ -10,7 +10,7 @@
 //              If we wanna just print the image PDFs, only isPrintImage will be true
 
 import path from "path";
-import fs from "fs";
+import { promises as fs } from "fs";
 import { fileURLToPath } from "url";
 
 import { watchForNewPdf } from "./watchForNewPdf.mjs";
@@ -73,7 +73,7 @@ async function processPrintJobs(outputFolder, configs, data, foundPrinter) {
 			await qz.print(config, data);
 
 			const newPDF = await watchForNewPdf(pdfPrintPath);
-			await fs.promises.rename(newPDF, path.join(qzRoot, "autotest", outputFolder, ...configDef.outputPath));
+			await fs.rename(newPDF, path.join(qzRoot, "autotest", outputFolder, ...configDef.outputPath));
 
 		}
 

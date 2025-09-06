@@ -52,7 +52,7 @@ export async function createDirectoryTree(baseFolder) {
 			await fs.mkdir(dirPath, { recursive: true });
 		}
 		catch (error) {
-			console.error(`ERROR (createDirectoryTree): Error creating directory ${dirPath}:`, error.message);
+			console.error(`ERROR (createDirectoryTree): Error creating directory ${dirPath}: ${error.message}`);
 			throw error;
 		}
 	}
