@@ -2,29 +2,32 @@
 import os from "os";
 
 /**
- * Calculates the output folder name for generated PDF assets,
- * depending on the operating system and the PDF printer used.
+ * @function
  *
- * The folder name is derived from:
- * - **Linux**: Uses CUPS-PDF, so output goes into `linux_cupspdf`
- * - **macOS**: Uses the built-in PDF writer, so output goes into `macos_pdfwriter`
- * - **Windows**: Not implemented yet
+ * The PDF directory tree has three subfolders:
+ * - linux_cupspdf,
+ * - macos_pdfwriter and
+ * - windows_PRINTERNAME (TODO)
  *
- * For example,
- * if the PDF hierarchy root is `baseline`,
- * then on Linux the path would be `baseline/linux_cupspdf`
+ * As expected, the names are derived from the OS and the printer that's used to generate the PDFs.
+ * That means:
+ * - Linux + CUPS-PDF,
+ * - MacOS + PDFWriter and
+ * - TODO
+ *
+ * This function returns the name of that subfolder, depending on the OS.
  *
  * @note The reason for this difference in export location is because different PDF printers print different files (Thanks, CUPS!)
  *
- * @function calculateOutPath
  * @returns {string} The relative folder name where PDF assets should be stored.
+ * @throws Will throw an error if the OS is unsupported
  */
 
 export function calculateOutPath() {
 	switch (os.platform()) {
-		case "win32":  return ""; // TODO
+		// case "win32":
 		case "linux":  return "linux_cupspdf";
 		case "darwin": return "macos_pdfwriter";
-		default: throw new Error(`ERROR (calculateOutPath): Unsupported platform (${os.platform()})`);
+		default: throw new Error(`ERROR (calculateOutPath): Unsupported OS (${os.platform()})`);
 	}
 }

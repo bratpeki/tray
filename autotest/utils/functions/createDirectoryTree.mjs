@@ -1,22 +1,16 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 
-// Generates the PDF folder hierarchy in the given directory, with "baseFolder" being the root
-//
-// So for baseFolder = "baseline", the PDF hierarchy is:
-//
-// baseline
-//   linux_cupspdf
-//     pdf
-//       vector
-//       raster
-//     img
-//       vector
-//       raster
-//     html
-//       vector
-//       raster
-// ...
+/**
+ * @function
+ *
+ * Generates the PDF directory tree.
+ *
+ * @async
+ * @param {string} baseFolder - The root folder in which the directory tree is made
+ * @throws Will throw an error if `fs.mkdir` fails for any reason.
+ * @note `fs.mkdir` doesn't fail if a folder exists.
+ */
 export async function createDirectoryTree(baseFolder) {
 
 	const directoriesToCreate = [
@@ -48,13 +42,7 @@ export async function createDirectoryTree(baseFolder) {
 	];
 
 	for (const dirPath of directoriesToCreate) {
-		try {
-			await fs.mkdir(dirPath, { recursive: true });
-		}
-		catch (error) {
-			console.error(`ERROR (createDirectoryTree): Error creating directory ${dirPath}: ${error.message}`);
-			throw error;
-		}
+		await fs.mkdir(dirPath, { recursive: true });
 	}
 
 }

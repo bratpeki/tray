@@ -1,8 +1,4 @@
 
-// TODO: I'll make this as a separate file FOR NOW
-
-import os from "os";
-
 import { calculateOutPath } from "../functions/calculateOutPath.mjs"
 
 // Sizes

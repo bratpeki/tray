@@ -1,6 +1,4 @@
 
-import os from "os";
-
 import { calculateOutPath } from "../functions/calculateOutPath.mjs"
 
 // Sizes
