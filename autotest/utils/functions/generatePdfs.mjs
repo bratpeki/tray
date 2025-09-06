@@ -50,6 +50,7 @@ const qz = (
 
 /**
  * @function
+ * @async
  *
  * Does the following:
  * - Prints the PDFs
@@ -82,14 +83,15 @@ async function processPrintJobs(outputFolder, configs, data, foundPrinter) {
 
 /**
  * @function
+ * @async
  *
  * Generates all the PDFs!
  * Uses @link{processPrintJobs}.
  *
  * @param {string} outputFolder - The root of the directory tree we want to place the PDFs in
- * @param {Boolean} isPrintPdf [true] - A flag which toggles printing the Sample PDF
- * @param {Boolean} isPrintImage [true] - A flag which toggles printing the Sample Image
- * @param {Boolean} isPrintHtml [true] - A flag which toggles printing the Sample HTML
+ * @param {boolean} isPrintPdf [true] - A flag which toggles printing the Sample PDF
+ * @param {boolean} isPrintImage [true] - A flag which toggles printing the Sample Image
+ * @param {boolean} isPrintHtml [true] - A flag which toggles printing the Sample HTML
  * @throws Throws an error if any print job fails
  */
 export async function generatePdfs( outputFolder, isPrintPdf = true, isPrintImage = true, isPrintHtml = true ) {

@@ -3,10 +3,10 @@ import path from 'path';
 
 /**
  * @function
+ * @async
  *
  * Generates the PDF directory tree.
  *
- * @async
  * @param {string} baseFolder - The root folder in which the directory tree is made
  * @throws Will throw an error if `fs.mkdir` fails for any reason.
  * @note `fs.mkdir` doesn't fail if a folder exists.

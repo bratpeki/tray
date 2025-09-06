@@ -6,9 +6,9 @@ import qz from "../../../js/qz-tray.js";
  *
  * Truncates the number down to the desired number of decimal places
  *
- * @param { Number } number - The number to truncate
- * @param { Number } decimalPlaces - The number of decimal places
- * @returns { Number } Truncated number
+ * @param { number } number - The number to truncate
+ * @param { number } decimalPlaces - The number of decimal places
+ * @returns { number } Truncated number
  */
 function truncate( number, decimalPlaces ) {
 	return Math.trunc( number * Math.pow(10, decimalPlaces) ) / Math.pow(10, decimalPlaces);
