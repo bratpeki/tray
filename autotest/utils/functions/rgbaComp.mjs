@@ -5,17 +5,21 @@ import pixelmatch from "pixelmatch";
 import { PNG } from "pngjs";
 import fs from "fs";
 
-export async function rgbaComp( img1, img2, makeDiff = false ) {
+/**
+ * @function
+ *
+ * Compares two RGBA buffers.
+ *
+ * @param {{data: Uint8ClampedArray, width: number, height: number}} img1 - You get this from @link{pdf2rgba}
+ * @param {{data: Uint8ClampedArray, width: number, height: number}} img2 - You get this from @link{pdf2rgba}
+ * @param {boolean} makeDiff [false] - A flag to generate a diff image titled "diff.png"
+ * @return {boolean} true if the buffers are identical, false otherwise
+ */
+export function rgbaComp( img1, img2, makeDiff = false ) {
 
 	// Pixelmatch doesn't check this, so it's up to us
 	if (img1.width !== img2.width || img1.height !== img2.height) {
-		throw new Error(
-			"Images have different dimensions (" +
-			img1.width.toString() + "x" + img1.height.toString() +
-			" and " +
-			img2.width.toString() + "x" + img2.height.toString() +
-			")"
-		);
+		throw new Error(`Images have different dimensions (${img1.width}x${img1.height} and ${img2.width}x${img2.height})`);
 	}
 
 	// RGBA buffer, four bytes per pixel
