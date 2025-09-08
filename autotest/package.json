@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "canvas": "^3.1.2",
+    "chokidar": "^4.0.3",
     "pdfjs-dist": "^5.3.31",
     "pixelmatch": "^7.1.0"
   },

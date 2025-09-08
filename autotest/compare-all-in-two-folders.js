@@ -4,8 +4,15 @@ import path from "path";
 
 import { pdfComp } from "./utils/functions/pdfComp.mjs"
 
-// Returns a list of strings containing paths to each and every file in the folder
-// Recursively searches
+/**
+ * @function
+ * @async
+ *
+ * Traverses the folder recursively and stores all the file paths into `result`
+ *
+ * @param {string} dir - The directory we're traversing
+ * @param {string[]} result - The array we're pushing all the found files to
+ */
 async function traverse(dir, result = []) {
 
 	const files = await fs.readdir(dir);
@@ -22,7 +29,27 @@ async function traverse(dir, result = []) {
 
 }
 
+/**
+ * @function
+ * @async
+ *
+ * Compares PDF and prints the result.
+ * Prints either "All OK" or "Not OK".
+ *
+ * @param {string} baseline - The baseline PDFs (folder)
+ * @param {string} latest - The latest printed PDFs (folder)
+ */
 async function comparePdfsInFolders(baseline, latest) {
+
+	if (!fs.existsSync(baseline)) {
+		error.log(`${baseline} (baseline) does not exist.`);
+		return;
+	}
+
+	if (!fs.existsSync(latest)) {
+		error.log(`${latest} (latest) does not exist.`);
+		return;
+	}
 
 	var waserr = false;
 	var errarr = []
