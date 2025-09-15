@@ -4,3 +4,5 @@ all:
 	# node utils/components/createNecessaryDirectories.js
 	node ./generate-bassline-pdfs.js
 	node ./compare-all-in-two-folders.js
+doc:
+	jsdoc -c ./jsdoc.json -u utils/*

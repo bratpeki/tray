@@ -6,15 +6,18 @@ import path from "path";
 const username = os.userInfo().username;
 
 /**
- * @function
- *
  * Calculates the absolute path where the PDF printer
  * outputs generated PDF files, based on the current operating system.
  *
+ * <p/>
+ *
  * For each OS, the output location is:
- * - Linux (CUPS-PDF): `/var/spool/cups-pdf/{username}`
- * - MacOS (PDFWriter): `/private/var/spool/pdfwriter/{username}`
- * - Windows: TODO
+ *
+ * <ul>
+ *   <li> Linux (CUPS-PDF): <code>/var/spool/cups-pdf/{username}</code> </li>
+ *   <li> MacOS (PDFWriter): <code>/private/var/spool/pdfwriter/{username}</code> </li>
+ *   <li> Windows: TODO </li>
+ * </ul>
  *
  * @returns {string} Absolute path where the PDF printer saves generated files
  * @throws Will throw an error if the OS is unsupported

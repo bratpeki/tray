@@ -6,8 +6,6 @@ import { PNG } from "pngjs";
 import fs from "fs";
 
 /**
- * @function
- *
  * Compares two RGBA buffers.
  *
  * @param {{data: Uint8ClampedArray, width: number, height: number}} img1 - You get this from @link{pdf2rgba}

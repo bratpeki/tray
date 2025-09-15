@@ -5,11 +5,9 @@ import path from "path";
 import { pdfComp } from "./utils/functions/pdfComp.mjs"
 
 /**
- * @function
- * @async
- *
  * Traverses the folder recursively and stores all the file paths into `result`
  *
+ * @async
  * @param {string} dir - The directory we're traversing
  * @param {string[]} result - The array we're pushing all the found files to
  */
@@ -30,12 +28,10 @@ async function traverse(dir, result = []) {
 }
 
 /**
- * @function
- * @async
- *
  * Compares PDF and prints the result.
  * Prints either "All OK" or "Not OK".
  *
+ * @async
  * @param {string} baseline - The baseline PDFs (folder)
  * @param {string} latest - The latest printed PDFs (folder)
  */

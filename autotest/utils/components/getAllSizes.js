@@ -2,8 +2,6 @@
 import qz from "../../../js/qz-tray.js";
 
 /**
- * @function
- *
  * Truncates the number down to the desired number of decimal places
  *
  * @param { number } number - The number to truncate

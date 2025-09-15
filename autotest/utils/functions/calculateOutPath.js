@@ -2,18 +2,26 @@
 import os from "os";
 
 /**
- * @function
- *
  * The PDF directory tree has three subfolders:
- * - linux_cupspdf,
- * - macos_pdfwriter and
- * - windows_PRINTERNAME (TODO)
+ *
+ * <p/>
+ *
+ * <ul>
+ *   <li> <code>linux_cupspdf</code> </li>
+ *   <li> <code>macos_pdfwriter</code> </li>
+ *   <li> <code>windows_PRINTERNAME (TODO)</code> </li>
+ * </ul>
  *
  * As expected, the names are derived from the OS and the printer that's used to generate the PDFs.
  * That means:
- * - Linux + CUPS-PDF,
- * - MacOS + PDFWriter and
- * - TODO
+ *
+ * <p/>
+ *
+ * <ul>
+ *   <li> Linux + CUPS-PDF </li>
+ *   <li> MacOS + PDFWriter </li>
+ *   <li> TODO </li>
+ * </ul>
  *
  * This function returns the name of that subfolder, depending on the OS.
  *

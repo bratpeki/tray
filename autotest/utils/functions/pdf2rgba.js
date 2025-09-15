@@ -18,11 +18,9 @@ const CMAP_PACKED = true;
 const STANDARD_FONT_DATA_URL = "../../node_modules/pdfjs-dist/standard_fonts/";
 
 /**
- * @function
- * @async
- * 
  * Converts the PDF file to a pixel buffer.
  *
+ * @async
  * @param {string} pdfPath - Path to the PDF we want to convert
  * @returns {{data: Uint8ClampedArray, width: number, height: number}} The RGBA pixel buffer and dimensions
  */
