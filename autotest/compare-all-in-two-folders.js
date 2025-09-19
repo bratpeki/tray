@@ -2,7 +2,7 @@
 import { promises as fs } from "fs";
 import path from "path";
 
-import { pdfComp } from "./utils/functions/pdfComp.mjs"
+import { pdfComp } from "./utils/functions/pdfComp.js"
 
 /**
  * Traverses the folder recursively and stores all the file paths into `result`
@@ -28,6 +28,23 @@ async function traverse(dir, result = []) {
 }
 
 /**
+ * A substitute for <code>fs.existsSync</code>
+ * that uses <code>async/await</code>.
+ *
+ * @async
+ * @param {string} path - The path we want to verify exists
+ * @returns {Promise<boolean>} true if the path exists, false otherwise
+ */
+async function exists(path) {
+	try {
+		await fs.access(path);
+		return true;
+	} catch {
+		return false;
+	}
+}
+
+/**
  * Compares PDF and prints the result.
  * Prints either "All OK" or "Not OK".
  *
@@ -37,13 +54,13 @@ async function traverse(dir, result = []) {
  */
 async function comparePdfsInFolders(baseline, latest) {
 
-	if (!fs.existsSync(baseline)) {
-		error.log(`${baseline} (baseline) does not exist.`);
+	if (!(await exists(baseline))) {
+		console.error(`${baseline} (baseline) does not exist.`);
 		return;
 	}
 
-	if (!fs.existsSync(latest)) {
-		error.log(`${latest} (latest) does not exist.`);
+	if (!(await exists(latest))) {
+		console.error(`${latest} (latest) does not exist.`);
 		return;
 	}
 

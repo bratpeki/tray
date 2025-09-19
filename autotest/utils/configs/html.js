@@ -1,5 +1,5 @@
 
-import { calculateOutPath } from "../functions/calculateOutPath.mjs"
+import { calculateOutPath } from "../functions/calculateOutPath.js"
 
 // Sizes
 // TODO: This repeats across files FOR NOW

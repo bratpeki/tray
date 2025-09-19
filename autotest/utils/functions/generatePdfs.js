@@ -3,13 +3,13 @@ import path from "path";
 import { promises as fs } from "fs";
 import { fileURLToPath } from "url";
 
-import { watchForNewPdf } from "./watchForNewPdf.mjs";
-import { calculatePdfPrintPath } from "./calculatePdfPrintPath.mjs";
-import { createDirectoryTree } from "./createDirectoryTree.mjs"
+import { watchForNewPdf } from "./watchForNewPdf.js";
+import { calculatePdfPrintPath } from "./calculatePdfPrintPath.js";
+import { createDirectoryTree } from "./createDirectoryTree.js"
 
-import { configsPdf } from "../configs/pdf.mjs";
-import { configsImage } from "../configs/image.mjs";
-import { configsHtml } from "../configs/html.mjs";
+import { configsPdf } from "../configs/pdf.js";
+import { configsImage } from "../configs/image.js";
+import { configsHtml } from "../configs/html.js";
 
 /////////////////////////////////////////////////////////////////////////// Variables
 

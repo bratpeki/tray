@@ -1,5 +1,5 @@
 
-import { calculateOutPath } from "../functions/calculateOutPath.mjs"
+import { calculateOutPath } from "../functions/calculateOutPath.js"
 
 // Sizes
 const us_letter = { size: { width: 8.5, height: 11 }, units: "in" };

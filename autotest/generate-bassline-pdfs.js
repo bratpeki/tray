@@ -1,4 +1,4 @@
-import { generatePdfs } from "./utils/functions/generatePdfs.mjs";
+import { generatePdfs } from "./utils/functions/generatePdfs.js";
 
-await generatePdfs("baseline", false, true, false);
+await generatePdfs("baseline");
 process.exit(0);

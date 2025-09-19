@@ -1,6 +1,6 @@
 
-import { rgbaComp } from "./rgbaComp.mjs";
-import { pdf2rgba } from "./pdf2rgba.mjs";
+import { rgbaComp } from "./rgbaComp.js";
+import { pdf2rgba } from "./pdf2rgba.js";
 
 // TODO: Promise<boolean> or boolean?
 
