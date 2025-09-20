@@ -59,11 +59,11 @@ const qz = (
  * @async
  *
  * @param {string} outputFolder - The root of the directory tree we want to place the PDF in
- * @param {Array} configs - The list of configs, as available in <code>utils/configs</code>
- * @param {Object} data - The content we want to print
+ * @param {Array<{ name: string, options: Object, outputPath: string[] }>} configs - The list of configs, as available in <code>utils/configs</code>
+ * @param {Array<{ type: string, format: string, flavor: string, data: string }>} data - The content we want to print
  * @param {string} foundPrinter - The PDF printer we want to use, found with <code>qz.printers.find</code>
  *
- * @throws Throws an error if any print job fails. <p/>
+ * @throws {Error} If any print job fails. <p/>
  */
 async function processPrintJobs(outputFolder, configs, data, foundPrinter) {
 
@@ -97,7 +97,7 @@ async function processPrintJobs(outputFolder, configs, data, foundPrinter) {
  * @param {boolean} isPrintImage [true] - A flag which toggles printing the Sample Image
  * @param {boolean} isPrintHtml [true] - A flag which toggles printing the Sample HTML
  *
- * @throws Throws an error if any print job fails. <p/>
+ * @throws {Error} If any print job fails. <p/>
  */
 export async function generatePdfs( outputFolder, isPrintPdf = true, isPrintImage = true, isPrintHtml = true ) {
 

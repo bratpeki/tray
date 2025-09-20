@@ -2,7 +2,7 @@
 import os from "os";
 
 /**
- * The PDF directory tree has three subfolders:
+ * Returns the subfolder name for storing generated PDFs based on the current OS.
  *
  * <p/>
  *
@@ -12,24 +12,11 @@ import os from "os";
  *   <li> <code>windows_PRINTERNAME (TODO)</code> </li>
  * </ul>
  *
- * As expected, the names are derived from the OS and the printer that's used to generate the PDFs.
- * That means:
- *
- * <p/>
- *
- * <ul>
- *   <li> Linux + CUPS-PDF </li>
- *   <li> MacOS + PDFWriter </li>
- *   <li> TODO </li>
- * </ul>
- *
- * This function returns the name of that subfolder, depending on the OS.
- *
  * @note The reason for this difference in export location is because different PDF printers print different files (Thanks, CUPS!)
  *
  * @returns {string} The relative folder name where PDF assets should be stored.
  *
- * @throws Will throw an error if the OS is unsupported
+ * @throws {Error} If the OS is unsupported.
  */
 
 export function calculateOutPath() {
