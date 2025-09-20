@@ -28,6 +28,7 @@ import os from "os";
  * @note The reason for this difference in export location is because different PDF printers print different files (Thanks, CUPS!)
  *
  * @returns {string} The relative folder name where PDF assets should be stored.
+ *
  * @throws Will throw an error if the OS is unsupported
  */
 

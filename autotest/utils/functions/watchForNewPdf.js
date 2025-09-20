@@ -3,10 +3,11 @@ import chokidar from "chokidar";
 import path from "path";
 
 /**
- * Documentation: @link{https://github.com/paulmillr/chokidar}
+ * Uses {@link https://github.com/paulmillr/chokidar}
  *
  * @param {string} dir - The directory where we're listening for the new PDF
  * @param {number} timeout [5000] - Timeout period in miliseconds. If the PDF is not found, the watcher bails
+ *
  * @returns {Promise<string>} The path to the PDF that's found
  */
 

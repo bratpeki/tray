@@ -5,8 +5,11 @@ import path from 'path';
  * Generates the empty PDF directory tree.
  *
  * @async
+ *
  * @param {string} baseFolder - The root folder in which the directory tree is made
+ *
  * @throws Will throw an error if <code>fs.mkdir</code> fails for any reason. <p/>
+ *
  * @note <code>fs.mkdir</code> doesn't fail if a folder exists.
  */
 export async function createDirectoryTree(baseFolder) {

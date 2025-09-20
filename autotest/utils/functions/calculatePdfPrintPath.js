@@ -20,6 +20,7 @@ const username = os.userInfo().username;
  * </ul>
  *
  * @returns {string} Absolute path where the PDF printer saves generated files
+ *
  * @throws Will throw an error if the OS is unsupported
  *
  * @note This function relies on {@link os.userInfo} to resolve the username.

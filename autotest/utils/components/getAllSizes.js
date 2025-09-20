@@ -6,6 +6,7 @@ import qz from "../../../js/qz-tray.js";
  *
  * @param { number } number - The number to truncate
  * @param { number } decimalPlaces - The number of decimal places
+ *
  * @returns { number } Truncated number
  */
 function truncate( number, decimalPlaces ) {

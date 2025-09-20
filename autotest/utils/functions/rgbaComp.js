@@ -8,9 +8,12 @@ import fs from "fs";
 /**
  * Compares two RGBA buffers.
  *
- * @param {{data: Uint8ClampedArray, width: number, height: number}} img1 - You get this from @link{pdf2rgba}
- * @param {{data: Uint8ClampedArray, width: number, height: number}} img2 - You get this from @link{pdf2rgba}
+ * Uses {@link https://github.com/mapbox/pixelmatch}.
+ *
+ * @param {{data: Uint8ClampedArray, width: number, height: number}} img1 - You get this from {@link pdf2rgba}
+ * @param {{data: Uint8ClampedArray, width: number, height: number}} img2 - You get this from {@link pdf2rgba}
  * @param {boolean} makeDiff [false] - A flag to generate a diff image titled "diff.png"
+ *
  * @return {boolean} true if the buffers are identical, false otherwise
  */
 export function rgbaComp( img1, img2, makeDiff = false ) {

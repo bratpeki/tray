@@ -8,6 +8,7 @@ import { pdfComp } from "./utils/functions/pdfComp.js"
  * Traverses the folder recursively and stores all the file paths into `result`
  *
  * @async
+ *
  * @param {string} dir - The directory we're traversing
  * @param {string[]} result - The array we're pushing all the found files to
  */
@@ -33,6 +34,7 @@ async function traverse(dir, result = []) {
  *
  * @async
  * @param {string} path - The path we want to verify exists
+ *
  * @returns {Promise<boolean>} true if the path exists, false otherwise
  */
 async function exists(path) {
@@ -49,6 +51,7 @@ async function exists(path) {
  * Prints either "All OK" or "Not OK".
  *
  * @async
+ *
  * @param {string} baseline - The baseline PDFs (folder)
  * @param {string} latest - The latest printed PDFs (folder)
  */
