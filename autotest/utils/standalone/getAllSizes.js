@@ -1,4 +1,9 @@
 
+/**
+ * @example
+ * node utils/standalone/getAllSizes.js | grep "letter"
+ */
+
 import qz from "../../../js/qz-tray.js";
 
 /**
