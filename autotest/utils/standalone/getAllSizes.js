@@ -1,9 +1,4 @@
 
-/**
- * @example
- * node utils/standalone/getAllSizes.js | grep "letter"
- */
-
 import qz from "../../../js/qz-tray.js";
 
 /**
@@ -18,6 +13,12 @@ function truncate( number, decimalPlaces ) {
 	return Math.trunc( number * Math.pow(10, decimalPlaces) ) / Math.pow(10, decimalPlaces);
 }
 
+/**
+ * Standalone script to list all page sizes of the requested printer.
+ *
+ * @example
+ * node utils/standalone/getAllSizes.js | grep "letter"
+ */
 ( async () => {
 
 	await qz.websocket.connect();

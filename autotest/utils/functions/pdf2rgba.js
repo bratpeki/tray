@@ -25,6 +25,8 @@ const STANDARD_FONT_DATA_URL = "../../node_modules/pdfjs-dist/standard_fonts/";
  * @param {string} pdfPath - Path to the PDF we want to convert
  *
  * @returns {{data: Uint8ClampedArray, width: number, height: number}} The RGBA pixel buffer and dimensions
+ *
+ * @throws {Error} If the PDF cannot be read or rendered.
  */
 export async function pdf2rgba(pdfPath) {
 
@@ -81,6 +83,7 @@ export async function pdf2rgba(pdfPath) {
 		viewport.height
 	);
 
+	pdfDocument.destroy()
 	page.cleanup();
 
 	return {
