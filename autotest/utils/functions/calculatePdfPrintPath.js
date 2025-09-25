@@ -24,6 +24,7 @@ const username = os.userInfo().username;
  * @throws {Error} If the OS is unsupported.
  *
  * @note This function relies on {@link os.userInfo} to resolve the username.
+ * @note TODO: Ubuntu prints to <code>$HOME/PDF</code>
  */
 export function calculatePdfPrintPath() {
 	switch ( os.platform() ) {
