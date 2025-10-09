@@ -77,6 +77,13 @@ async function comparePdfsInFolders(baseline, latest) {
 
 	for (const baselineFile of baselineFiles) {
 
+		// Added specifically because I got ".DS_Store" when generating stuff and it got very annoying lol
+		const ext = path.extname(baselineFile);
+		if ( ext.toLowerCase() != ".pdf" ) {
+			console.log(`Skipping ${baselineFile}`)
+			continue;
+		}
+
 		const baselineResolve = path.resolve(baseline);
 		const baselineRelative = path.relative(baselineResolve, baselineFile);
 
