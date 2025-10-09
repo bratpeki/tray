@@ -29,7 +29,8 @@ const username = os.userInfo().username;
 export function calculatePdfPrintPath() {
 	switch ( os.platform() ) {
 		// case "win32": return "";
-		case "linux": return path.join("/", "var", "spool", "cups-pdf", username);
+		// case "linux": return path.join("/", "var", "spool", "cups-pdf", username);
+		case "linux": return path.join("/", "home", username, "PDF");
 		case "darwin": return path.join("/", "private", "var", "spool", "pdfwriter", username);
 		default: throw new Error(`ERROR (calculatePdfPrintPath): Unsupported OS (${os.platform()})`);
 	}
