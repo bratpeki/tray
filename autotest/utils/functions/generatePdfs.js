@@ -22,8 +22,14 @@ const __dirname = path.dirname(__filename);
 // tray/autotest/utils/functions
 const qzRoot = path.join(__dirname, "..", "..", "..");
 
-const samplePdfPath = path.join(qzRoot, "assets", "pdf_sample.pdf");
-const sampleImagePath = path.join(qzRoot, "assets", "img", "image_sample.png");
+let samplePdfPath = path.join(qzRoot, "assets", "pdf_sample.pdf");
+let sampleImagePath = path.join(qzRoot, "assets", "img", "image_sample.png");
+
+// Browser URLs start with the root, and use forward slashes, so I adjusted sample paths here
+if ( os.platform() === "win" ) {
+	samplePdfPath = "/" + samplePdfPath.replace(/\\/g, "/");
+	sampleImagePath = "/" + sampleImagePath.replace(/\\/g, "/");
+}
 
 // Where the PDF printer prints the prints...
 // She sells seashells by the seashore
