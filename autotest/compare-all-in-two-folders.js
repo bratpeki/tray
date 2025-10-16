@@ -80,7 +80,8 @@ async function comparePdfsInFolders(baseline, latest) {
 		// Added specifically because I got ".DS_Store" when generating stuff and it got very annoying lol
 		const ext = path.extname(baselineFile);
 		if ( ext.toLowerCase() != ".pdf" ) {
-			console.log(`Skipping ${baselineFile}`)
+			console.log(`Skipping ${baselineFile}`);
+			console.log("");
 			continue;
 		}
 

@@ -40,6 +40,17 @@ export async function createDirectoryTree(baseFolder) {
 		path.join(baseFolder, 'macos_pdfwriter', 'html', 'vector'),
 		path.join(baseFolder, 'macos_pdfwriter', 'html', 'raster'),
 
+		path.join(baseFolder, 'windows_pdfcreator'),
+
+		path.join(baseFolder, 'windows_pdfcreator', 'pdf', 'vector'),
+		path.join(baseFolder, 'windows_pdfcreator', 'pdf', 'raster'),
+
+		path.join(baseFolder, 'windows_pdfcreator', 'img', 'vector'),
+		path.join(baseFolder, 'windows_pdfcreator', 'img', 'raster'),
+
+		path.join(baseFolder, 'windows_pdfcreator', 'html', 'vector'),
+		path.join(baseFolder, 'windows_pdfcreator', 'html', 'raster'),
+
 	];
 
 	for (const dirPath of directoriesToCreate) {

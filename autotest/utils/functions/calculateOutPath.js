@@ -9,7 +9,7 @@ import os from "os";
  * <ul>
  *   <li> <code>linux_cupspdf</code> </li>
  *   <li> <code>macos_pdfwriter</code> </li>
- *   <li> <code>windows_PRINTERNAME (TODO)</code> </li>
+ *   <li> <code>windows_pdfcreator</code> </li>
  * </ul>
  *
  * @note The reason for this difference in export location is because different PDF printers print different files (Thanks, CUPS!)
@@ -21,7 +21,7 @@ import os from "os";
 
 export function calculateOutPath() {
 	switch (os.platform()) {
-		// case "win32":
+		case "win32":  return "windows_pdfcreator";
 		case "linux":  return "linux_cupspdf";
 		case "darwin": return "macos_pdfwriter";
 		default: throw new Error(`ERROR (calculateOutPath): Unsupported OS (${os.platform()})`);
