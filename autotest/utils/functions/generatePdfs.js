@@ -1,5 +1,6 @@
 
 import path from "path";
+import os from "os";
 import { promises as fs } from "fs";
 import { fileURLToPath } from "url";
 
@@ -26,7 +27,7 @@ let samplePdfPath = path.join(qzRoot, "assets", "pdf_sample.pdf");
 let sampleImagePath = path.join(qzRoot, "assets", "img", "image_sample.png");
 
 // Browser URLs start with the root, and use forward slashes, so I adjusted sample paths here
-if ( os.platform() === "win" ) {
+if ( os.platform() === "win32" ) {
 	samplePdfPath = "/" + samplePdfPath.replace(/\\/g, "/");
 	sampleImagePath = "/" + sampleImagePath.replace(/\\/g, "/");
 }
