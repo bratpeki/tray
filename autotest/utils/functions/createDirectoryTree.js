@@ -1,5 +1,10 @@
+
 import { promises as fs } from 'fs';
 import path from 'path';
+
+const lvl1 = [ "linux_cupspdf", "macos_pdfwriter", "windows_pdfcreator" ]
+const lvl2 = [ "pdf", "img", "html" ]
+const lvl3 = [ "vector", "raster" ]
 
 /**
  * Generates the empty PDF directory tree.
@@ -14,47 +19,23 @@ import path from 'path';
  */
 export async function createDirectoryTree(baseFolder) {
 
-	const directoriesToCreate = [
+	let directoriesToCreate = [];
 
-		baseFolder,
+	directoriesToCreate.push(baseFolder);
 
-		path.join(baseFolder, 'linux_cupspdf'),
-
-		path.join(baseFolder, 'linux_cupspdf', 'pdf', 'vector'),
-		path.join(baseFolder, 'linux_cupspdf', 'pdf', 'raster'),
-
-		path.join(baseFolder, 'linux_cupspdf', 'img', 'vector'),
-		path.join(baseFolder, 'linux_cupspdf', 'img', 'raster'),
-
-		path.join(baseFolder, 'linux_cupspdf', 'html', 'vector'),
-		path.join(baseFolder, 'linux_cupspdf', 'html', 'raster'),
-
-		path.join(baseFolder, 'macos_pdfwriter'),
-
-		path.join(baseFolder, 'macos_pdfwriter', 'pdf', 'vector'),
-		path.join(baseFolder, 'macos_pdfwriter', 'pdf', 'raster'),
-
-		path.join(baseFolder, 'macos_pdfwriter', 'img', 'vector'),
-		path.join(baseFolder, 'macos_pdfwriter', 'img', 'raster'),
-
-		path.join(baseFolder, 'macos_pdfwriter', 'html', 'vector'),
-		path.join(baseFolder, 'macos_pdfwriter', 'html', 'raster'),
-
-		path.join(baseFolder, 'windows_pdfcreator'),
-
-		path.join(baseFolder, 'windows_pdfcreator', 'pdf', 'vector'),
-		path.join(baseFolder, 'windows_pdfcreator', 'pdf', 'raster'),
-
-		path.join(baseFolder, 'windows_pdfcreator', 'img', 'vector'),
-		path.join(baseFolder, 'windows_pdfcreator', 'img', 'raster'),
-
-		path.join(baseFolder, 'windows_pdfcreator', 'html', 'vector'),
-		path.join(baseFolder, 'windows_pdfcreator', 'html', 'raster'),
-
-	];
+	lvl1.forEach(l1 => {
+		directoriesToCreate.push(path.join(baseFolder, l1));
+		lvl2.forEach(l2 => {
+			directoriesToCreate.push(path.join(baseFolder, l1, l2));
+			lvl3.forEach(l3 => {
+				directoriesToCreate.push(path.join(baseFolder, l1, l2, l3));
+			})
+		})
+	});
 
 	for (const dirPath of directoriesToCreate) {
 		await fs.mkdir(dirPath, { recursive: true });
+		console.log("Created " + dirPath);
 	}
 
 }

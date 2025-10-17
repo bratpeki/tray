@@ -20,4 +20,3 @@ export async function pdfComp( path1, path2, makeDiff = false ) {
 	const img2 = await pdf2rgba(path2);
 	return rgbaComp(img1, img2, makeDiff);
 }
-

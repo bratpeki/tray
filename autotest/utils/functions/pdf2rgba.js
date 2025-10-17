@@ -93,4 +93,3 @@ export async function pdf2rgba(pdfPath) {
 	};
 
 }
-

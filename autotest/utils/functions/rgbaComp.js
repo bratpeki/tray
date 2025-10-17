@@ -48,4 +48,3 @@ export function rgbaComp( img1, img2, makeDiff = false ) {
 	return numDiffPixels === 0;
 
 }
-

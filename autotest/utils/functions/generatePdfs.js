@@ -10,8 +10,6 @@ import { watchForNewPdf } from "./watchForNewPdf.js";
 import { calculatePdfPrintPath } from "./calculatePdfPrintPath.js";
 import { createDirectoryTree } from "./createDirectoryTree.js"
 
-import { exists } from "./fsutils.js";
-
 import { configsPdf } from "../configs/pdf.js";
 import { configsImage } from "../configs/image.js";
 import { configsHtml } from "../configs/html.js";
@@ -212,4 +210,3 @@ export async function generatePdfs( outputFolder, isPrintPdf = true, isPrintImag
 	return;
 
 }
-
