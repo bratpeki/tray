@@ -35,7 +35,6 @@ export async function createDirectoryTree(baseFolder) {
 
 	for (const dirPath of directoriesToCreate) {
 		await fs.mkdir(dirPath, { recursive: true });
-		console.log("Created " + dirPath);
 	}
 
 }

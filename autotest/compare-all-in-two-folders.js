@@ -1,6 +1,6 @@
 
-import { promises as fs } from "fs";
-import { existsSync } from "fs"; // TODO
+import { exists, promises as fs } from "fs";
+import { existsSync } from "fs";
 import path from "path";
 
 import { pdfComp } from "./utils/functions/pdfComp.js"
@@ -30,24 +30,6 @@ async function traverse(dir, result = []) {
 }
 
 /**
- * A substitute for <code>fs.existsSync</code>
- * that uses <code>async/await</code>.
- *
- * @async
- * @param {string} path - The path we want to verify exists
- *
- * @returns {Promise<boolean>} true if the path exists, false otherwise
- */
-async function exists(path) {
-	try {
-		await fs.access(path);
-		return true;
-	} catch {
-		return false;
-	}
-}
-
-/**
  * Compares PDF and prints the result.
  * Prints either "All OK" or "Not OK".
  *
@@ -58,12 +40,12 @@ async function exists(path) {
  */
 async function comparePdfsInFolders(baseline, latest) {
 
-	if (!(await exists(baseline))) {
+	if (!(existsSync(baseline))) {
 		console.error(`${baseline} (baseline) does not exist.`);
 		return;
 	}
 
-	if (!(await exists(latest))) {
+	if (!(existsSync(latest))) {
 		console.error(`${latest} (latest) does not exist.`);
 		return;
 	}
@@ -95,7 +77,9 @@ async function comparePdfsInFolders(baseline, latest) {
 		try { await fs.stat(latestCraftedPath); }
 		catch {
 			console.log(`File ${latestCraftedPath} doesn't exist`);
+			console.log("");
 			waserr = true;
+			errarr.push( { baselineRelative: "Corresponding file doesn't exist"} );
 			continue;
 		}
 
@@ -103,15 +87,27 @@ async function comparePdfsInFolders(baseline, latest) {
 		console.log(`  ${baselineFile}`);
 		console.log(`  ${latestCraftedPath}`);
 
-		const pdfCompRes = await pdfComp(baselineFile, latestCraftedPath);
-		if ( pdfCompRes === false ) {
-			console.log(`  Error: Files don't match`);
-			errarr.push(baselineRelative)
+		try {
+
+			const pdfCompRes = await pdfComp(baselineFile, latestCraftedPath);
+
+			if ( pdfCompRes === false ) {
+				console.log(`  Error: Content doesn't match`);
+				waserr = true;
+				errarr.push( { baselineRelative: "Failed PDF comparison" } );
+			}
+			else {
+				console.log(`  Success`);
+			}
+
+		}
+
+		catch {
+			console.log(`  Error: Sizes don't match`);
 			waserr = true;
+			errarr.push( { baselineRelative: "PDFs are not the same size" } );
 		}
-		else {
-			console.log(`  Success`);
-		}
+
 		console.log("");
 
 	}
