@@ -1,5 +1,6 @@
 
 import { promises as fs } from "fs";
+import { existsSync } from "fs"; // TODO
 import path from "path";
 
 import { pdfComp } from "./utils/functions/pdfComp.js"

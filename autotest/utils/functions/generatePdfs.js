@@ -2,11 +2,15 @@
 import path from "path";
 import os from "os";
 import { promises as fs } from "fs";
+import { existsSync, readFileSync } from "fs";
 import { fileURLToPath } from "url";
+import { createSign } from "crypto";
 
 import { watchForNewPdf } from "./watchForNewPdf.js";
 import { calculatePdfPrintPath } from "./calculatePdfPrintPath.js";
 import { createDirectoryTree } from "./createDirectoryTree.js"
+
+import { exists } from "./fsutils.js";
 
 import { configsPdf } from "../configs/pdf.js";
 import { configsImage } from "../configs/image.js";
@@ -109,6 +113,35 @@ async function processPrintJobs(outputFolder, configs, data, foundPrinter) {
 export async function generatePdfs( outputFolder, isPrintPdf = true, isPrintImage = true, isPrintHtml = true ) {
 
 	await createDirectoryTree(outputFolder);
+
+	/////////////////////////////////////////////////////////////////////////// Cert checks
+
+	const certPath = path.join(qzRoot, "autotest", "cert.txt");
+	const pkeyPath = path.join(qzRoot, "autotest", "pkey.txt");
+
+	if ( existsSync(certPath) && existsSync(pkeyPath) ) {
+
+		const cert = readFileSync(certPath, 'utf8');
+		const pkey = readFileSync(pkeyPath, 'utf8');
+
+		qz.security.setCertificatePromise(function(resolve, reject) {
+			resolve(cert);
+		});
+
+		qz.security.setSignatureAlgorithm("SHA512");
+		qz.security.setSignaturePromise(function(toSign) {
+			return function(resolve, reject) {
+				var sign = createSign('SHA512');
+				sign.update(toSign);
+				var signature = sign.sign({ key: pkey }, 'base64');
+				resolve(signature);
+			};
+		});
+
+	}
+	else {
+        console.log("Certificate or Pkey not found, proceding without them.")
+    }
 
 	/////////////////////////////////////////////////////////////////////////// Finding the PDF printer
 
