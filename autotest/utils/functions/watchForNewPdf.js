@@ -8,7 +8,7 @@ import fs from "fs/promises";
  *
  * Node adopted the POSIX error codes: {@link https://en.wikipedia.org/wiki/Errno.h}
  */
-async function waitForFileReady(filePath, retries = 40, delay = 500) {
+async function waitForFileReady(filePath, retries = 50, delay = 500) {
 
 	const tempPath = filePath + ".readycheck";
 
@@ -37,11 +37,11 @@ async function waitForFileReady(filePath, retries = 40, delay = 500) {
  * Uses {@link https://github.com/paulmillr/chokidar}
  *
  * @param {string} dir - The directory where we're listening for the new PDF
- * @param {number} timeout [20000] - Timeout period in miliseconds. If the PDF is not found, the watcher bails
+ * @param {number} timeout [25000] - Timeout period in miliseconds. If the PDF is not found, the watcher bails
  *
  * @returns {Promise<string>} The path to the PDF that's found
  */
-export function watchForNewPdf(dir, timeout = 20000) {
+export function watchForNewPdf(dir, timeout = 25000) {
 	return new Promise((resolve, reject) => {
 		const watcher = chokidar.watch(dir, {
 			ignoreInitial: true,

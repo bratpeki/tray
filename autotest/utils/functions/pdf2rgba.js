@@ -1,10 +1,4 @@
 
-// Converts PDF files on 'pdfPath' to a pixel buffer
-// The output is a buffer array of size W*H*4, each pixel needs 4 bytes for RGBA values
-//
-// So, the format of the output is a dict with the format {data, width, height}
-//
-
 import { promises as fs } from "fs";
 import path from "path";
 import os from "os";
