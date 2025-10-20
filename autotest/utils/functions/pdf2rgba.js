@@ -1,95 +1,63 @@
 
-// This module export pdf2rgba
-//
 // Converts PDF files on 'pdfPath' to a pixel buffer
 // The output is a buffer array of size W*H*4, each pixel needs 4 bytes for RGBA values
 //
 // So, the format of the output is a dict with the format {data, width, height}
-// "data" is a Uint8Array with the format [ R,G,B,A, R,G,B,A, R,G,B,A, ... ]
 //
-// pdfPath - The path to the PDF file we want to generate the RGBA buffer of
 
 import { promises as fs } from "fs";
-import { getDocument } from "pdfjs-dist/legacy/build/pdf.mjs";
+import path from "path";
+import os from "os";
 
-// External resource URLs
-const CMAP_URL = "../../node_modules/pdfjs-dist/cmaps/";
-const CMAP_PACKED = true;
-const STANDARD_FONT_DATA_URL = "../../node_modules/pdfjs-dist/standard_fonts/";
+import { PNG } from "pngjs";
+import Poppler from "pdf-poppler";
 
 /**
- * Converts the PDF file to a pixel buffer.
+ * Converts the first page of a PDF file to an RGBA pixel buffer.
  *
- * @async
+ * Creates a PNG in a temp directory using:
+ * - {@link https://nodejs.org/api/fs.html#fspromisesmkdtempprefix-options}.
+ * - {@link https://www.npmjs.com/package/pngjs}
  *
- * @param {string} pdfPath - Path to the PDF we want to convert
+ * The returned object contains `data`,
+ * a `Uint8Array` with the format `[ R,G,B,A, R,G,B,A, R,G,B,A, ... ]`
+ * and with a size of `width * height * 4` bytes.
  *
- * @returns {{data: Uint8ClampedArray, width: number, height: number}} The RGBA pixel buffer and dimensions
- *
- * @throws {Error} If the PDF cannot be read or rendered.
+ * @param {string} pdfPath - Path to the PDF file
+ * @returns {Promise<{data: Uint8Array, width: number, height: number}>}
  */
 export async function pdf2rgba(pdfPath) {
 
-	// Raw PDF file data
-	const data = new Uint8Array(await fs.readFile(pdfPath));
+	// Create a temp dir
+	const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "pdf2rgba-"));
 
-	// https://mozilla.github.io/pdf.js/api/draft/module-pdfjsLib.html
-	//
-	// 'getDocument' returns an object of type 'PDFDocumentLoadingTask'
-	const loadingTask = getDocument({
-		data,
-		cMapUrl: CMAP_URL,
-		cMapPacked: CMAP_PACKED,
-		standardFontDataUrl: STANDARD_FONT_DATA_URL,
+	const outPrefix = path.join(tmpDir, "page");
+
+	// Render page 1 to PNG
+	await Poppler.convert(pdfPath, {
+		format: "png",
+		out_dir: tmpDir,
+		out_prefix: "page",
+		page: 1,
+		dpi: 72
 	});
 
-	// Once the promise of 'PDFDocumentLoadingTask' is resolved, it returns an object of type 'PDFDocumentProxy'
-	const pdfDocument = await loadingTask.promise;
+	// Load the PNG into RGBA buffer
+	const pngPath = `${outPrefix}-1.png`;
+	const pngData = await fs.readFile(pngPath);
+	const png = PNG.sync.read(pngData);
 
-	// You can then run 'getPage' on that 'PDFDocumentProxy' object
-	const page = await pdfDocument.getPage(1);
-
-	// pdf.js provides a canvas factory for us
-	//
-	// $ grep NodeCanvasFactory -r .
-	// ./pdf.mjs:class NodeCanvasFactory extends BaseCanvasFactory {
-	// ./pdf.mjs:  const CanvasFactory = src.CanvasFactory || (isNodeJS ? NodeCanvasFactory : DOMCanvasFactory);
-	// ...
-	//
-	// A canvas factory is used to create and manage canvases in a platform-independent way.
-	// We basically only need it for the 'create' method, which
-	// returns a canvas and its 2D context, sized to the given width and height.
-	const canvasFactory = pdfDocument.canvasFactory;
-
-	const viewport = page.getViewport({ scale: 1.0 });
-
-	const canvasAndContext = canvasFactory.create(
-		viewport.width,
-		viewport.height
-	);
-
-	const renderContext = {
-		canvasContext: canvasAndContext.context,
-		viewport,
-	};
-
-	const renderTask = page.render(renderContext);
-	await renderTask.promise;
-
-	const imageData = canvasAndContext.context.getImageData(
-		0,
-		0,
-		viewport.width,
-		viewport.height
-	);
-
-	pdfDocument.destroy()
-	page.cleanup();
+	// Cleanup temp dir
+	// TODO:
+	//     I'm thinking this is okay, since you're probably
+	//     gonna run the script multiple times in one session,
+	//     so it reduces clutter.
+	await fs.rm(tmpDir, { recursive: true, force: true });
 
 	return {
-		data: imageData.data, // The RGBA pixels, exactly what we're here for!
-		width: viewport.width, // An int
-		height: viewport.height // Another int
+		data: png.data,
+		width: png.width,
+		height: png.height,
 	};
 
 }

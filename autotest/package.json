@@ -1,9 +1,9 @@
 {
   "dependencies": {
-    "canvas": "^3.1.2",
     "chokidar": "^4.0.3",
-    "pdfjs-dist": "^5.3.31",
-    "pixelmatch": "^7.1.0"
+    "pdf-poppler": "^0.2.3",
+    "pixelmatch": "^7.1.0",
+    "pngjs": "^7.0.0"
   },
   "type": "module"
 }
