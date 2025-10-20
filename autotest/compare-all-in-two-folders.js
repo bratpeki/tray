@@ -79,7 +79,7 @@ async function comparePdfsInFolders(baseline, latest) {
 			console.log(`File ${latestCraftedPath} doesn't exist`);
 			console.log("");
 			waserr = true;
-			errarr.push( { baselineRelative: "Corresponding file doesn't exist"} );
+			errarr.push( [ baselineRelative, "Corresponding file doesn't exist"] );
 			continue;
 		}
 
@@ -94,7 +94,7 @@ async function comparePdfsInFolders(baseline, latest) {
 			if ( pdfCompRes === false ) {
 				console.log(`  Error: Content doesn't match`);
 				waserr = true;
-				errarr.push( { baselineRelative: "Failed PDF comparison" } );
+				errarr.push( [ baselineRelative, "Failed PDF comparison" ] );
 			}
 			else {
 				console.log(`  Success`);
@@ -105,7 +105,7 @@ async function comparePdfsInFolders(baseline, latest) {
 		catch {
 			console.log(`  Error: Sizes don't match`);
 			waserr = true;
-			errarr.push( { baselineRelative: "PDFs are not the same size" } );
+			errarr.push( [ baselineRelative, "PDFs are not the same size" ] );
 		}
 
 		console.log("");
@@ -117,7 +117,9 @@ async function comparePdfsInFolders(baseline, latest) {
 
 	else {
 		console.log("Not OK");
-		console.log(errarr);
+		console.table(
+			errarr.map(([file, message]) => ({ File: file, Error: message }))
+		);
 	}
 
 }
