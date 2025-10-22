@@ -138,8 +138,11 @@ export async function generatePdfs( outputFolder, isPrintPdf = true, isPrintImag
 
 	}
 	else {
-        console.log("Certificate or Pkey not found, proceding without them.")
-    }
+		console.warn("Certificate or Pkey not found, proceding without them, expected:", certPath, pkeyPath)
+		console.warn(" - To resolve: QZ Tray --> Advanced --> Site Manager --> '+' --> Create New")
+		console.warn("   - cp ~'/Desktop/QZ Tray Demo Cert/digital-certificate.txt' ./cert.txt")
+		console.warn("   - cp ~'/Desktop/QZ Tray Demo Cert/private-key.pem' ./pkey.txt")
+	}
 
 	/////////////////////////////////////////////////////////////////////////// Finding the PDF printer
 

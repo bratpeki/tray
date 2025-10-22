@@ -11,13 +11,8 @@ const options = {
 	format: "png"
 };
 
-
 /**
  * Converts the first page of a PDF file to an RGBA pixel buffer.
- *
- * Creates a PNG in a temp directory using:
- * - {@link https://nodejs.org/api/fs.html#fspromisesmkdtempprefix-options}.
- * - {@link https://www.npmjs.com/package/pngjs}
  *
  * The returned object contains `data`,
  * a `Uint8Array` with the format `[ R,G,B,A, R,G,B,A, R,G,B,A, ... ]`
@@ -29,9 +24,16 @@ const options = {
 export async function pdf2rgba(pdfPath) {
 
 	const convert = fromPath(pdfPath, options);
+	// TODO: How to specify 'gm' module?  Test on Windows, Linux
+	convert.setGMClass(false);
 
+	// TODO: Change '1' to '-1' when we add multi-page support
 	let result = await convert(1, { responseType: "buffer" });
 	result = result.buffer;
+
+	if(result.length <= 0) {
+	throw new Error("Buffer is empty!");
+	}
 
 	const png = PNG.sync.read(result);
 
