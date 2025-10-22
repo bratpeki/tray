@@ -102,10 +102,10 @@ async function comparePdfsInFolders(baseline, latest) {
 
 		}
 
-		catch {
-			console.log(`  Error: Sizes don't match`);
+		catch (err) {
+			console.log(`  Error: ${err.message}`);
 			waserr = true;
-			errarr.push( [ baselineRelative, "PDFs are not the same size" ] );
+			errarr.push( [ baselineRelative, err.message ] );
 		}
 
 		console.log("");

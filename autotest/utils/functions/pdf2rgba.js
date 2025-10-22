@@ -4,7 +4,13 @@ import path from "path";
 import os from "os";
 
 import { PNG } from "pngjs";
-import Poppler from "pdf-poppler";
+import { fromBuffer, fromPath } from "pdf2pic";
+
+const options = {
+	density: 72,
+	format: "png"
+};
+
 
 /**
  * Converts the first page of a PDF file to an RGBA pixel buffer.
@@ -22,31 +28,12 @@ import Poppler from "pdf-poppler";
  */
 export async function pdf2rgba(pdfPath) {
 
-	// Create a temp dir
-	const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "pdf2rgba-"));
+	const convert = fromPath(pdfPath, options);
 
-	const outPrefix = path.join(tmpDir, "page");
+	let result = await convert(1, { responseType: "buffer" });
+	result = result.buffer;
 
-	// Render page 1 to PNG
-	await Poppler.convert(pdfPath, {
-		format: "png",
-		out_dir: tmpDir,
-		out_prefix: "page",
-		page: 1,
-		dpi: 72
-	});
-
-	// Load the PNG into RGBA buffer
-	const pngPath = `${outPrefix}-1.png`;
-	const pngData = await fs.readFile(pngPath);
-	const png = PNG.sync.read(pngData);
-
-	// Cleanup temp dir
-	// TODO:
-	//     I'm thinking this is okay, since you're probably
-	//     gonna run the script multiple times in one session,
-	//     so it reduces clutter.
-	await fs.rm(tmpDir, { recursive: true, force: true });
+	const png = PNG.sync.read(result);
 
 	return {
 		data: png.data,
