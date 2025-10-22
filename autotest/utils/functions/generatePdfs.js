@@ -148,7 +148,7 @@ export async function generatePdfs( outputFolder, isPrintPdf = true, isPrintImag
 
 	await qz.websocket.connect();
 
-	const found = await qz.printers.find("pdf");
+	const found = await qz.printers.find("pdf"); // TODO: Default printer!!!
 	if (!found) throw new Error("ERROR (generatePdfs): No suitable PDF printer found");
 	console.log(`USING PRINTER: ${found}`)
 
