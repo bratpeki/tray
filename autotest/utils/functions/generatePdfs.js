@@ -1,8 +1,7 @@
 
 import path from "path";
 import os from "os";
-import { promises as fs } from "fs";
-import { existsSync, readFileSync } from "fs";
+import { existsSync, readFileSync, copyFileSync, unlinkSync } from "fs";
 import { fileURLToPath } from "url";
 import { createSign } from "crypto";
 
@@ -86,7 +85,10 @@ async function processPrintJobs(outputFolder, configs, data, foundPrinter) {
 		await qz.print(config, data);
 
 		const newPDF = await watchForNewPdf(pdfPrintPath);
-		await fs.rename(newPDF, path.join(outputFolder, ...configDef.outputPath));
+		// The line below was removed because of cross-platform file moving issue (EXDEV)
+		// await fs.rename(newPDF, path.join(outputFolder, ...configDef.outputPath));
+		copyFileSync(newPDF, path.join(outputFolder, ...configDef.outputPath));
+		unlinkSync(newPDF);
 
 	}
 
