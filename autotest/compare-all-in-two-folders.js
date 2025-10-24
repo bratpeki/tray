@@ -9,7 +9,7 @@ import { pdfComp } from "./utils/functions/pdfComp.js"
 // CLI args
 const args = process.argv;
 
-// Call it as "node compare-all-in-two-folders.js" or similar
+// Call it as "node compare-all-in-two-folders.js DIR1 DIR2" or similar
 assert(args[0].includes("node"));
 assert(args[1].includes("compare-all-in-two-folders"));
 
@@ -81,8 +81,6 @@ async function comparePdfsInFolders(baseline, latest) {
 
 	var baselineFiles = []; await traverse(baseline, baselineFiles);
 	var latestFiles = []; await traverse(latest, latestFiles);
-
-	// if ( baselineFiles.length != latestFiles.length ) throw new Error("Not the same number of files!");
 
 	for (const baselineFile of baselineFiles) {
 
