@@ -1,9 +1,35 @@
 
 import { exists, promises as fs } from "fs";
 import { existsSync } from "fs";
+import assert from "node:assert";
 import path from "path";
 
 import { pdfComp } from "./utils/functions/pdfComp.js"
+
+// CLI args
+const args = process.argv;
+
+// Call it as "node compare-all-in-two-folders.js" or similar
+assert(args[0].includes("node"));
+assert(args[1].includes("compare-all-in-two-folders"));
+
+let baselinedir;
+let latestdir;
+
+if ( args.length < 4 ) {
+	console.warn("Please specify both the baseline prints and latest prints directories. Exiting...");
+	process.exit(1);
+}
+else {
+	baselinedir = args[2];
+	latestdir = args[3];
+}
+
+baselinedir = path.resolve(process.cwd(), baselinedir);
+baselinedir = path.normalize(baselinedir);
+
+latestdir = path.resolve(process.cwd(), latestdir);
+latestdir = path.normalize(latestdir);
 
 /**
  * Traverses the folder recursively and stores all the file paths into `result`
@@ -62,17 +88,19 @@ async function comparePdfsInFolders(baseline, latest) {
 
 		// Added specifically because I got ".DS_Store" when generating stuff and it got very annoying lol
 		const ext = path.extname(baselineFile);
-		if ( ext.toLowerCase() != ".pdf" ) {
-			console.log(`Skipping ${baselineFile}`);
-			console.log("");
-			continue;
-		}
 
 		const baselineResolve = path.resolve(baseline);
 		const baselineRelative = path.relative(baselineResolve, baselineFile);
 
 		const latestResolve = path.resolve(latest);
 		const latestCraftedPath = path.join(latestResolve, baselineRelative);
+
+		if ( ext.toLowerCase() != ".pdf" ) {
+			console.log(`Skipping ${baselineFile}`);
+			errarr.push( [ baselineRelative, "Not a PDF file"] );
+			console.log("");
+			continue;
+		}
 
 		try { await fs.stat(latestCraftedPath); }
 		catch {
@@ -112,11 +140,9 @@ async function comparePdfsInFolders(baseline, latest) {
 
 	}
 
-	if (!waserr)
-		console.log("All OK");
+	console.log( waserr ? "Not OK" : "All OK" );
 
-	else {
-		console.log("Not OK");
+	if (errarr.length > 0) {
 		console.table(
 			errarr.map(([file, message]) => ({ File: file, Error: message }))
 		);
@@ -124,5 +150,5 @@ async function comparePdfsInFolders(baseline, latest) {
 
 }
 
-await comparePdfsInFolders("baseline", "other");
+await comparePdfsInFolders(baselinedir, latestdir);
 
