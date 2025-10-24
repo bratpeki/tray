@@ -1,14 +1,12 @@
 
-import { promises as fs } from "fs";
-import path from "path";
-import os from "os";
-
 import { PNG } from "pngjs";
-import { fromBuffer, fromPath } from "pdf2pic";
+import { fromPath } from "pdf2pic";
 
 const options = {
 	density: 72,
-	format: "png"
+	format: "png",
+	preserveAspectRatio: true,
+	quality: 100
 };
 
 /**
