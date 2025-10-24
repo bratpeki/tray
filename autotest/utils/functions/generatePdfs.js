@@ -86,7 +86,7 @@ async function processPrintJobs(outputFolder, configs, data, foundPrinter) {
 		await qz.print(config, data);
 
 		const newPDF = await watchForNewPdf(pdfPrintPath);
-		await fs.rename(newPDF, path.join(qzRoot, "autotest", outputFolder, ...configDef.outputPath));
+		await fs.rename(newPDF, path.join(outputFolder, ...configDef.outputPath));
 
 	}
 

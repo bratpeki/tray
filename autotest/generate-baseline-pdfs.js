@@ -3,6 +3,7 @@ import { generatePdfs } from "./utils/functions/generatePdfs.js";
 import assert from "node:assert";
 import path from "node:path";
 
+// CLI args
 const args = process.argv;
 
 // Call it as "node generate-baseline-pdfs.js" or similar
@@ -18,6 +19,9 @@ if ( args.length < 3 ) {
 else {
 	dirpdf = args[2];
 }
+
+dirpdf = path.resolve(process.cwd(), dirpdf);
+dirpdf = path.normalize(dirpdf);
 
 await generatePdfs(dirpdf);
 process.exit(0);
