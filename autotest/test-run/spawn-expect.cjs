@@ -11,7 +11,7 @@ var Obj = function() {
   var _obj = {
     stderr: '',
     process: null,
-    kill: function() { _obj.process.kill; },
+    kill: function() { _obj.process.kill(); },
     spawnExpect: function(cmd, args, waitFor, timeout) {
       return new Promise(function(resolve, reject) {
         setTimeout(reject, timeout ? timeout : 60000);

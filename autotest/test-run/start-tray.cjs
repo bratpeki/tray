@@ -68,18 +68,30 @@ var Obj = function() {
 
 
 		fingerPromise: function() {
+
 			return new Promise(function(resolve, reject) {
+
 				var out = spawn.spawnSync(fingerParams.cmd, fingerParams.opts);
+
 				if (!out.status) {
+
 					var fingerprint = stripFingerprint(out.stdout.toString());
+
+					// Actions hasn't run Tray before, other than "--version"
+					// This ensures that directory exists
+
 					fs.mkdirSync(ALLOWED_DIR);
 					fs.appendFileSync(ALLOWED, allowedList(fingerprint));
 					format.pass(fingerParams.desc);
 					return resolve();
+
 				}
+
 				format.fail(fingerParams.desc);
 				reject(out.stderr ? out.stderr.toString() : "Unknown error generating fingerprint");
+
 			});
+
 		},
 
 		trayPromise: function() {
