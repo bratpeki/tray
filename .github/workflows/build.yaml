@@ -23,9 +23,14 @@ jobs:
       # Autotest stuff
       ## TODO: Installing Node via the website commands, since the package is out-of-date?
       - run: sudo apt-get install nodejs
-      - run: cd autotest
-      - run: npm install
-      - run: node test-run/start-tray.cjs
+
+      - name: Install Node Dependencies
+        run: npm install
+        working-directory: autotest
+
+      - name: Run Autotest Script
+        run: node test-run/start-tray.cjs
+        working-directory: autotest
 
   macos:
     runs-on: [macos-latest]
