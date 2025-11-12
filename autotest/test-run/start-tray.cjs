@@ -80,9 +80,9 @@ var Obj = function() {
 					// Actions hasn't run Tray before, other than "--version"
 					// This ensures that directory exists
 					// recursive:true is ensuring the directory can already exist, for local tests
-
 					fs.mkdirSync(ALLOWED_DIR, { recursive: true });
 					fs.appendFileSync(ALLOWED, allowedList(fingerprint));
+
 					format.pass(fingerParams.desc);
 					return resolve();
 
@@ -133,7 +133,7 @@ async function runTest() {
 	}
 
 	finally {
-		// format.info("\nAttempting to kill QZ Tray process...");
+		format.info("\nAttempting to kill the QZ Tray process and script...");
 		// TestRunner.kill(); // Why does this not work??
 		process.exit(0);
 	}
