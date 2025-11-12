@@ -14,11 +14,16 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
           distribution: 'liberica'
+      # These were here before me
       - run: sudo apt-get install nsis makeself
       - run: ant makeself
       - run: sudo out/qz-tray-*.run
       - run: /opt/qz-tray/qz-tray --version
       - run: ant nsis
+      # Autotest stuff
+      ## TODO: Installing Node via the website commands, since the package is out-of-date?
+      - run: sudo apt-get install node
+      - run: node autotest/test-run/start-tray.cjs
 
   macos:
     runs-on: [macos-latest]
