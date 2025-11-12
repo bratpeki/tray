@@ -6,7 +6,8 @@ var spawn = require('child_process');
 var spawnExpect = require('./spawn-expect.cjs');
 var format = require('./format-output.cjs');
 
-var ALLOWED = process.env.HOME + '/.qz/allowed.dat';
+var ALLOWED_DIR = process.env.HOME + '/.qz';
+var ALLOWED = ALLOWED_DIR + '/allowed.dat';
 var TMP_KEY = '/tmp/private-key.pem';
 var TMP_CERT = '/tmp/digital-certificate.txt';
 
@@ -71,6 +72,7 @@ var Obj = function() {
 				var out = spawn.spawnSync(fingerParams.cmd, fingerParams.opts);
 				if (!out.status) {
 					var fingerprint = stripFingerprint(out.stdout.toString());
+					fs.mkdirSync(ALLOWED_DIR);
 					fs.appendFileSync(ALLOWED, allowedList(fingerprint));
 					format.pass(fingerParams.desc);
 					return resolve();
