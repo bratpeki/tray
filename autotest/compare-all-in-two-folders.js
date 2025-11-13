@@ -64,7 +64,7 @@ async function traverse(dir, result = []) {
  * @param {string} baseline - The baseline PDFs (folder)
  * @param {string} latest - The latest printed PDFs (folder)
  */
-async function comparePdfsInFolders(baseline, latest) {
+export async function comparePdfsInFolders(baseline, latest) {
 
 	if (!(existsSync(baseline))) {
 		console.error(`${baseline} (baseline) does not exist.`);
@@ -148,5 +148,4 @@ async function comparePdfsInFolders(baseline, latest) {
 
 }
 
-await comparePdfsInFolders(baselinedir, latestdir);
-
+// await comparePdfsInFolders(baselinedir, latestdir);

@@ -1,13 +1,13 @@
 
-import path from "path";
-import os from "os";
-import { existsSync, readFileSync, copyFileSync, unlinkSync } from "fs";
-import { fileURLToPath } from "url";
-import { createSign } from "crypto";
+import path from "node:path";
+import os from "node:os";
+import { copyFileSync, unlinkSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 
 import { watchForNewPdf } from "./watchForNewPdf.js";
 import { calculatePdfPrintPath } from "./calculatePdfPrintPath.js";
 import { createDirectoryTree } from "./createDirectoryTree.js"
+import { certVer } from "./certVer.js";
 
 import { configsPdf } from "../configs/pdf.js";
 import { configsImage } from "../configs/image.js";
@@ -116,35 +116,7 @@ export async function generatePdfs( outputFolder, isPrintPdf = true, isPrintImag
 
 	/////////////////////////////////////////////////////////////////////////// Cert checks
 
-	const certPath = path.join(qzRoot, "autotest", "cert.txt");
-	const pkeyPath = path.join(qzRoot, "autotest", "pkey.txt");
-
-	if ( existsSync(certPath) && existsSync(pkeyPath) ) {
-
-		const cert = readFileSync(certPath, 'utf8');
-		const pkey = readFileSync(pkeyPath, 'utf8');
-
-		qz.security.setCertificatePromise(function(resolve, reject) {
-			resolve(cert);
-		});
-
-		qz.security.setSignatureAlgorithm("SHA512");
-		qz.security.setSignaturePromise(function(toSign) {
-			return function(resolve, reject) {
-				var sign = createSign('SHA512');
-				sign.update(toSign);
-				var signature = sign.sign({ key: pkey }, 'base64');
-				resolve(signature);
-			};
-		});
-
-	}
-	else {
-		console.warn("Certificate or Pkey not found, proceding without them, expected:", certPath, pkeyPath)
-		console.warn(" - To resolve: QZ Tray --> Advanced --> Site Manager --> '+' --> Create New")
-		console.warn("   - cp ~'/Desktop/QZ Tray Demo Cert/digital-certificate.txt' ./cert.txt")
-		console.warn("   - cp ~'/Desktop/QZ Tray Demo Cert/private-key.pem' ./pkey.txt")
-	}
+	certVer();
 
 	/////////////////////////////////////////////////////////////////////////// Finding the PDF printer
 

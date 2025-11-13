@@ -25,3 +25,4 @@ dirpdf = path.normalize(dirpdf);
 
 await generatePdfs(dirpdf);
 process.exit(0);
+
