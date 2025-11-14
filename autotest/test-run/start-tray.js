@@ -158,7 +158,7 @@ async function runTest() {
 		certVer();
 
 		format.info("\nAttempting to make the latest prints...");
-		// await generatePdfs(path.resolve(currentDir, "../latest"));
+		await generatePdfs(path.resolve(currentDir, "..", "latest"));
 
 		format.info("\nAttempting to compare the baseline and latest prints...");
 		const compRes = await comparePdfsInFolders(
