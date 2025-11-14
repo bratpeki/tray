@@ -8,12 +8,7 @@ import * as spawnExpect from './spawn-expect.js';
 import * as format from '../utils/functions/formatOutput.js';
 
 import { generatePdfs } from '../utils/functions/generatePdfs.js'
-// import { comparePdfsInFolders } from '../compare-all-in-two-folders.js'
-
-const ALLOWED_DIR = process.env.HOME + '/.qz';
-const ALLOWED = ALLOWED_DIR + '/allowed.dat';
-const TMP_KEY = '/tmp/private-key.pem';
-const TMP_CERT = '/tmp/digital-certificate.txt';
+import { certVer } from "../utils/functions/certVer.js";
 
 ////// CWD Logic //////
 
@@ -24,6 +19,16 @@ var currentDir = "";
 currentDir = path.resolve(process.cwd(), args[1]);
 currentDir = path.normalize(currentDir);
 currentDir = path.dirname(currentDir);
+
+////// Variables //////
+
+const ALLOWED_DIR = process.env.HOME + '/.qz';
+const ALLOWED = ALLOWED_DIR + '/allowed.dat';
+const TMP_KEY = path.resolve(currentDir, "..", "pkey.txt");
+const TMP_CERT = path.resolve(currentDir, "..", "cert.txt");
+
+if ( fs.existsSync(TMP_KEY) ) fs.renameSync(TMP_KEY, TMP_KEY + ".old");
+if ( fs.existsSync(TMP_CERT) ) fs.renameSync(TMP_CERT, TMP_CERT + ".old");
 
 ////// Static Functions //////
 
@@ -50,7 +55,6 @@ function allowedList(fingerprint) {
 
 ////// Parameters //////
 
-/*
 const certParams = {
 	cmd: 'openssl',
 	opts: ['req', '-x509', '-newkey', 'rsa:2048', '-keyout', TMP_KEY, '-out', TMP_CERT, '-days', '1', '-nodes', '-subj', '/C=vo/ST=void/L=void/O=void/OU=void/CN=void'],
@@ -70,7 +74,6 @@ const trayParams = {
 	desc: "Start Tray",
 	expect: ' started on port'
 };
-*/
 
 ////// Test Logic //////
 
@@ -150,6 +153,8 @@ async function runTest() {
 
 		format.info("\nAttempting to start QZ Tray (Waiting 60 seconds for 'started on port')...");
 		await TestRunner.trayPromise();
+
+		certVer();
 
 		format.info("\nAttempting to make the latest prints...");
 		await generatePdfs(path.resolve(currentDir, "../latest"));

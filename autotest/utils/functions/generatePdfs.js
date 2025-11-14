@@ -7,7 +7,6 @@ import { fileURLToPath } from "node:url";
 import { watchForNewPdf } from "./watchForNewPdf.js";
 import { calculatePdfPrintPath } from "./calculatePdfPrintPath.js";
 import { createDirectoryTree } from "./createDirectoryTree.js"
-import { certVer } from "./certVer.js";
 
 import { configsPdf } from "../configs/pdf.js";
 import { configsImage } from "../configs/image.js";
@@ -113,10 +112,6 @@ async function processPrintJobs(outputFolder, configs, data, foundPrinter) {
 export async function generatePdfs( outputFolder, isPrintPdf = true, isPrintImage = true, isPrintHtml = true ) {
 
 	await createDirectoryTree(outputFolder);
-
-	/////////////////////////////////////////////////////////////////////////// Cert checks
-
-	certVer();
 
 	/////////////////////////////////////////////////////////////////////////// Finding the PDF printer
 

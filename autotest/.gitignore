@@ -7,5 +7,5 @@ out/
 diff.png
 package-lock.json
 *.pdf
-cert.txt
-pkey.txt
+cert.*
+pkey.*
