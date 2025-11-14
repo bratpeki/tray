@@ -161,10 +161,12 @@ async function runTest() {
 		// await generatePdfs(path.resolve(currentDir, "../latest"));
 
 		format.info("\nAttempting to compare the baseline and latest prints...");
-		await comparePdfsInFolders(
+		const compRes = await comparePdfsInFolders(
 			path.resolve(currentDir, "..", "baseline"),
 			path.resolve(currentDir, "..", "latest")
 		);
+
+		if ( compRes === 1 ) throw new Error("Comparison failure");
 
 		format.divider("TEST SUCCESSFUL");
 
