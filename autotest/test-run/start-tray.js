@@ -9,6 +9,7 @@ import * as format from '../utils/functions/formatOutput.js';
 
 import { generatePdfs } from '../utils/functions/generatePdfs.js'
 import { certVer } from "../utils/functions/certVer.js";
+import { comparePdfsInFolders } from '../compare-all-in-two-folders.js';
 
 ////// CWD Logic //////
 
@@ -157,10 +158,13 @@ async function runTest() {
 		certVer();
 
 		format.info("\nAttempting to make the latest prints...");
-		await generatePdfs(path.resolve(currentDir, "../latest"));
+		// await generatePdfs(path.resolve(currentDir, "../latest"));
 
 		format.info("\nAttempting to compare the baseline and latest prints...");
-		// await comparePdfsInFolders("../baseline", "../latest");
+		await comparePdfsInFolders(
+			path.resolve(currentDir, "..", "baseline"),
+			path.resolve(currentDir, "..", "latest"),
+		);
 
 		format.divider("TEST SUCCESSFUL");
 

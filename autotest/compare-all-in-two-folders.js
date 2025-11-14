@@ -1,35 +1,9 @@
 
-import { exists, promises as fs } from "fs";
+import { promises as fs } from "fs";
 import { existsSync } from "fs";
-import assert from "node:assert";
 import path from "path";
 
 import { pdfComp } from "./utils/functions/pdfComp.js"
-
-// CLI args
-const args = process.argv;
-
-// Call it as "node compare-all-in-two-folders.js DIR1 DIR2" or similar
-assert(args[0].includes("node"));
-assert(args[1].includes("compare-all-in-two-folders"));
-
-let baselinedir;
-let latestdir;
-
-if ( args.length < 4 ) {
-	console.warn("Please specify both the baseline prints and latest prints directories. Exiting...");
-	process.exit(1);
-}
-else {
-	baselinedir = args[2];
-	latestdir = args[3];
-}
-
-baselinedir = path.resolve(process.cwd(), baselinedir);
-baselinedir = path.normalize(baselinedir);
-
-latestdir = path.resolve(process.cwd(), latestdir);
-latestdir = path.normalize(latestdir);
 
 /**
  * Traverses the folder recursively and stores all the file paths into `result`
@@ -147,5 +121,3 @@ export async function comparePdfsInFolders(baseline, latest) {
 	}
 
 }
-
-// await comparePdfsInFolders(baselinedir, latestdir);
