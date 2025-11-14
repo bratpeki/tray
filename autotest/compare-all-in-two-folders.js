@@ -56,45 +56,45 @@ export async function comparePdfsInFolders(baseline, latest) {
 	var baselineFiles = []; await traverse(baseline, baselineFiles);
 	var latestFiles = []; await traverse(latest, latestFiles);
 
-	for (const baselineFile of baselineFiles) {
+	for (const latestFile of latestFiles) {
 
 		// Added specifically because I got ".DS_Store" when generating stuff and it got very annoying lol
-		const ext = path.extname(baselineFile);
-
-		const baselineResolve = path.resolve(baseline);
-		const baselineRelative = path.relative(baselineResolve, baselineFile);
+		const ext = path.extname(latestFile);
 
 		const latestResolve = path.resolve(latest);
-		const latestCraftedPath = path.join(latestResolve, baselineRelative);
+		const latestRelative = path.relative(latestResolve, latestFile);
+
+		const baselineResolve = path.resolve(baseline);
+		const baselineCraftedPath = path.join(baselineResolve, latestRelative);
 
 		if ( ext.toLowerCase() != ".pdf" ) {
-			console.log(`Skipping ${baselineFile}`);
-			errarr.push( [ baselineRelative, "Not a PDF file"] );
+			console.log(`Skipping ${latestFile}`);
+			errarr.push( [ latestRelative, "Not a PDF file"] );
 			console.log("");
 			continue;
 		}
 
-		try { await fs.stat(latestCraftedPath); }
+		try { await fs.stat(baselineCraftedPath); }
 		catch {
-			console.log(`File ${latestCraftedPath} doesn't exist`);
+			console.log(`File ${baselineCraftedPath} doesn't exist`);
 			console.log("");
 			waserr = true;
-			errarr.push( [ baselineRelative, "Corresponding file doesn't exist"] );
+			errarr.push( [ latestRelative, "Corresponding file doesn't exist"] );
 			continue;
 		}
 
 		console.log("Comparing:");
-		console.log(`  ${baselineFile}`);
-		console.log(`  ${latestCraftedPath}`);
+		console.log(`  ${latestFile}`);
+		console.log(`  ${baselineCraftedPath}`);
 
 		try {
 
-			const pdfCompRes = await pdfComp(baselineFile, latestCraftedPath);
+			const pdfCompRes = await pdfComp(latestFile, baselineCraftedPath);
 
 			if ( pdfCompRes === false ) {
 				console.log(`  Error: Content doesn't match`);
 				waserr = true;
-				errarr.push( [ baselineRelative, "Failed PDF comparison" ] );
+				errarr.push( [ latestRelative, "Failed PDF comparison" ] );
 			}
 			else {
 				console.log(`  Success`);
@@ -105,7 +105,7 @@ export async function comparePdfsInFolders(baseline, latest) {
 		catch (err) {
 			console.log(`  Error: ${err.message}`);
 			waserr = true;
-			errarr.push( [ baselineRelative, err.message ] );
+			errarr.push( [ latestRelative, err.message ] );
 		}
 
 		console.log("");
