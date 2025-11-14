@@ -24,9 +24,14 @@ jobs:
 
       # Autotest stuff
 
-      ## TODO: Installing Node via the website commands, since the package is out-of-date?
+      # Installing Node via the website commands, since the package is out-of-date?
+      # https://nodejs.org/en/download
       - name: Install Node
-        run: sudo apt-get install nodejs
+        run: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+        run: \. "$HOME/.nvm/nvm.sh"
+        run: nvm install 24
+        run: node -v
+        run: npm -v
 
       - name: Install Node Dependencies
         run: npm install
