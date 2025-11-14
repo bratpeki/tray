@@ -42,12 +42,12 @@ export async function comparePdfsInFolders(baseline, latest) {
 
 	if (!(existsSync(baseline))) {
 		console.error(`${baseline} (baseline) does not exist.`);
-		return;
+		return 1;
 	}
 
 	if (!(existsSync(latest))) {
 		console.error(`${latest} (latest) does not exist.`);
-		return;
+		return 1;
 	}
 
 	var waserr = false;
@@ -118,6 +118,9 @@ export async function comparePdfsInFolders(baseline, latest) {
 		console.table(
 			errarr.map(([file, message]) => ({ File: file, Error: message }))
 		);
+		return 1;
 	}
+
+	return 0;
 
 }

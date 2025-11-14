@@ -163,7 +163,7 @@ async function runTest() {
 		format.info("\nAttempting to compare the baseline and latest prints...");
 		await comparePdfsInFolders(
 			path.resolve(currentDir, "..", "baseline"),
-			path.resolve(currentDir, "..", "latest"),
+			path.resolve(currentDir, "..", "latest")
 		);
 
 		format.divider("TEST SUCCESSFUL");
