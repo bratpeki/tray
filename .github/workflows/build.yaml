@@ -27,11 +27,12 @@ jobs:
       # Installing Node via the website commands, since the package is out-of-date?
       # https://nodejs.org/en/download
       - name: Install Node
-        run: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
-        run: \. "$HOME/.nvm/nvm.sh"
-        run: nvm install 24
-        run: node -v
-        run: npm -v
+        run: |
+          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+          \. "$HOME/.nvm/nvm.sh"
+          nvm install 24
+          node -v
+          npm -v
 
       - name: Install Node Dependencies
         run: npm install
