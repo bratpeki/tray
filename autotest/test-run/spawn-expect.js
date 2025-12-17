@@ -28,8 +28,9 @@ export const kill = function() {
  * @param {string[]} args - Arguments for the command.
  * @param {string} waitFor - The string to wait for in stdout.
  * @param {number} [timeout] - Optional timeout in milliseconds (defaults to 60000ms).
+ * @param {Object} [env] - Optional environment variables to pass to the process.
  */
-export const spawnExpect = function(cmd, args, waitFor, timeout) {
+export const spawnExpect = function(cmd, args, waitFor, timeout, env = {}) {
   // Clear state for the new run
   currentStderr = '';
   currentProcess = null; // Clear old reference before new spawn
@@ -51,7 +52,9 @@ export const spawnExpect = function(cmd, args, waitFor, timeout) {
 	}, timeout ? timeout : 60000);
 
 	// Save process reference to module-scoped variable
-	currentProcess = spawn.spawn(cmd, args);
+	currentProcess = spawn.spawn(cmd, args, {
+		env: { ...process.env, ...env }
+	});
 
 	currentProcess.stdout.on('data', (data) => {
 	  const dataStr = data.toString();

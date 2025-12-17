@@ -68,9 +68,21 @@ const fingerParams = {
 	desc: "Write fingerprint to allowed.dat"
 };
 
+//const trayParams = {
+//	cmd: '/opt/qz-tray/runtime/bin/java',
+//	opts: [util.format('-DtrustedRootCert=%s', TMP_CERT), '-jar', '/opt/qz-tray/qz-tray.jar'],
+//	desc: "Start Tray",
+//	expect: ' started on port'
+//};
+
+const javaOptions = {
+	key: '_JAVA_OPTIONS',
+	value: util.format('-DtrustedRootCert=%s', TMP_CERT)
+};
+
 const trayParams = {
-	cmd: '/opt/qz-tray/runtime/bin/java',
-	opts: [util.format('-DtrustedRootCert=%s', TMP_CERT), '-jar', '/opt/qz-tray/qz-tray.jar'],
+	cmd: '/opt/qz-tray/qz-tray',
+	opts: [],
 	desc: "Start Tray",
 	expect: ' started on port'
 };
@@ -125,7 +137,14 @@ const Obj = function() {
 
 		// Using spawnExpect from the imported namespace
 		trayPromise: function() {
-			return spawnExpect.spawnExpect(trayParams.cmd, trayParams.opts, trayParams.expect);
+			const env = { [javaOptions.key]: javaOptions.value };
+			return spawnExpect.spawnExpect(
+				trayParams.cmd,
+				trayParams.opts,
+				trayParams.expect,
+				60000,
+				env
+			);
 		},
 
 		kill: function() { spawnExpect.kill(); }

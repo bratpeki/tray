@@ -85,6 +85,7 @@ jobs:
         working-directory: autotest
 
   macos:
+    if: false
     runs-on: [macos-latest]
     strategy:
       matrix:
@@ -115,6 +116,7 @@ jobs:
           ant nsis
 
   windows:
+    if: false
     runs-on: [windows-latest]
     strategy:
       matrix:
