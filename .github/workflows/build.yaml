@@ -41,7 +41,7 @@ jobs:
         uses: cisagov/action-disable-apparmor@437d94f26a2e4bf8c03acfb500a6afc688b497db
 
       - name: "Instaall autotest deps"
-        run: "sudo apt-get install ghostscript"
+        run: "sudo apt-get install ghostscript graphicsmagick"
 
       - name: "Remove existing CUPS"
         run: sudo apt-get remove -yqq cups cups-pdf
