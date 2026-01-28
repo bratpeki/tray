@@ -21,6 +21,10 @@ import { configsHtml } from "../configs/html.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// TODO: Remove when we don't need lpadmin
+import spawn, { exec } from "node:child_process";
+const islinux = os.platform() === "linux";
+
 //     /..      /..   /..
 // tray/autotest/utils/functions
 const qzRoot = path.join(__dirname, "..", "..", "..");
@@ -82,7 +86,18 @@ async function processPrintJobs(outputFolder, configs, data, foundPrinter) {
 
 		console.log(`Processing '${configDef.name}'...`);
 
-		const config = qz.configs.create(foundPrinter, configDef.options);
+		const config = qz.configs.create(foundPrinter, configDef.options.conf);
+
+		if ( islinux ) {
+			console.log("linux time!");
+			await spawn(
+				"lpadmin", [
+					"-p", "PDF",
+					"-o", "PageSize=" + "'" + configDef.options.lpadmincode + "'"
+				]
+			);
+		}
+
 		await qz.print(config, data);
 
 		const newPDF = await watchForNewPdf(pdfPrintPath);
@@ -160,7 +175,7 @@ export async function generatePdfs( outputFolder, isPrintPdf = true, isPrintImag
 				<tr>
 					<td>
 					<h2>* QZ Tray HTML Sample Print *</h2>
-					<span style="color: #D00;">Version:</span> ${qzVersion}<br/>
+					<span style="color: #D00;">The color of this text is:</span> <pre>#D00</pre> <br/>
 					<span style="color: #D00;">Source:</span> https://qz.io/
 					</td>
 					<td align="right">
