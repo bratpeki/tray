@@ -22,7 +22,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // TODO: Remove when we don't need lpadmin
-import { spawn, exec } from "node:child_process";
+import { execSync } from "node:child_process";
 const islinux = os.platform() === "linux";
 
 //     /..      /..   /..
@@ -89,13 +89,12 @@ async function processPrintJobs(outputFolder, configs, data, foundPrinter) {
 		const config = qz.configs.create(foundPrinter, configDef.options.conf);
 
 		if ( islinux ) {
-			console.log("linux time!");
-			await spawn(
-				"lpadmin", [
-					"-p", "PDF",
-					"-o", "PageSize=" + "'" + configDef.options.lpadmincode + "'"
-				]
-			);
+			try {
+				console.log(`Setting Linux PDF PageSize to: ${configDef.options.lpadmincode}`);
+				execSync(`lpadmin -p PDF -o PageSize=${configDef.options.lpadmincode}`);
+			} catch (e) {
+				console.error("Failed to set lpadmin PageSize:", e.message);
+			}
 		}
 
 		await qz.print(config, data);
