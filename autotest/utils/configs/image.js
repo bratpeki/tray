@@ -2,8 +2,10 @@
 import { calculateOutPath } from "../functions/calculateOutPath.js"
 
 // Sizes
-const us_letter = { size: { width: 8.5, height: 11 }, units: "in" };
-const a4 = { size: { width: 210, height: 297 }, units: "mm" };
+// TODO: Remove lpadmincode when we don't need lpadmin anymore; qzind/tray/issues/1409
+// ORGINAL: const a4 = { size: { width: 210, height: 297 }, units: "mm" }
+const us_letter = { conf: { size: { width: 8.5, height: 11  }, units: "in" }, lpadmincode: "Letter" } ;
+const a4        = { conf: { size: { width: 210, height: 297 }, units: "mm" }, lpadmincode: "A4" };
 
 // Common amongst all items
 const usual = us_letter;
