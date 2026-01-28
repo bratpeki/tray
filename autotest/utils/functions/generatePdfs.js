@@ -91,7 +91,7 @@ async function processPrintJobs(outputFolder, configs, data, foundPrinter) {
 		if ( islinux ) {
 			try {
 				console.log(`Setting Linux PDF PageSize to: ${configDef.options.lpadmincode}`);
-				execSync(`lpadmin -p PDF -o PageSize=${configDef.options.lpadmincode}`);
+				execSync(`sudo lpadmin -p PDF -o PageSize=${configDef.options.lpadmincode}`);
 			} catch (e) {
 				console.error("Failed to set lpadmin PageSize:", e.message);
 			}
