@@ -22,7 +22,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // TODO: Remove when we don't need lpadmin
-import spawn, { exec } from "node:child_process";
+import { spawn, exec } from "node:child_process";
 const islinux = os.platform() === "linux";
 
 //     /..      /..   /..
