@@ -9,7 +9,7 @@ jobs:
     strategy:
       matrix:
         java: [25]
-          # arch: [x86_64, aarch64, riscv64]
+          arch: [x86_64, aarch64, riscv64]
         arch: [x86_64]
     steps:
       - uses: actions/checkout@v6
@@ -40,16 +40,20 @@ jobs:
         run: |
           # Install Deps
           sudo apt-get install -y ghostscript graphicsmagick
+
           # Setup CUPS
           sudo apt-get remove -yqq cups cups-pdf
           sudo apt-get install -yqq cups-bsd cups-pdf cups-client
           sudo service cups start
+
           # Make the PDF folder
           mkdir "$HOME/PDF"
+
           # Install Node (simplified for script)
           curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
           \. "$HOME/.nvm/nvm.sh"
           nvm install 24
+
           # Run Autotest
           cd autotest
           npm install
