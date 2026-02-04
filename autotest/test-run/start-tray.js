@@ -2,6 +2,7 @@
 import fs from 'node:fs';
 import util from 'node:util';
 import path from 'node:path';
+import os from "node:os";
 import * as spawn from 'node:child_process';
 
 import * as spawnExpect from './spawn-expect.js';
@@ -68,9 +69,16 @@ const fingerParams = {
 	desc: "Write fingerprint to allowed.dat"
 };
 
-const trayParams = {
+const trayParamsLinux = {
 	cmd: '/opt/qz-tray/runtime/bin/java',
 	opts: [util.format('-DtrustedRootCert=%s', TMP_CERT), '-jar', '/opt/qz-tray/qz-tray.jar'],
+	desc: "Start Tray",
+	expect: ' started on port'
+};
+
+const trayParamsMac = {
+	cmd: '/Applications/QZ Tray.app/Contents/MacOS/PlugIns/Java.runtime/Contents/Home/bin/java',
+	opts: [util.format('-DtrustedRootCert=%s', TMP_CERT), '-jar', '/Applications/QZ Tray.app/Contents/MacOS/Resources/qz-tray.jar'],
 	desc: "Start Tray",
 	expect: ' started on port'
 };
@@ -125,7 +133,12 @@ const Obj = function() {
 
 		// Using spawnExpect from the imported namespace
 		trayPromise: function() {
-			return spawnExpect.spawnExpect(trayParams.cmd, trayParams.opts, trayParams.expect);
+			switch (os.platform()) {
+				case "linux":
+					return spawnExpect.spawnExpect(trayParamsLinux.cmd, trayParamsLinux.opts, trayParamsLinux.expect);
+				case "darwin":
+					return spawnExpect.spawnExpect(trayParamsMac.cmd, trayParamsMac.opts, trayParamsMac.expect);
+			}
 		},
 
 		kill: function() { spawnExpect.kill(); }
