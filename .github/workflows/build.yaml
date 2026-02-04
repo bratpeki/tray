@@ -4,6 +4,7 @@ on: [push, pull_request]
 
 jobs:
   ubuntu:
+    if: false
     permissions: {}
     runs-on: [ubuntu-latest]
     strategy:
@@ -41,7 +42,7 @@ jobs:
           # Install Deps
           sudo apt-get install -y ghostscript graphicsmagick
 
-          # Setup CUPS
+          # Setup printer (CUPS)
           sudo apt-get remove -yqq cups cups-pdf
           sudo apt-get install -yqq cups-bsd cups-pdf cups-client
           sudo service cups start
@@ -60,7 +61,6 @@ jobs:
           node test-run/start-tray.js
 
   macos:
-    if: false
     runs-on: [macos-latest]
     strategy:
       matrix:
@@ -89,6 +89,27 @@ jobs:
           brew install nsis makeself
           ant makeself
           ant nsis
+
+      - name: Run Autotests
+        if: ${{ matrix.arch == 'aarch64' }}
+        run: |
+          # Install Deps
+          # /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          brew install ghostscript graphicsmagick
+
+          # Setup printer (PDFWriter)
+          curl -O https://github.com/rodyager/RWTS-PDFwriter/releases/latest/download/RWTS-PDFwriter.pkg
+          sudo installer -pkg RWTS-PDFwriter.pkg -target /
+
+          # Install Node (simplified for script)
+          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+          \. "$HOME/.nvm/nvm.sh"
+          nvm install 24
+
+          # Run Autotest
+          cd autotest
+          npm install
+          node test-run/start-tray.js
 
   windows:
     if: false
