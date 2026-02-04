@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
         java: [25]
-          arch: [x86_64, aarch64, riscv64]
+        arch: [x86_64, aarch64, riscv64]
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-java@v5
