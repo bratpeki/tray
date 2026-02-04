@@ -97,7 +97,7 @@ jobs:
           brew install ghostscript graphicsmagick
 
           # Setup printer (PDFWriter)
-          curl -O https://github.com/rodyager/RWTS-PDFwriter/releases/latest/download/RWTS-PDFwriter.pkg
+          curl -fLs -O https://github.com/rodyager/RWTS-PDFwriter/releases/latest/download/RWTS-PDFwriter.pkg
           sudo installer -pkg RWTS-PDFwriter.pkg -target /
 
           # Install Node (simplified for script)
