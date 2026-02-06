@@ -85,6 +85,7 @@ async function processPrintJobs(outputFolder, configs, data, foundPrinter) {
 	for ( const configDef of configs ) {
 
 		console.log(`Processing '${configDef.name}'...`);
+		console.log(configDef.options);
 
 		const config = qz.configs.create(foundPrinter, configDef.options);
 
@@ -96,6 +97,8 @@ async function processPrintJobs(outputFolder, configs, data, foundPrinter) {
 				console.error("Failed to set lpadmin PageSize:", e.message);
 			}
 		}
+
+		console.log("");
 
 		await qz.print(config, data);
 

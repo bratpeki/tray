@@ -4,13 +4,13 @@ on: [push, pull_request]
 
 jobs:
   ubuntu:
-    if: false
     permissions: {}
     runs-on: [ubuntu-latest]
     strategy:
       matrix:
         java: [25]
-        arch: [x86_64, aarch64, riscv64]
+        #arch: [x86_64, aarch64, riscv64]
+        arch: [x86_64]
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-java@v5
