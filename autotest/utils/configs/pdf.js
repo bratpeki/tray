@@ -17,7 +17,7 @@ const configsPdf = [
 	{
 		name: "PDF: Vector, base",
 		options: {
-			...usual
+			...usual.conf
 		},
 		outputPath: [outPath, "pdf", "vector", "basic.pdf"],
 	},
@@ -25,7 +25,7 @@ const configsPdf = [
 	{
 		name: "PDF: Raster, base",
 		options: {
-			...usual,
+			...usual.conf,
 			rasterize: true
 		},
 		outputPath: [outPath, "pdf", "raster", "basic.pdf"],
@@ -34,7 +34,7 @@ const configsPdf = [
 	{
 		name: "PDF: Vector, rotated 45 degrees",
 		options: {
-			...usual,
+			...usual.conf,
 			rotation: 45
 		},
 		outputPath: [outPath, "pdf", "vector", "rot45.pdf"],
@@ -43,7 +43,7 @@ const configsPdf = [
 	{
 		name: "PDF: Raster, rotated 45 degrees",
 		options: {
-			...usual,
+			...usual.conf,
 			rasterize: true,
 			rotation: 45
 		},
@@ -53,7 +53,7 @@ const configsPdf = [
 	{
 		name: "PDF: Vector, orientation:reverse-landscape",
 		options: {
-			...usual,
+			...usual.conf,
 			orientation: "reverse-landscape"
 		},
 		outputPath: [outPath, "pdf", "vector", "orient_revland.pdf"],
@@ -62,7 +62,7 @@ const configsPdf = [
 	{
 		name: "PDF: Raster, orientation:reverse-landscape",
 		options: {
-			...usual,
+			...usual.conf,
 			rasterize: true,
 			orientation: "reverse-landscape"
 		},
@@ -72,7 +72,7 @@ const configsPdf = [
 	{
 		name: "PDF: Vector, orientation:landscape",
 		options: {
-			...usual,
+			...usual.conf,
 			orientation: "landscape"
 		},
 		outputPath: [outPath, "pdf", "vector", "orient_land.pdf"],
@@ -81,7 +81,7 @@ const configsPdf = [
 	{
 		name: "PDF: Raster, orientation:landscape",
 		options: {
-			...usual,
+			...usual.conf,
 			rasterize: true,
 			orientation: "landscape"
 		},
@@ -91,7 +91,7 @@ const configsPdf = [
 	{
 		name: "PDF: Vector, uniform margin",
 		options: {
-			...usual,
+			...usual.conf,
 			margins: 2
 		},
 		outputPath: [outPath, "pdf", "vector", "margin_all.pdf"],
@@ -100,7 +100,7 @@ const configsPdf = [
 	{
 		name: "PDF: Raster, uniform margin",
 		options: {
-			...usual,
+			...usual.conf,
 			rasterize: true,
 			margins: 2
 		},
@@ -110,7 +110,7 @@ const configsPdf = [
 	{
 		name: "PDF: Vector, top and left margin",
 		options: {
-			...usual,
+			...usual.conf,
 			margins: { top: 2, left: 2 }
 		},
 		outputPath: [outPath, "pdf", "vector", "margin_top_left.pdf"],
@@ -119,7 +119,7 @@ const configsPdf = [
 	{
 		name: "PDF: Raster, top and left margin",
 		options: {
-			...usual,
+			...usual.conf,
 			rasterize: true,
 			margins: { top: 2, left: 2 }
 		},
@@ -129,7 +129,7 @@ const configsPdf = [
 	{
 		name: "PDF: Vector, size (A4)",
 		options: {
-			...a4
+			...a4.conf
 		},
 		outputPath: [outPath, "pdf", "vector", "size_a4.pdf"],
 	},
@@ -137,7 +137,7 @@ const configsPdf = [
 	{
 		name: "PDF: Raster, size (A4)",
 		options: {
-			...a4,
+			...a4.conf,
 			rasterize: true
 		},
 		outputPath: [outPath, "pdf", "raster", "size_a4.pdf"],

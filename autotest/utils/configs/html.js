@@ -17,7 +17,7 @@ const configsHtml = [
 	{
 		name: "HTML: Vector, base",
 		options: {
-			...usual
+			...usual.conf
 		},
 		outputPath: [outPath, "html", "vector", "basic.pdf"],
 	},
@@ -25,7 +25,7 @@ const configsHtml = [
 	{
 		name: "HTML: Raster, base",
 		options: {
-			...usual,
+			...usual.conf,
 			rasterize: true
 		},
 		outputPath: [outPath, "html", "raster", "basic.pdf"],
@@ -36,7 +36,7 @@ const configsHtml = [
 	{
 		name: "HTML: Vector, rotated 45 degrees",
 		options: {
-			...usual,
+			...usual.conf,
 			rotation: 45
 		},
 		outputPath: [outPath, "html", "vector", "rot45.pdf"],
@@ -46,7 +46,7 @@ const configsHtml = [
 	{
 		name: "HTML: Raster, rotated 45 degrees",
 		options: {
-			...usual,
+			...usual.conf,
 			rasterize: true,
 			rotation: 45
 		},
@@ -56,7 +56,7 @@ const configsHtml = [
 	{
 		name: "HTML: Vector, orientation:reverse-landscape",
 		options: {
-			...usual,
+			...usual.conf,
 			orientation: "reverse-landscape"
 		},
 		outputPath: [outPath, "html", "vector", "orient_revland.pdf"],
@@ -65,7 +65,7 @@ const configsHtml = [
 	{
 		name: "HTML: Raster, orientation:reverse-landscape",
 		options: {
-			...usual,
+			...usual.conf,
 			rasterize: true,
 			orientation: "reverse-landscape"
 		},
@@ -75,7 +75,7 @@ const configsHtml = [
 	{
 		name: "HTML: Vector, orientation:landscape",
 		options: {
-			...usual,
+			...usual.conf,
 			orientation: "landscape"
 		},
 		outputPath: [outPath, "html", "vector", "orient_land.pdf"],
@@ -84,7 +84,7 @@ const configsHtml = [
 	{
 		name: "HTML: Raster, orientation:landscape",
 		options: {
-			...usual,
+			...usual.conf,
 			rasterize: true,
 			orientation: "landscape"
 		},
@@ -94,7 +94,7 @@ const configsHtml = [
 	{
 		name: "HTML: Vector, uniform margin",
 		options: {
-			...usual,
+			...usual.conf,
 			margins: 2
 		},
 		outputPath: [outPath, "html", "vector", "margin_all.pdf"],
@@ -103,7 +103,7 @@ const configsHtml = [
 	{
 		name: "HTML: Raster, uniform margin",
 		options: {
-			...usual,
+			...usual.conf,
 			rasterize: true,
 			margins: 2
 		},
@@ -113,7 +113,7 @@ const configsHtml = [
 	{
 		name: "HTML: Vector, top and left margin",
 		options: {
-			...usual,
+			...usual.conf,
 			margins: { top: 2, left: 2 }
 		},
 		outputPath: [outPath, "html", "vector", "margin_top_left.pdf"],
@@ -122,7 +122,7 @@ const configsHtml = [
 	{
 		name: "HTML: Raster, top and left margin",
 		options: {
-			...usual,
+			...usual.conf,
 			rasterize: true,
 			margins: { top: 2, left: 2 }
 		},
@@ -132,7 +132,7 @@ const configsHtml = [
 	{
 		name: "HTML: Vector, size (A4)",
 		options: {
-			...a4
+			...a4.conf
 		},
 		outputPath: [outPath, "html", "vector", "size_a4.pdf"],
 	},
@@ -140,7 +140,7 @@ const configsHtml = [
 	{
 		name: "HTML: Raster, size (A4)",
 		options: {
-			...a4,
+			...a4.conf,
 			rasterize: true
 		},
 		outputPath: [outPath, "html", "raster", "size_a4.pdf"],
