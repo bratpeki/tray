@@ -134,9 +134,13 @@ export async function generatePdfs( outputFolder, isPrintPdf = true, isPrintImag
 	qz.api.setWebSocketType(WebSocket);
 	await qz.websocket.connect();
 
+	console.log("Did this")
+
 	const found = await qz.printers.find("pdf");
 	if (!found) throw new Error("ERROR (generatePdfs): No suitable PDF printer found");
 	console.log(`USING PRINTER: ${found}`)
+
+	console.log("Did this, too")
 
 	/////////////////////////////////////////////////////////////////////////// Setting 'data'
 
@@ -189,9 +193,13 @@ export async function generatePdfs( outputFolder, isPrintPdf = true, isPrintImag
 
 	/////////////////////////////////////////////////////////////////////////// Printing
 
+	console.log("Before processPrintJobs")
+
 	if ( isPrintPdf ) await processPrintJobs(outputFolder, configsPdf, dataPdf, found);
 	if ( isPrintImage ) await processPrintJobs(outputFolder, configsImage, dataImage, found);
 	if ( isPrintHtml ) await processPrintJobs(outputFolder, configsHtml, dataHtml, found);
+
+	console.log("After processPrintJobs")
 
 	/////////////////////////////////////////////////////////////////////////// Closing
 
