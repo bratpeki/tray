@@ -77,8 +77,8 @@ const trayParamsLinux = {
 };
 
 const trayParamsMac = {
-	cmd: '"/Applications/QZ Tray.app/Contents/MacOS/PlugIns/Java.runtime/Contents/Home/bin/java"',
-	opts: [util.format('-DtrustedRootCert=%s', TMP_CERT), '-jar', '"/Applications/QZ Tray.app/Contents/MacOS/Resources/qz-tray.jar"'],
+	cmd: '/Applications/QZ Tray.app/Contents/PlugIns/Java.runtime/Contents/Home/bin/java',
+	opts: [util.format('-DtrustedRootCert=%s', TMP_CERT), '-jar', '/Applications/QZ Tray.app/Contents/Resources/qz-tray.jar'],
 	desc: "Start Tray",
 	expect: ' started on port'
 };
