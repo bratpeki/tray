@@ -19,6 +19,7 @@ const configsHtml = [
 		options: {
 			...usual.conf
 		},
+		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "html", "vector", "basic.pdf"],
 	},
 
@@ -28,6 +29,7 @@ const configsHtml = [
 			...usual.conf,
 			rasterize: true
 		},
+		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "html", "raster", "basic.pdf"],
 	},
 
@@ -39,6 +41,7 @@ const configsHtml = [
 			...usual.conf,
 			rotation: 45
 		},
+		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "html", "vector", "rot45.pdf"],
 	},
 	*/
@@ -50,6 +53,7 @@ const configsHtml = [
 			rasterize: true,
 			rotation: 45
 		},
+		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "html", "raster", "rot45.pdf"],
 	},
 
@@ -59,6 +63,7 @@ const configsHtml = [
 			...usual.conf,
 			orientation: "reverse-landscape"
 		},
+		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "html", "vector", "orient_revland.pdf"],
 	},
 
@@ -69,6 +74,7 @@ const configsHtml = [
 			rasterize: true,
 			orientation: "reverse-landscape"
 		},
+		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "html", "raster", "orient_revland.pdf"],
 	},
 
@@ -78,6 +84,7 @@ const configsHtml = [
 			...usual.conf,
 			orientation: "landscape"
 		},
+		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "html", "vector", "orient_land.pdf"],
 	},
 
@@ -88,6 +95,7 @@ const configsHtml = [
 			rasterize: true,
 			orientation: "landscape"
 		},
+		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "html", "raster", "orient_land.pdf"],
 	},
 
@@ -97,6 +105,7 @@ const configsHtml = [
 			...usual.conf,
 			margins: 2
 		},
+		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "html", "vector", "margin_all.pdf"],
 	},
 
@@ -107,6 +116,7 @@ const configsHtml = [
 			rasterize: true,
 			margins: 2
 		},
+		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "html", "raster", "margin_all.pdf"],
 	},
 
@@ -116,6 +126,7 @@ const configsHtml = [
 			...usual.conf,
 			margins: { top: 2, left: 2 }
 		},
+		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "html", "vector", "margin_top_left.pdf"],
 	},
 
@@ -126,6 +137,7 @@ const configsHtml = [
 			rasterize: true,
 			margins: { top: 2, left: 2 }
 		},
+		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "html", "raster", "margin_top_left.pdf"],
 	},
 
@@ -134,6 +146,7 @@ const configsHtml = [
 		options: {
 			...a4.conf
 		},
+		lpadmincode: a4.lpadmincode,
 		outputPath: [outPath, "html", "vector", "size_a4.pdf"],
 	},
 
@@ -143,6 +156,7 @@ const configsHtml = [
 			...a4.conf,
 			rasterize: true
 		},
+		lpadmincode: a4.lpadmincode,
 		outputPath: [outPath, "html", "raster", "size_a4.pdf"],
 	},
 
