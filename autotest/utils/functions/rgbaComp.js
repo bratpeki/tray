@@ -16,7 +16,7 @@ import fs from "fs";
  *
  * @return {boolean} true if the buffers are identical, false otherwise
  */
-export function rgbaComp( img1, img2, makeDiff = false ) {
+export function rgbaComp( img1, img2, makeDiff = false, diffLocation = "" ) {
 
 	// Pixelmatch doesn't check this, so it's up to us
 	if (img1.width !== img2.width || img1.height !== img2.height) {
@@ -38,11 +38,12 @@ export function rgbaComp( img1, img2, makeDiff = false ) {
 	);
 
 	// If we want the output diff as a PNG:
-	if (makeDiff) {
+	// TODO: Only erronous output, that might need a rework or reword (makeDiff -> makeErrDiff)
+	if ( numDiffPixels > 0 && makeDiff && diffLocation.endsWith(".png") ) {
 		const {width, height} = img1;
 		const diff = new PNG({width, height});
 		diff.data = diffBuffer;
-		fs.writeFileSync('diff.png', PNG.sync.write(diff));
+		fs.writeFileSync(diffLocation, PNG.sync.write(diff));
 	}
 
 	return numDiffPixels === 0;

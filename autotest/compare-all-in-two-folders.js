@@ -1,8 +1,9 @@
 
 import { promises as fs } from "fs";
-import { existsSync } from "fs";
+import { existsSync, mkdirSync, rmSync } from "fs";
 import path from "path";
 
+import { calculateDelim } from "./utils/functions/calculateDelim.js"
 import { pdfComp } from "./utils/functions/pdfComp.js"
 
 /**
@@ -39,6 +40,9 @@ async function traverse(dir, result = []) {
  * @param {string} latest - The latest printed PDFs (folder)
  */
 export async function comparePdfsInFolders(baseline, latest) {
+
+	rmSync("diff", { recursive: true, force: true })
+	mkdirSync("diff");
 
 	if (!(existsSync(baseline))) {
 		console.error(`${baseline} (baseline) does not exist.`);
@@ -89,7 +93,11 @@ export async function comparePdfsInFolders(baseline, latest) {
 
 		try {
 
-			const pdfCompRes = await pdfComp(latestFile, baselineCraftedPath);
+			const pdfCompRes = await pdfComp(
+				latestFile, baselineCraftedPath,
+				true,
+				"diff" + calculateDelim() + latestFile.split('/').slice(-4).join("-").replace(".pdf", ".png")
+			);
 
 			if ( pdfCompRes === false ) {
 				console.log(`  Error: Content doesn't match`);

@@ -15,8 +15,8 @@ import { pdf2rgba } from "./pdf2rgba.js";
  *
  * @return {Promise<boolean>} true if the PDFs are identical, false otherwise
  */
-export async function pdfComp( path1, path2, makeDiff = false ) {
+export async function pdfComp( path1, path2, makeDiff = false, diffLocation = "" ) {
 	const img1 = await pdf2rgba(path1);
 	const img2 = await pdf2rgba(path2);
-	return rgbaComp(img1, img2, makeDiff);
+	return rgbaComp(img1, img2, makeDiff, diffLocation);
 }

@@ -85,20 +85,16 @@ async function processPrintJobs(outputFolder, configs, data, foundPrinter) {
 	for ( const configDef of configs ) {
 
 		console.log(`Processing '${configDef.name}'...`);
-		console.log(configDef.options);
 
 		const config = qz.configs.create(foundPrinter, configDef.options);
 
 		if ( islinux ) {
 			try {
-				console.log(`Setting Linux PDF PageSize to: ${configDef.lpadmincode}`);
 				execSync(`sudo lpadmin -p PDF -o PageSize=${configDef.lpadmincode}`);
 			} catch (e) {
 				console.error("Failed to set lpadmin PageSize:", e.message);
 			}
 		}
-
-		console.log("");
 
 		await qz.print(config, data);
 
@@ -137,13 +133,9 @@ export async function generatePdfs( outputFolder, isPrintPdf = true, isPrintImag
 	qz.api.setWebSocketType(WebSocket);
 	await qz.websocket.connect();
 
-	console.log("Did this")
-
 	const found = await qz.printers.find("pdf");
 	if (!found) throw new Error("ERROR (generatePdfs): No suitable PDF printer found");
 	console.log(`USING PRINTER: ${found}`)
-
-	console.log("Did this, too")
 
 	/////////////////////////////////////////////////////////////////////////// Setting 'data'
 
@@ -196,13 +188,9 @@ export async function generatePdfs( outputFolder, isPrintPdf = true, isPrintImag
 
 	/////////////////////////////////////////////////////////////////////////// Printing
 
-	console.log("Before processPrintJobs")
-
 	if ( isPrintPdf ) await processPrintJobs(outputFolder, configsPdf, dataPdf, found);
 	if ( isPrintImage ) await processPrintJobs(outputFolder, configsImage, dataImage, found);
 	if ( isPrintHtml ) await processPrintJobs(outputFolder, configsHtml, dataHtml, found);
-
-	console.log("After processPrintJobs")
 
 	/////////////////////////////////////////////////////////////////////////// Closing
 
