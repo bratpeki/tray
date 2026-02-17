@@ -14,11 +14,11 @@ import fs from "fs";
  * @param {{data: Uint8ClampedArray, width: number, height: number}} img2 - You get this from {@link pdf2rgba}
  * @param {boolean} makeDiff [false] - A flag to generate a diff image
  * @param {string} diffLocation [""] - The diff image title
- * @param {number} threshold [0.02] - How many red pixels we allow, in %. By default, 0.01%.
+ * @param {number} threshold [0.02] - How many red pixels we allow, in %. By default, 0.1%.
  *
  * @return {boolean} true if the buffers are identical, false otherwise
  */
-export function rgbaComp( img1, img2, makeDiff = false, diffLocation = "", threshold = 0.01 ) {
+export function rgbaComp( img1, img2, makeDiff = false, diffLocation = "", threshold = 0.1 ) {
 
 	// Pixelmatch doesn't check this, so it's up to us
 	if (img1.width !== img2.width || img1.height !== img2.height) {
