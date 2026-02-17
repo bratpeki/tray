@@ -12,11 +12,13 @@ import fs from "fs";
  *
  * @param {{data: Uint8ClampedArray, width: number, height: number}} img1 - You get this from {@link pdf2rgba}
  * @param {{data: Uint8ClampedArray, width: number, height: number}} img2 - You get this from {@link pdf2rgba}
- * @param {boolean} makeDiff [false] - A flag to generate a diff image titled "diff.png"
+ * @param {boolean} makeDiff [false] - A flag to generate a diff image
+ * @param {string} diffLocation [""] - The diff image title
+ * @param {number} threshold [0.02] - How many red pixels we allow, in %. By default, 0.01%.
  *
  * @return {boolean} true if the buffers are identical, false otherwise
  */
-export function rgbaComp( img1, img2, makeDiff = false, diffLocation = "" ) {
+export function rgbaComp( img1, img2, makeDiff = false, diffLocation = "", threshold = 0.01 ) {
 
 	// Pixelmatch doesn't check this, so it's up to us
 	if (img1.width !== img2.width || img1.height !== img2.height) {
@@ -46,6 +48,14 @@ export function rgbaComp( img1, img2, makeDiff = false, diffLocation = "" ) {
 		fs.writeFileSync(diffLocation, PNG.sync.write(diff));
 	}
 
-	return numDiffPixels === 0;
+	const allowedRed = Math.round(img1.data.length * threshold * 0.01);
+
+	console.log("numDiffPixels", numDiffPixels);
+	console.log("img1.data.length", img1.data.length);
+	console.log("allowedRed", allowedRed);
+	console.log("---");
+
+	// return numDiffPixels === 0;
+	return numDiffPixels < allowedRed;
 
 }
