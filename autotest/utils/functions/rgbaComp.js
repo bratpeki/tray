@@ -39,16 +39,16 @@ export function rgbaComp( img1, img2, makeDiff = false, diffLocation = "", thres
 		{ threshold: 0.1 }
 	);
 
+	const allowedRed = Math.round(img1.data.length * threshold * 0.01);
+	const good = (numDiffPixels < allowedRed);
+
 	// If we want the output diff as a PNG:
-	// TODO: Only erronous output, that might need a rework or reword (makeDiff -> makeErrDiff)
-	if ( numDiffPixels > 0 && makeDiff && diffLocation.endsWith(".png") ) {
+	if ( !good && makeDiff && diffLocation.endsWith(".png") ) {
 		const {width, height} = img1;
 		const diff = new PNG({width, height});
 		diff.data = diffBuffer;
 		fs.writeFileSync(diffLocation, PNG.sync.write(diff));
 	}
-
-	const allowedRed = Math.round(img1.data.length * threshold * 0.01);
 
 	console.log("numDiffPixels", numDiffPixels);
 	console.log("img1.data.length", img1.data.length);
@@ -56,6 +56,6 @@ export function rgbaComp( img1, img2, makeDiff = false, diffLocation = "", thres
 	console.log("---");
 
 	// return numDiffPixels === 0;
-	return numDiffPixels < allowedRed;
+	return good;
 
 }
