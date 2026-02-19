@@ -80,7 +80,8 @@ const trayParamsMac = {
 	cmd: '/Applications/QZ Tray.app/Contents/PlugIns/Java.runtime/Contents/Home/bin/java',
 	opts: [util.format('-DtrustedRootCert=%s', TMP_CERT), '-jar', '/Applications/QZ Tray.app/Contents/Resources/qz-tray.jar'],
 	desc: "Start Tray",
-	expect: ' started on port'
+	expect: ' started on port',
+	env: { QZ_OPTS: "-headless" }
 };
 
 ////// Test Logic //////
@@ -137,7 +138,7 @@ const Obj = function() {
 				case "linux":
 					return spawnExpect.spawnExpect(trayParamsLinux.cmd, trayParamsLinux.opts, trayParamsLinux.expect);
 				case "darwin":
-					return spawnExpect.spawnExpect(trayParamsMac.cmd, trayParamsMac.opts, trayParamsMac.expect);
+					return spawnExpect.spawnExpect(trayParamsMac.cmd, trayParamsMac.opts, trayParamsMac.expect, 60000, trayParamsMac.env);
 			}
 		},
 
