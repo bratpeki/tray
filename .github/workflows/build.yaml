@@ -59,6 +59,14 @@ jobs:
           npm install
           node test-run/start-tray.js
 
+      - name: Upload Diff Artifacts (Linux)
+        if: always() && matrix.arch == 'x86_64'
+        uses: actions/upload-artifact@v4
+        with:
+          name: diff-results-linux-${{ matrix.arch }}
+          path: autotest/diff/
+          if-no-files-found: ignore
+
   macos:
     runs-on: [macos-latest]
     strategy:
@@ -110,6 +118,14 @@ jobs:
           cd autotest
           npm install
           node test-run/start-tray.js
+
+      - name: Upload Diff Artifacts (macOS)
+        if: always() && matrix.arch == 'aarch64'
+        uses: actions/upload-artifact@v4
+        with:
+          name: diff-results-macos-${{ matrix.arch }}
+          path: autotest/diff/
+          if-no-files-found: ignore
 
   windows:
     if: false
