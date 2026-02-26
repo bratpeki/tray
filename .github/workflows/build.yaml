@@ -64,7 +64,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: prints-win-${{ matrix.arch }}
-          path: autotest/other/
+          path: autotest/latest/
           if-no-files-found: ignore
 
       - name: Upload Diff Artifacts (Linux)
@@ -132,7 +132,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: prints-win-${{ matrix.arch }}
-          path: autotest/other/
+          path: autotest/latest/
           if-no-files-found: ignore
 
       - name: Upload Diff Artifacts (MacOS)
@@ -188,7 +188,7 @@ jobs:
           # A prereq for ghostscript, apparently comes with the windows-latest image
           # choco install vcredist2013 -y
           choco install nsis ghostscript graphicsmagick -y
-          
+
           cd autotest
           # & 'C:\Program Files\nodejs\npm' install
           npm install
@@ -200,7 +200,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: prints-win-${{ matrix.arch }}
-          path: autotest/other/
+          path: autotest/latest/
           if-no-files-found: ignore
 
       - name: Upload Diff Artifacts (Windows)

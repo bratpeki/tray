@@ -123,12 +123,12 @@ export async function comparePdfsInFolders(baseline, latest) {
 	console.log( waserr ? "Not OK" : "All OK" );
 
 	if (errarr.length > 0) {
-        const tableData = errarr.map(([file, message]) => ({ File: file, Error: message }));
-        console.table(tableData);
-        // Ensure the logs hit the screen before we die
-        await new Promise(resolve => process.stdout.write('', resolve)); 
-        return 1;
-    }
+		const tableData = errarr.map(([file, message]) => ({ File: file, Error: message }));
+		console.table(tableData);
+		// Ensure the logs hit the screen before we die
+		await new Promise(resolve => process.stdout.write('', resolve));
+		return 1;
+	}
 
 	return 0;
 
