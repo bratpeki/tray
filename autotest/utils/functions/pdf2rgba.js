@@ -30,7 +30,7 @@ export async function pdf2rgba(pdfPath) {
 	result = result.buffer;
 
 	if(result.length <= 0) {
-	throw new Error("Buffer is empty!");
+		throw new Error("Buffer is empty!");
 	}
 
 	const png = PNG.sync.read(result);

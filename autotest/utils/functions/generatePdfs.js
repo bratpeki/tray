@@ -9,6 +9,7 @@ import WebSocket from "ws";
 import { watchForNewPdf } from "./watchForNewPdf.js";
 import { calculatePdfPrintPath } from "./calculatePdfPrintPath.js";
 import { createDirectoryTree } from "./createDirectoryTree.js"
+import { osSplitter } from "./osSplitter.js";
 
 import { configsPdf } from "../configs/pdf.js";
 import { configsImage } from "../configs/image.js";
@@ -133,7 +134,7 @@ export async function generatePdfs( outputFolder, isPrintPdf = true, isPrintImag
 	qz.api.setWebSocketType(WebSocket);
 	await qz.websocket.connect();
 
-	const found = await qz.printers.find("pdf");
+	const found = await qz.printers.find(osSplitter("bullzip", "pdf", "pdf"));
 	if (!found) throw new Error("ERROR (generatePdfs): No suitable PDF printer found");
 	console.log(`USING PRINTER: ${found}`)
 

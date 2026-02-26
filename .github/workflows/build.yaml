@@ -128,7 +128,6 @@ jobs:
           if-no-files-found: ignore
 
   windows:
-    if: false
     runs-on: [windows-latest]
     strategy:
       matrix:
@@ -154,3 +153,44 @@ jobs:
           Start-Process -Wait ./out/qz-tray-*.exe -ArgumentList "/S"
           "&'C:/Program Files/QZ Tray/qz-tray.exe' --wait --version|Out-Null"
 
+      - name: Run Autotests
+        if: ${{ matrix.arch == 'x86_64' }}
+        shell: powershell
+        run: |
+          # $ProgressPreference = 'SilentlyContinue'
+          Invoke-WebRequest -Uri "https://www.bullzip.com/download/pdf/Setup_BullzipPDFPrinter_2025_2_0_2990.exe" -OutFile "setup.exe"
+          Start-Process -FilePath ".\setup.exe" -ArgumentList "/VERYSILENT /ACCEPT_EULA" -Wait
+
+          # Restart-Service Spooler -Force
+          # Start-Sleep -Seconds 5
+          Get-Printer -Name "Bullzip PDF Printer"
+
+          powershell -c "irm https://community.chocolatey.org/install.ps1|iex"
+          refreshenv
+
+          choco install nodejs --version="24.14.0" -y
+          # A prereq for ghostscript, apparently comes with the windows-latest image
+          # choco install vcredist2013 -y
+          choco install nsis ghostscript graphicsmagick -y
+          
+          cd autotest
+          # & 'C:\Program Files\nodejs\npm' install
+          npm install
+          & 'C:\Program Files\nodejs\node.exe' test-run\start-tray.js
+          node test-run\start-tray.js
+
+      - name: Upload New Prints (Windows)
+        if: always() && matrix.arch == 'x86_64'
+        uses: actions/upload-artifact@v4
+        with:
+          name: prints-win-${{ matrix.arch }}
+          path: autotest/other/
+          if-no-files-found: ignore
+
+      - name: Upload Diff Artifacts (Windows)
+        if: always() && matrix.arch == 'x86_64'
+        uses: actions/upload-artifact@v4
+        with:
+          name: diff-results-win-${{ matrix.arch }}
+          path: autotest/diff/
+          if-no-files-found: ignore

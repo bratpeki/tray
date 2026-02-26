@@ -1,5 +1,5 @@
 
-import os from "os";
+import { osSplitter } from "./osSplitter.js";
 
 /**
  * Returns the subfolder name for storing generated PDFs based on the current OS.
@@ -20,10 +20,5 @@ import os from "os";
  */
 
 export function calculateOutPath() {
-	switch (os.platform()) {
-		case "win32":  return "windows_pdfcreator";
-		case "linux":  return "linux_cupspdf";
-		case "darwin": return "macos_pdfwriter";
-		default: throw new Error(`ERROR (calculateOutPath): Unsupported OS (${os.platform()})`);
-	}
+	return osSplitter("windows_pdfcreator", "linux_cupspdf", "macos_pdfwriter");
 }

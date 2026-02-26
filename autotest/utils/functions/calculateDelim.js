@@ -1,5 +1,5 @@
 
-import os from "os";
+import { osSplitter } from "./osSplitter.js";
 
 /**
  * Returns the delimiter used by the OS.
@@ -10,16 +10,5 @@ import os from "os";
  */
 
 export function calculateDelim() {
-	switch (os.platform()) {
-
-		case "win32":
-			return "\\";
-
-		case "linux":
-		case "darwin":
-			return "/";
-
-		default: throw new Error(`ERROR (calculateOutPath): Unsupported OS (${os.platform()})`);
-
-	}
+	return osSplitter("\\", "/", "/");
 }

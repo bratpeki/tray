@@ -2,6 +2,8 @@
 import os from "os";
 import path from "path";
 
+import { osSplitter } from "./osSplitter.js";
+
 // OS username
 const username = os.userInfo().username;
 
@@ -26,10 +28,9 @@ const username = os.userInfo().username;
  * @note This function relies on {@link os.userInfo} to resolve the username.
  */
 export function calculatePdfPrintPath() {
-	switch ( os.platform() ) {
-		case "win32": return path.join("C:", "Users", username, "PDF");
-		case "linux": return path.join("/", "home", username, "PDF");
-		case "darwin": return path.join("/", "private", "var", "spool", "pdfwriter", username);
-		default: throw new Error(`ERROR (calculatePdfPrintPath): Unsupported OS (${os.platform()})`);
-	}
+	return osSplitter(
+		path.join("C:", "Users", username, "PDF"),
+		path.join("/", "home", username, "PDF"),
+		path.join("/", "private", "var", "spool", "pdfwriter", username)
+	);
 }

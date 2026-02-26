@@ -65,8 +65,15 @@ const certParams = {
 
 const fingerParams = {
 	cmd: "openssl",
-	opts: ['x509','-fingerprint', '-in', TMP_CERT, '-noout'],
+	opts: ['x509', '-fingerprint', '-in', TMP_CERT, '-noout'],
 	desc: "Write fingerprint to allowed.dat"
+};
+
+const trayParamsWin = {
+	cmd: 'C:\\Program Files\\QZ Tray\\runtime\\bin\\java.exe',
+	opts: [util.format('-DtrustedRootCert=%s', TMP_CERT), '-jar', 'C:\\Program Files\\QZ Tray\\qz-tray.jar'],
+	desc: "Start Tray",
+	expect: ' started on port'
 };
 
 const trayParamsLinux = {
@@ -135,6 +142,8 @@ const Obj = function() {
 		// Using spawnExpect from the imported namespace
 		trayPromise: function() {
 			switch (os.platform()) {
+				case "win32":
+					return spawnExpect.spawnExpect(trayParamsWin.cmd, trayParamsWin.opts, trayParamsWin.expect);
 				case "linux":
 					return spawnExpect.spawnExpect(trayParamsLinux.cmd, trayParamsLinux.opts, trayParamsLinux.expect);
 				case "darwin":
