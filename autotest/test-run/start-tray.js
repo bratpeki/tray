@@ -31,6 +31,8 @@ const ALLOWED_DIR = osSplitter(
 	path.resolve("/", "Library", "Application Support", "qz")
 );
 
+console.log("PATH::: " + ALLOWED_DIR);
+
 const ALLOWED = path.resolve(ALLOWED_DIR, 'allowed.dat');
 const TMP_KEY = path.resolve(currentDir, "..", "pkey.txt");
 const TMP_CERT = path.resolve(currentDir, "..", "cert.txt");
