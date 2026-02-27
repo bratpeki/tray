@@ -117,7 +117,7 @@ jobs:
           curl -fLs -O https://github.com/rodyager/RWTS-PDFwriter/releases/latest/download/RWTS-PDFwriter.pkg
           sudo installer -pkg RWTS-PDFwriter.pkg -target /
           mkdir -p /private/var/spool/pdfwriter/$USER
-          chown $USER:$USER /private/var/spool/pdfwriter/$USER
+          chown $USER:staff /private/var/spool/pdfwriter/$USER
 
           # Install Node (simplified for script)
           curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
