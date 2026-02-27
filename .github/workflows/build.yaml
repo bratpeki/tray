@@ -177,6 +177,7 @@ jobs:
           Invoke-WebRequest -Uri "https://www.bullzip.com/download/pdf/Setup_BullzipPDFPrinter_2025_2_0_2990.exe" -OutFile "setup.exe"
           Start-Process -FilePath ".\setup.exe" -ArgumentList "/VERYSILENT /ACCEPT_EULA" -Wait
           New-Item -Type Directory -Force "$env:AppData\PDF Writer\Bullzip PDF Printer"; "[PDF Printer]`n  output=$env:UserProfile\PDF\<smarttitle>.pdf`n  confirmoverwrite=no`n  confirmnewfolder=no`n  appendifexists=yes`n  openfolder=no`n  showpdf=no`n  showsaveas=nofile`n  showsettings=no`n  suppresserrors=yes`n" | Set-Content "$env:AppData\PDF Writer\Bullzip PDF Printer\settings.ini" -Encoding UTF8
+          New-Item -Type Directory -Force "$env:UserProfile\PDF"
 
           # Restart-Service Spooler -Force
           # Start-Sleep -Seconds 5
