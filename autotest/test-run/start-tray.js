@@ -26,8 +26,8 @@ currentDir = path.dirname(currentDir);
 ////// Variables //////
 
 const ALLOWED_DIR = osSplitter(
-	path.resolve(process.env.APPDATA, 'qz'),
-	path.resolve(process.env.HOME, '.qz'),
+	path.resolve(process.env.APPDATA || "", 'qz'),
+	path.resolve(process.env.HOME || "", '.qz'),
 	path.resolve("/", "Library", "Application Support", "qz")
 );
 
