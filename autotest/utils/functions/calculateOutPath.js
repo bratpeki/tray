@@ -9,7 +9,7 @@ import { osSplitter } from "./osSplitter.js";
  * <ul>
  *   <li> <code>linux_cupspdf</code> </li>
  *   <li> <code>macos_pdfwriter</code> </li>
- *   <li> <code>windows_pdfcreator</code> </li>
+ *   <li> <code>windows_bullzip</code> </li>
  * </ul>
  *
  * @note The reason for this difference in export location is because different PDF printers print different files (Thanks, CUPS!)
@@ -20,5 +20,5 @@ import { osSplitter } from "./osSplitter.js";
  */
 
 export function calculateOutPath() {
-	return osSplitter("windows_pdfcreator", "linux_cupspdf", "macos_pdfwriter");
+	return osSplitter("windows_bullzip", "linux_cupspdf", "macos_pdfwriter");
 }

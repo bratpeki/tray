@@ -2,7 +2,7 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 
-const lvl1 = [ "linux_cupspdf", "macos_pdfwriter", "windows_pdfcreator" ]
+const lvl1 = [ "linux_cupspdf", "macos_pdfwriter", "windows_bullzip" ]
 const lvl2 = [ "pdf", "img", "html" ]
 const lvl3 = [ "vector", "raster" ]
 
