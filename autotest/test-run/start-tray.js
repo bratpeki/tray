@@ -34,7 +34,6 @@ const ALLOWED_DIR = osSplitter(
 console.log("PATH::: " + ALLOWED_DIR);
 
 const ALLOWED = path.resolve(ALLOWED_DIR, 'allowed.dat');
-
 const TMP_KEY = path.resolve(currentDir, "..", "pkey.txt");
 const TMP_CERT = path.resolve(currentDir, "..", "cert.txt");
 
@@ -69,42 +68,6 @@ function allowedList(fingerprint) {
 	const to = '2099-01-01 00:00:00';
 	// Using util.format is fine in MJS/Node.js, but template literals could also be used here.
 	return util.format("%s\tvoid\tvoid\t%s\t%s\ttrue\n", fingerprint, from, to);
-}
-
-function configureBullzip() {
-
-	if (os.platform() != 'win32') return;
-
-	const bullzipDir = path.resolve(process.env.APPDATA, 'PDF Writer', 'Bullzip PDF Printer');
-	const settingsPath = path.resolve(bullzipDir, 'settings.ini');
-
-	const settingsContent =
-		"[PDF Printer]\n" +
-		"output=%HOME%\\Desktop\\<smarttitle>.pdf\n" +
-		"confirmoverwrite=no\n" +
-		"confirmnewfolder=no\n" +
-		"appendifexists=yes\n" +
-		"openfolder=no\n" +
-		"showpdf=no\n" +
-		"showsaveas=nofile\n" +
-		"showsettings=no\n" +
-		"suppresserrors=yes\n";
-
-	try {
-
-		if (!fs.existsSync(bullzipDir)) {
-			fs.mkdirSync(bullzipDir, { recursive: true });
-		}
-		fs.writeFileSync(settingsPath, settingsContent, { encoding: 'utf8' });
-		format.pass("Configured Bullzip");
-
-	}
-
-	catch (err) {
-		format.fail("Failed to configure Bullzip's printer");
-		throw err;
-	}
-
 }
 
 ////// Parameters //////
@@ -198,7 +161,7 @@ const Obj = function() {
 				case "linux":
 					return spawnExpect.spawnExpect(trayParamsLinux.cmd, trayParamsLinux.opts, trayParamsLinux.expect);
 				case "darwin":
-					return spawnExpect.spawnExpect(trayParamsMac.cmd, trayParamsMac.opts, trayParamsMac.expect);
+					return spawnExpect.spawnExpect(trayParamsMac.cmd, trayParamsMac.opts, trayParamsMac.expect, 60000, trayParamsMac.env);
 			}
 		},
 
@@ -221,8 +184,6 @@ async function runTest() {
 	try {
 
 		format.divider("STARTING QZ TRAY INTEGRATION TEST");
-
-		configureBullzip();
 
 		await TestRunner.certPromise();
 		await TestRunner.fingerPromise();
