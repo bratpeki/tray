@@ -116,6 +116,7 @@ jobs:
           # Setup printer (PDFWriter)
           curl -fLs -O https://github.com/rodyager/RWTS-PDFwriter/releases/latest/download/RWTS-PDFwriter.pkg
           sudo installer -pkg RWTS-PDFwriter.pkg -target /
+          sudo mkdir /private/var/spool/pdfwriter/$USER
 
           # Install Node (simplified for script)
           curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
