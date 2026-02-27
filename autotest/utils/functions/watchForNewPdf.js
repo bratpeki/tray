@@ -37,11 +37,11 @@ async function waitForFileReady(filePath, retries = 50, delay = 500) {
  * Uses {@link https://github.com/paulmillr/chokidar}
  *
  * @param {string} dir - The directory where we're listening for the new PDF
- * @param {number} timeout [25000] - Timeout period in miliseconds. If the PDF is not found, the watcher bails
+ * @param {number} timeout [60000] - Timeout period in miliseconds. If the PDF is not found, the watcher bails
  *
  * @returns {Promise<string>} The path to the PDF that's found
  */
-export function watchForNewPdf(dir, timeout = 25000) {
+export function watchForNewPdf(dir, timeout = 60000) {
 	return new Promise((resolve, reject) => {
 		const watcher = chokidar.watch(dir, {
 			ignoreInitial: true,
