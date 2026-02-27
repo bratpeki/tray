@@ -9,6 +9,7 @@ import * as spawnExpect from './spawn-expect.js';
 import * as format from '../utils/functions/formatOutput.js';
 
 import { generatePdfs } from '../utils/functions/generatePdfs.js'
+import { osSplitter } from '../utils/functions/osSplitter.js';
 import { certVer } from "../utils/functions/certVer.js";
 import { comparePdfsInFolders } from '../compare-all-in-two-folders.js';
 
@@ -24,8 +25,13 @@ currentDir = path.dirname(currentDir);
 
 ////// Variables //////
 
-const ALLOWED_DIR = process.env.HOME + '/.qz';
-const ALLOWED = ALLOWED_DIR + '/allowed.dat';
+const ALLOWED_DIR = osSplitter(
+	path.resolve(process.env.APPDATA, 'qz'),
+	path.resolve(process.env.HOME, '.qz'),
+	path.resolve("/", "Library", "Application Support", "qz")
+);
+
+const ALLOWED = path.resolve(ALLOWED_DIR, 'allowed.dat');
 const TMP_KEY = path.resolve(currentDir, "..", "pkey.txt");
 const TMP_CERT = path.resolve(currentDir, "..", "cert.txt");
 
