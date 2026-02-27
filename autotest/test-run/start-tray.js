@@ -52,6 +52,13 @@ function stripFingerprint(stdout) {
 }
 
 /**
+ * Basic sleep function
+  */
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+/**
  * Convert fingerprint to allowed.dat format
  * @param {string} fingerprint - The certificate fingerprint.
  * @returns {string} The formatted line for the allowed.dat file.
@@ -79,24 +86,23 @@ const fingerParams = {
 
 const trayParamsWin = {
 	cmd: 'C:\\Program Files\\QZ Tray\\runtime\\bin\\java.exe',
-	opts: [util.format('-DtrustedRootCert=%s', TMP_CERT), '-jar', 'C:\\Program Files\\QZ Tray\\qz-tray.jar'],
+	opts: [util.format('-DtrustedRootCert=%s', TMP_CERT), '-jar', 'C:\\Program Files\\QZ Tray\\qz-tray.jar', '--steal'],
 	desc: "Start Tray",
 	expect: ' started on port'
 };
 
 const trayParamsLinux = {
 	cmd: '/opt/qz-tray/runtime/bin/java',
-	opts: [util.format('-DtrustedRootCert=%s', TMP_CERT), '-jar', '/opt/qz-tray/qz-tray.jar'],
+	opts: [util.format('-DtrustedRootCert=%s', TMP_CERT), '-jar', '/opt/qz-tray/qz-tray.jar', '--steal', '--headless'],
 	desc: "Start Tray",
 	expect: ' started on port'
 };
 
 const trayParamsMac = {
 	cmd: '/Applications/QZ Tray.app/Contents/PlugIns/Java.runtime/Contents/Home/bin/java',
-	opts: [util.format('-DtrustedRootCert=%s', TMP_CERT), '-jar', '/Applications/QZ Tray.app/Contents/Resources/qz-tray.jar'],
+	opts: [util.format('-DtrustedRootCert=%s', TMP_CERT), '-jar', '/Applications/QZ Tray.app/Contents/Resources/qz-tray.jar', '--steal', '--headless'],
 	desc: "Start Tray",
 	expect: ' started on port',
-	env: { QZ_OPTS: "-headless" }
 };
 
 ////// Test Logic //////
@@ -184,6 +190,9 @@ async function runTest() {
 
 		format.info("\nAttempting to start QZ Tray (Waiting 60 seconds for 'started on port')...");
 		await TestRunner.trayPromise();
+
+        // If QZ Tray was already running post-install, we need to '--steal' it, but this could take a second
+		await sleep(1000);
 
 		certVer();
 
