@@ -193,12 +193,11 @@ jobs:
           choco install vcredist2013 -y --no-progress
           choco install nsis ghostscript graphicsmagick -y --no-progress
           
-          # Enforce refreshenv to work for sub-commands
-          $env:ChocolateyInstall = Convert-Path "$((Get-Command choco).Path)\..\.."
-          Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
-
+          refreshenv
           # TODO: Why won't 'gm' recognize by PowerShell?
-          Update-SessionEnvironment
+          # Try to influence the GITHUB_PATH so 'gm' will be recognized
+          $updatedPath = [Environment]::GetEnvironmentVariable("Path", "Machine")
+          echo "$updatedPath" >> $env:GITHUB_PATH
           Remove-Item Alias:gm -Force
           Get-Command gm
           
