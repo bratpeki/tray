@@ -186,13 +186,13 @@ jobs:
           Get-Printer -Name "Bullzip PDF Printer"
 
           powershell -c "irm https://community.chocolatey.org/install.ps1|iex"
-          $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+          refreshenv
 
           choco install nodejs --version="24.14.0" -y
           # A prereq for ghostscript, apparently comes with the windows-latest image
           choco install vcredist2013 -y
           choco install nsis ghostscript graphicsmagick -y
-          $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+          refreshenv
 
           cd autotest
           npm install
