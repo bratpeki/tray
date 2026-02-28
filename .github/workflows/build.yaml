@@ -192,6 +192,11 @@ jobs:
           # A prereq for ghostscript, apparently comes with the windows-latest image
           choco install vcredist2013 -y
           choco install nsis ghostscript graphicsmagick -y
+          
+          # Enforce refreshenv to work for sub-commands
+          $env:ChocolateyInstall = Convert-Path "$((Get-Command choco).Path)\..\.."
+          Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
+          
           refreshenv
 
           cd autotest
