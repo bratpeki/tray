@@ -186,26 +186,19 @@ jobs:
           Get-Printer -Name "Bullzip PDF Printer"
 
           powershell -c "irm https://community.chocolatey.org/install.ps1|iex"
-          refreshenv
+          Update-SessionEnvironment
 
           choco install nodejs --version="24.14.0" -y --no-progress
           # A prereq for ghostscript, apparently comes with the windows-latest image
           choco install vcredist2013 -y --no-progress
           choco install nsis ghostscript graphicsmagick -y --no-progress
           
-          # Enforce refreshenv to work for sub-commands
-          $env:ChocolateyInstall = Convert-Path "$((Get-Command choco).Path)\..\.."
-          Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
+          Update-SessionEnvironment
           
-          refreshenv
-
           cd autotest
           npm install
           set DEBUG=gm
-          Remove-Item Alias:gm -Force
-          Get-Command gm
           node test-run\start-tray.js
-
       - name: Upload Generated Prints (Windows)
         if: always() && matrix.arch == 'x86_64'
         uses: actions/upload-artifact@v4
