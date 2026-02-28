@@ -190,13 +190,12 @@ jobs:
 
           choco install nodejs --version="24.14.0" -y
           # A prereq for ghostscript, apparently comes with the windows-latest image
-          # choco install vcredist2013 -y
+          choco install vcredist2013 -y
           choco install nsis ghostscript graphicsmagick -y
+          refreshenv
 
           cd autotest
-          # & 'C:\Program Files\nodejs\npm' install
           npm install
-          & 'C:\Program Files\nodejs\node.exe' test-run\start-tray.js
           node test-run\start-tray.js
 
       - name: Upload Generated Prints (Windows)
