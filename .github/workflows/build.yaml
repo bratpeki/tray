@@ -186,14 +186,21 @@ jobs:
           Get-Printer -Name "Bullzip PDF Printer"
 
           powershell -c "irm https://community.chocolatey.org/install.ps1|iex"
-          Update-SessionEnvironment
+          refreshenv
 
           choco install nodejs --version="24.14.0" -y --no-progress
           # A prereq for ghostscript, apparently comes with the windows-latest image
           choco install vcredist2013 -y --no-progress
           choco install nsis ghostscript graphicsmagick -y --no-progress
           
+          # Enforce refreshenv to work for sub-commands
+          $env:ChocolateyInstall = Convert-Path "$((Get-Command choco).Path)\..\.."
+          Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
+
+          # TODO: Why won't 'gm' recognize by PowerShell?
           Update-SessionEnvironment
+          Remove-Item Alias:gm -Force
+          Get-Command gm
           
           cd autotest
           npm install
