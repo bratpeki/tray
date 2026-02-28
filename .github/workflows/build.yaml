@@ -196,6 +196,9 @@ jobs:
 
           cd autotest
           npm install
+          set DEBUG=gm
+          Remove-Item Alias:gm -Force
+          Get-Command gm
           node test-run\start-tray.js
 
       - name: Upload Generated Prints (Windows)
