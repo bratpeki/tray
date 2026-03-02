@@ -39,7 +39,7 @@ jobs:
         if: ${{ matrix.arch == 'x86_64' }}
         run: |
           # Install Deps
-          sudo apt-get install -y ghostscript graphicsmagick
+          sudo apt-get install -y ghostscript imagemagick
 
           # Setup printer (CUPS)
           sudo apt-get remove -yqq cups cups-pdf
@@ -111,7 +111,7 @@ jobs:
         run: |
           # Install Deps
           # /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-          brew install ghostscript graphicsmagick
+          brew install ghostscript imagemagick
 
           # Setup printer (PDFWriter)
           curl -fLs -O https://github.com/rodyager/RWTS-PDFwriter/releases/latest/download/RWTS-PDFwriter.pkg

@@ -1,13 +1,6 @@
 
+import { spawnSync } from "child_process";
 import { PNG } from "pngjs";
-import { fromPath } from "pdf2pic";
-
-const options = {
-	density: 72,
-	format: "png",
-	preserveAspectRatio: true,
-	quality: 100
-};
 
 /**
  * Converts the first page of a PDF file to an RGBA pixel buffer.
@@ -21,24 +14,28 @@ const options = {
  */
 export async function pdf2rgba(pdfPath) {
 
-	const convert = fromPath(pdfPath, options);
-	// TODO: How to specify 'gm' module?  Test on Windows, Linux
-	convert.setGMClass(false);
+	const convert = spawnSync("magick", [
+		"-density", "72",
+		`${pdfPath}[0]`,
+		"-background", "white",
+		"-alpha", "remove",
+		"png:-" // Stream directly to buffer
+	]);
 
-	// TODO: Change '1' to '-1' when we add multi-page support
-	let result = await convert(1, { responseType: "buffer" });
-	result = result.buffer;
-
-	if(result.length <= 0) {
-		throw new Error("Buffer is empty!");
+	if (convert.status !== 0) {
+		throw new Error(`Magick failed: ${convert.stderr.toString()}`);
 	}
 
-	const png = PNG.sync.read(result);
+	if (!convert.stdout || convert.stdout.length === 0) {
+		throw new Error("Magick output is empty!");
+	}
+
+	const png = PNG.sync.read(convert.stdout);
 
 	return {
 		data: png.data,
 		width: png.width,
-		height: png.height,
+		height: png.height
 	};
 
 }
