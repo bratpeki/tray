@@ -15,7 +15,7 @@ import { osSplitter } from "./osSplitter.js"
  */
 export async function pdf2rgba(pdfPath) {
 
-	const imageMagickCmd = osSplitter("TODO WINDOWS", "convert", "magick");
+	const imageMagickCmd = osSplitter("magick", "convert", "magick");
 
 	const convert = spawnSync(imageMagickCmd, [
 		"-density", "72",

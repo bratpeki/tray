@@ -191,16 +191,16 @@ jobs:
           choco install nodejs --version="24.14.0" -y --no-progress
           # A prereq for ghostscript, apparently comes with the windows-latest image
           choco install vcredist2013 -y --no-progress
-          choco install nsis ghostscript graphicsmagick -y --no-progress
-          
+          choco install nsis ghostscript -y --no-progress
+
+          winget install -e --id ImageMagick.ImageMagick --accept-package-agreements --accept-source-agreements --silent
+
           refreshenv
           # TODO: Why won't 'gm' recognize by PowerShell?
           # Try to influence the GITHUB_PATH so 'gm' will be recognized
           $updatedPath = [Environment]::GetEnvironmentVariable("Path", "Machine")
           echo "$updatedPath" >> $env:GITHUB_PATH
-          Remove-Item Alias:gm -Force
-          Get-Command gm
-          
+
           cd autotest
           npm install
           set DEBUG=gm
