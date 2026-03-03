@@ -96,7 +96,7 @@ export async function comparePdfsInFolders(baseline, latest) {
 			const pdfCompRes = await pdfComp(
 				latestFile, baselineCraftedPath,
 				true,
-				"diff" + calculateDelim() + latestFile.split('/').slice(-4).join("-").replace(".pdf", ".png")
+				"diff" + calculateDelim() + latestFile.split(calculateDelim()).slice(-4).join("-").replace(".pdf", ".png")
 			);
 
 			if ( pdfCompRes === false ) {
