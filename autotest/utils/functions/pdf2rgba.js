@@ -1,6 +1,7 @@
 
 import { spawnSync } from "child_process";
 import { PNG } from "pngjs";
+import { osSplitter } from "./osSplitter.js"
 
 /**
  * Converts the first page of a PDF file to an RGBA pixel buffer.
@@ -14,7 +15,9 @@ import { PNG } from "pngjs";
  */
 export async function pdf2rgba(pdfPath) {
 
-	const convert = spawnSync("magick", [
+	const imageMagickCmd = osSplitter("TODO WINDOWS", "convert", "magick");
+
+	const convert = spawnSync(imageMagickCmd, [
 		"-density", "72",
 		`${pdfPath}[0]`,
 		"-background", "white",
