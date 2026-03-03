@@ -99,7 +99,7 @@ async function processPrintJobs(outputFolder, configs, data, foundPrinter) {
 
 		await qz.print(config, data);
 
-		const newPDF = await watchForNewPdf(pdfPrintPath, timeout=120000);
+		const newPDF = await watchForNewPdf(pdfPrintPath, 120000);
 		// The line below was removed because of cross-platform file moving issue (EXDEV)
 		// await fs.rename(newPDF, path.join(outputFolder, ...configDef.outputPath));
 		copyFileSync(newPDF, path.join(outputFolder, ...configDef.outputPath));
