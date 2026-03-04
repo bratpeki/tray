@@ -35,6 +35,9 @@ jobs:
           sudo apt-get install nsis
           ant nsis
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
       - name: Run Autotests
         if: ${{ matrix.arch == 'x86_64' }}
         run: |
@@ -48,11 +51,6 @@ jobs:
 
           # Make the PDF folder
           mkdir "$HOME/PDF"
-
-          # Install Node (simplified for script)
-          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
-          \. "$HOME/.nvm/nvm.sh"
-          nvm install 24
 
           # Run Autotest
           cd autotest
@@ -106,6 +104,9 @@ jobs:
           ant makeself
           ant nsis
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
       - name: Run Autotests
         if: ${{ matrix.arch == 'aarch64' }}
         run: |
@@ -130,7 +131,7 @@ jobs:
           node test-run/start-tray.js
 
       - name: Upload Generated Prints (MacOS)
-        if: always() && matrix.arch == 'x86_64'
+        if: always() && matrix.arch == 'aarch64'
         uses: actions/upload-artifact@v4
         with:
           name: prints-macos-${{ matrix.arch }}
@@ -171,6 +172,9 @@ jobs:
           Start-Process -Wait ./out/qz-tray-*.exe -ArgumentList "/S"
           "&'C:/Program Files/QZ Tray/qz-tray.exe' --wait --version|Out-Null"
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
       - name: Run Autotests
         if: ${{ matrix.arch == 'x86_64' }}
         shell: powershell
