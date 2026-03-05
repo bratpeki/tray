@@ -105,8 +105,8 @@ async function processPrintJobs(outputFolder, configs, data, foundPrinter) {
 		console.log(`File detected: ${newPDF}`);
 
 		// MacOS was locking down, so I added some sleep.
-		const postPrintSleep = osSplitter(100, 100, 30 * 1000);
-		await new Promise(resolve => setTimeout(resolve, postPrintSleep));
+		// const postPrintSleep = osSplitter(100, 100, 30 * 1000);
+		// await new Promise(resolve => setTimeout(resolve, postPrintSleep));
 
 		// The line below was removed because of cross-platform file moving issue (EXDEV)
 		// await fs.rename(newPDF, path.join(outputFolder, ...configDef.outputPath));

@@ -130,6 +130,10 @@ jobs:
           npm install
           node test-run/start-tray.js
 
+      - name: Debug CUPS logs
+        if: failure()
+        run: sudo tail -n 100 /var/log/cups/error_log
+
       - name: Upload Generated Prints (MacOS)
         if: always() && matrix.arch == 'aarch64'
         uses: actions/upload-artifact@v4
