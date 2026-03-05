@@ -11,7 +11,7 @@ import * as format from '../utils/functions/formatOutput.js';
 import { generatePdfs } from '../utils/functions/generatePdfs.js'
 import { osSplitter } from '../utils/functions/osSplitter.js';
 import { certVer } from "../utils/functions/certVer.js";
-import { comparePdfsInFolders } from '../compare-all-in-two-folders.js';
+import { comparePdfsInFolders } from "../utils/functions/comparePdfsInFolders.js";
 
 ////// CWD Logic //////
 

@@ -99,10 +99,12 @@ async function processPrintJobs(outputFolder, configs, data, foundPrinter) {
 
 		await qz.print(config, data);
 
-		const newPDF = await watchForNewPdf(pdfPrintPath, 5 * 60000);
+		// We wait for 5 minutes for the PDF to pop up
+		// Yes, printers on runners are that slow sometimes...
+		const newPDF = await watchForNewPdf(pdfPrintPath, 5 * 60 * 1000);
 		console.log(`File detected: ${newPDF}`);
-		// MacOS was locking down, so I added a second-long sleep.
-		await new Promise(resolve => setTimeout(resolve, 1000));
+		// MacOS was locking down, so I added a ten-second-long sleep.
+		await new Promise(resolve => setTimeout(resolve, 10 * 1000));
 		// The line below was removed because of cross-platform file moving issue (EXDEV)
 		// await fs.rename(newPDF, path.join(outputFolder, ...configDef.outputPath));
 		copyFileSync(newPDF, path.join(outputFolder, ...configDef.outputPath));

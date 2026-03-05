@@ -3,8 +3,8 @@ import { promises as fs } from "fs";
 import { existsSync, mkdirSync, rmSync } from "fs";
 import path from "path";
 
-import { calculateDelim } from "./utils/functions/calculateDelim.js"
-import { pdfComp } from "./utils/functions/pdfComp.js"
+import { calculateDelim } from "./calculateDelim.js"
+import { pdfComp } from "./pdfComp.js"
 
 /**
  * Traverses the folder recursively and stores all the file paths into `result`
