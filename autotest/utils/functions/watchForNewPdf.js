@@ -37,7 +37,7 @@ async function waitForFileReady(filePath, retries = 50, delay = 500) {
  * Uses {@link https://github.com/paulmillr/chokidar}
  *
  * @param {string} dir - The directory where we're listening for the new PDF
- * @param {number} timeout [60000] - Timeout period in miliseconds. If the PDF is not found, the watcher bails
+ * @param {number} timeout [60000] - Timeout period in miliseconds, so 60 seconds. If the PDF is not found, the watcher bails
  *
  * @returns {Promise<string>} The path to the PDF that's found
  */

@@ -50,10 +50,7 @@ export function rgbaComp( img1, img2, makeDiff = false, diffLocation = "", thres
 		fs.writeFileSync(diffLocation, PNG.sync.write(diff));
 	}
 
-	console.log("numDiffPixels", numDiffPixels);
-	console.log("img1.data.length", img1.data.length);
-	console.log("allowedRed", allowedRed);
-	console.log("---");
+	console.log("  (total, allowed error, true error) =", [img1.data.length, allowedRed, numDiffPixels])
 
 	// return numDiffPixels === 0;
 	return good;

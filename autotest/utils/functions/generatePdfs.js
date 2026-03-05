@@ -103,10 +103,14 @@ async function processPrintJobs(outputFolder, configs, data, foundPrinter) {
 		// Yes, printers on runners are that slow sometimes...
 		const newPDF = await watchForNewPdf(pdfPrintPath, 5 * 60 * 1000);
 		console.log(`File detected: ${newPDF}`);
-		// MacOS was locking down, so I added a ten-second-long sleep.
-		await new Promise(resolve => setTimeout(resolve, 10 * 1000));
+
+		// MacOS was locking down, so I added some sleep.
+		const postPrintSleep = osSplitter(100, 100, 30 * 1000);
+		await new Promise(resolve => setTimeout(resolve, postPrintSleep));
+
 		// The line below was removed because of cross-platform file moving issue (EXDEV)
 		// await fs.rename(newPDF, path.join(outputFolder, ...configDef.outputPath));
+
 		copyFileSync(newPDF, path.join(outputFolder, ...configDef.outputPath));
 		unlinkSync(newPDF);
 
