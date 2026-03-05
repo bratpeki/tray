@@ -132,7 +132,7 @@ jobs:
 
       - name: Debug CUPS logs
         if: failure()
-        run: log show --predicate 'process == "cupsd" || subsystem contains "com.apple.print"' --last 5m
+        run: lpoptions -p PDFwriter -l | grep -i "A4"
 
       - name: Upload Generated Prints (MacOS)
         if: always() && matrix.arch == 'aarch64'
