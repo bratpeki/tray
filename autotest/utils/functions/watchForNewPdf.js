@@ -47,6 +47,7 @@ async function waitForFileReady(filePath, retries = 50, delay = 500) {
  */
 export function watchForNewPdf(dir, timeout = 60000) {
 	return new Promise((resolve, reject) => {
+		console.log(`  DEBUG: Adding listener to directory: ${dir}...`);
 		const watcher = chokidar.watch(dir, {
 			ignoreInitial: true,
 			depth: 0,
@@ -60,6 +61,8 @@ export function watchForNewPdf(dir, timeout = 60000) {
 			watcher.close();
 			reject(new Error("Timeout: No new PDF detected on " + dir));
 		}, timeout);
+
+        console.log(`  DEBUG: Listener added, to directory ${dir}, waiting for 'add' event...`);
 
 		watcher.on("add", async (filePath) => {
 
