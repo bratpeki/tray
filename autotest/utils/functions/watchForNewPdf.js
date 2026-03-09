@@ -13,17 +13,21 @@ async function waitForFileReady(filePath, retries = 50, delay = 500) {
 	const tempPath = filePath + ".readycheck";
 
 	for (let i = 0; i < retries; i++) {
-
+        console.log(`  DEBUG: Trying to rename ${filePath} --> ${tempPath} (retry ${i})`);
 		try {
 			// const fh = await fs.open(filePath, "r"); await fh.close();
 			await fs.rename(filePath, tempPath);
+			console.log(`  DEBUG: Trying to rename ${tempPath} --> ${filePath}`);
 			await fs.rename(tempPath, filePath);
 			return;
 		}
 
 		catch (err) {
 			// Sleep if the file is still busy
-			if (err.code === "EBUSY") { await new Promise((r) => setTimeout(r, delay)); }
+			if (err.code === "EBUSY") {
+			    console.log(`  DEBUG: EBUSY!... Sleeping for ${delay}ms for ${filePath}`);
+			    await new Promise((r) => setTimeout(r, delay));
+			}
 			else { throw err; }
 		}
 
@@ -58,6 +62,8 @@ export function watchForNewPdf(dir, timeout = 60000) {
 		}, timeout);
 
 		watcher.on("add", async (filePath) => {
+
+            console.log(`  DEBUG: File added: ${filePath}`);
 
 			if (path.extname(filePath).toLowerCase() !== ".pdf") return;
 
