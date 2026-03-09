@@ -102,7 +102,6 @@ async function processPrintJobs(outputFolder, configs, data, foundPrinter) {
 		// We wait for 5 minutes for the PDF to pop up
 		// Yes, printers on runners are that slow sometimes...
 		const newPDF = await watchForNewPdf(pdfPrintPath, 5 * 60 * 1000);
-		console.log(`File detected: ${newPDF}`);
 
 		// MacOS was locking down, so I added some sleep.
 		// const postPrintSleep = osSplitter(100, 100, 30 * 1000);
