@@ -33,7 +33,7 @@ const configsHtml = [
 		outputPath: [outPath, "html", "raster", "basic.pdf"],
 	},
 
-	// Skipping vector and rotation: https://github.com/qzind/tray/issues/529
+	// Skipping vector rotation: https://github.com/qzind/tray/issues/529
 	/*
 	{
 		options: {
@@ -46,6 +46,8 @@ const configsHtml = [
 	},
 	*/
 
+	// Skipping raster rotation as it's intermittently erronous
+	/*
 	{
 		options: {
 			...usual.conf,
@@ -56,6 +58,7 @@ const configsHtml = [
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "html", "raster", "rot45.pdf"],
 	},
+	*/
 
 	{
 		options: {

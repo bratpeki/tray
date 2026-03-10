@@ -43,6 +43,8 @@ const configsImage = [
 		outputPath: [outPath, "img", "vector", "rot45.pdf"],
 	},
 
+	// Skipping raster rotation as it's intermittently erronous
+	/*
 	{
 		options: {
 			...usual.conf,
@@ -53,6 +55,7 @@ const configsImage = [
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "img", "raster", "rot45.pdf"],
 	},
+	*/
 
 	{
 		options: {

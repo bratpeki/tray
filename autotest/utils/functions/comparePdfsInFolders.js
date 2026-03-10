@@ -73,7 +73,6 @@ export async function comparePdfsInFolders(baseline, latest) {
 
 		if ( ext.toLowerCase() != ".pdf" ) {
 			console.log(`Skipping ${latestFile}`);
-			// errarr.push( [ latestRelative, "Not a PDF file"] );
 			console.log("");
 			continue;
 		}
