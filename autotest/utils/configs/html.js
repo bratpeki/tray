@@ -17,7 +17,7 @@ const configsHtml = [
 	{
 		options: {
 			...usual.conf,
-			jobName: "PDF Vector Base"
+			jobName: "HTML Vector Base"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "html", "vector", "basic.pdf"],
@@ -27,7 +27,7 @@ const configsHtml = [
 		options: {
 			...usual.conf,
 			rasterize: true,
-			jobName: "PDF Raster Base"
+			jobName: "HTML Raster Base"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "html", "raster", "basic.pdf"],
@@ -39,7 +39,7 @@ const configsHtml = [
 		options: {
 			...usual.conf,
 			rotation: 45,
-			jobName: "PDF Vector Rot45"
+			jobName: "HTML Vector Rot45"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "html", "vector", "rot45.pdf"],
@@ -51,7 +51,7 @@ const configsHtml = [
 			...usual.conf,
 			rasterize: true,
 			rotation: 45,
-			jobName: "PDF Raster Rot45"
+			jobName: "HTML Raster Rot45"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "html", "raster", "rot45.pdf"],
@@ -61,7 +61,7 @@ const configsHtml = [
 		options: {
 			...usual.conf,
 			orientation: "reverse-landscape",
-			jobName: "PDF Vector Orientation reverse-landscape"
+			jobName: "HTML Vector Orientation reverse-landscape"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "html", "vector", "orient_revland.pdf"],
@@ -72,7 +72,7 @@ const configsHtml = [
 			...usual.conf,
 			rasterize: true,
 			orientation: "reverse-landscape",
-			jobName: "PDF Raster Orientation reverse-landscape"
+			jobName: "HTML Raster Orientation reverse-landscape"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "html", "raster", "orient_revland.pdf"],
@@ -82,7 +82,7 @@ const configsHtml = [
 		options: {
 			...usual.conf,
 			orientation: "landscape",
-			jobName: "PDF Vector Orientation landscape"
+			jobName: "HTML Vector Orientation landscape"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "html", "vector", "orient_land.pdf"],
@@ -93,7 +93,7 @@ const configsHtml = [
 			...usual.conf,
 			rasterize: true,
 			orientation: "landscape",
-			jobName: "PDF Raster Orientation landscape"
+			jobName: "HTML Raster Orientation landscape"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "html", "raster", "orient_land.pdf"],
@@ -103,7 +103,7 @@ const configsHtml = [
 		options: {
 			...usual.conf,
 			margins: 2,
-			jobName: "PDF Vector Margin uniform"
+			jobName: "HTML Vector Margin uniform"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "html", "vector", "margin_all.pdf"],
@@ -114,7 +114,7 @@ const configsHtml = [
 			...usual.conf,
 			rasterize: true,
 			margins: 2,
-			jobName: "PDF Raster Margin uniform"
+			jobName: "HTML Raster Margin uniform"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "html", "raster", "margin_all.pdf"],
@@ -124,7 +124,7 @@ const configsHtml = [
 		options: {
 			...usual.conf,
 			margins: { top: 2, left: 2 },
-			jobName: "PDF Vector Margin top left"
+			jobName: "HTML Vector Margin top left"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "html", "vector", "margin_top_left.pdf"],
@@ -135,7 +135,7 @@ const configsHtml = [
 			...usual.conf,
 			rasterize: true,
 			margins: { top: 2, left: 2 },
-			jobName: "PDF Raster Margin top left"
+			jobName: "HTML Raster Margin top left"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "html", "raster", "margin_top_left.pdf"],
@@ -144,7 +144,7 @@ const configsHtml = [
 	{
 		options: {
 			...a4.conf,
-			jobName: "PDF Vector A4"
+			jobName: "HTML Vector A4"
 		},
 		lpadmincode: a4.lpadmincode,
 		outputPath: [outPath, "html", "vector", "size_a4.pdf"],
@@ -154,7 +154,7 @@ const configsHtml = [
 		options: {
 			...a4.conf,
 			rasterize: true,
-			jobName: "PDF Raster A4"
+			jobName: "HTML Raster A4"
 		},
 		lpadmincode: a4.lpadmincode,
 		outputPath: [outPath, "html", "raster", "size_a4.pdf"],
