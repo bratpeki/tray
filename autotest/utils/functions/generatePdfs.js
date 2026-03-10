@@ -113,6 +113,18 @@ async function processPrintJobs(outputFolder, configs, data, foundPrinter) {
 		copyFileSync(newPDF, path.join(outputFolder, ...configDef.outputPath));
 		unlinkSync(newPDF);
 
+		// An attempt at fixing empty PDFs
+		// The error reads:
+		//
+		//  Error: Magick failed: Catalog dictionary not located in file, unable to proceed
+		//   **** Error: Couldn't initialise file.
+		//               Output may be incorrect.
+		// Requested FirstPage is greater than the number of pages in the file: 0
+		//   No pages will be processed (FirstPage > LastPage).
+		// magick: no images found for operation `-alpha' at CLI arg 6 @ error/operation.c/CLIOption/5481.
+
+		await new Promise(resolve => setTimeout(resolve, 500));
+
 	}
 
 }
