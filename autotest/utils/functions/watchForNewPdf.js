@@ -53,16 +53,23 @@ export function watchForNewPdf(dir, timeout = 60000) {
 		console.log(`  DEBUG: Checking directory for existing files: ${dir}...`);
 
 		try {
+
 			const files = readdirSync(dir);
 			const immediateFile = files.find(f => path.extname(f).toLowerCase() === ".pdf");
 
 			if (immediateFile) {
 				const fullPath = path.join(dir, immediateFile);
 				console.log(`  DEBUG: File already exists, skipping watcher: ${fullPath}`);
-				waitForFileReady(fullPath).then(resolve).catch(reject);
+
+				// Explicitly resolve with the fullPath after the file is ready
+				waitForFileReady(fullPath)
+					.then(() => resolve(fullPath))
+					.catch(reject);
 				return;
 			}
-		} catch (err) {
+
+		}
+		catch (err) {
 			reject(err);
 		}
 
