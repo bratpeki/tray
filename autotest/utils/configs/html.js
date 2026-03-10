@@ -15,19 +15,19 @@ const outPath = calculateOutPath();
 const configsHtml = [
 
 	{
-		name: "HTML: Vector, base",
 		options: {
-			...usual.conf
+			...usual.conf,
+			jobName: "PDF Vector Base"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "html", "vector", "basic.pdf"],
 	},
 
 	{
-		name: "HTML: Raster, base",
 		options: {
 			...usual.conf,
-			rasterize: true
+			rasterize: true,
+			jobName: "PDF Raster Base"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "html", "raster", "basic.pdf"],
@@ -36,10 +36,10 @@ const configsHtml = [
 	// Skipping vector and rotation: https://github.com/qzind/tray/issues/529
 	/*
 	{
-		name: "HTML: Vector, rotated 45 degrees",
 		options: {
 			...usual.conf,
-			rotation: 45
+			rotation: 45,
+			jobName: "PDF Vector Rot45"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "html", "vector", "rot45.pdf"],
@@ -47,114 +47,114 @@ const configsHtml = [
 	*/
 
 	{
-		name: "HTML: Raster, rotated 45 degrees",
 		options: {
 			...usual.conf,
 			rasterize: true,
-			rotation: 45
+			rotation: 45,
+			jobName: "PDF Raster Rot45"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "html", "raster", "rot45.pdf"],
 	},
 
 	{
-		name: "HTML: Vector, orientation:reverse-landscape",
 		options: {
 			...usual.conf,
-			orientation: "reverse-landscape"
+			orientation: "reverse-landscape",
+			jobName: "PDF Vector Orientation reverse-landscape"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "html", "vector", "orient_revland.pdf"],
 	},
 
 	{
-		name: "HTML: Raster, orientation:reverse-landscape",
 		options: {
 			...usual.conf,
 			rasterize: true,
-			orientation: "reverse-landscape"
+			orientation: "reverse-landscape",
+			jobName: "PDF Raster Orientation reverse-landscape"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "html", "raster", "orient_revland.pdf"],
 	},
 
 	{
-		name: "HTML: Vector, orientation:landscape",
 		options: {
 			...usual.conf,
-			orientation: "landscape"
+			orientation: "landscape",
+			jobName: "PDF Vector Orientation landscape"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "html", "vector", "orient_land.pdf"],
 	},
 
 	{
-		name: "HTML: Raster, orientation:landscape",
 		options: {
 			...usual.conf,
 			rasterize: true,
-			orientation: "landscape"
+			orientation: "landscape",
+			jobName: "PDF Raster Orientation landscape"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "html", "raster", "orient_land.pdf"],
 	},
 
 	{
-		name: "HTML: Vector, uniform margin",
 		options: {
 			...usual.conf,
-			margins: 2
+			margins: 2,
+			jobName: "PDF Vector Margin uniform"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "html", "vector", "margin_all.pdf"],
 	},
 
 	{
-		name: "HTML: Raster, uniform margin",
 		options: {
 			...usual.conf,
 			rasterize: true,
-			margins: 2
+			margins: 2,
+			jobName: "PDF Raster Margin uniform"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "html", "raster", "margin_all.pdf"],
 	},
 
 	{
-		name: "HTML: Vector, top and left margin",
 		options: {
 			...usual.conf,
-			margins: { top: 2, left: 2 }
+			margins: { top: 2, left: 2 },
+			jobName: "PDF Vector Margin top left"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "html", "vector", "margin_top_left.pdf"],
 	},
 
 	{
-		name: "HTML: Raster, top and left margin",
 		options: {
 			...usual.conf,
 			rasterize: true,
-			margins: { top: 2, left: 2 }
+			margins: { top: 2, left: 2 },
+			jobName: "PDF Raster Margin top left"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "html", "raster", "margin_top_left.pdf"],
 	},
 
 	{
-		name: "HTML: Vector, size (A4)",
 		options: {
-			...a4.conf
+			...a4.conf,
+			jobName: "PDF Vector A4"
 		},
 		lpadmincode: a4.lpadmincode,
 		outputPath: [outPath, "html", "vector", "size_a4.pdf"],
 	},
 
 	{
-		name: "HTML: Raster, size (A4)",
 		options: {
 			...a4.conf,
-			rasterize: true
+			rasterize: true,
+			jobName: "PDF Raster A4"
 		},
 		lpadmincode: a4.lpadmincode,
 		outputPath: [outPath, "html", "raster", "size_a4.pdf"],

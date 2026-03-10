@@ -15,143 +15,143 @@ const outPath = calculateOutPath();
 const configsPdf = [
 
 	{
-		name: "PDF: Vector, base",
 		options: {
-			...usual.conf
+			...usual.conf,
+			jobName: "PDF Vector Base"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "pdf", "vector", "basic.pdf"],
 	},
 
 	{
-		name: "PDF: Raster, base",
 		options: {
 			...usual.conf,
-			rasterize: true
+			rasterize: true,
+			jobName: "PDF Raster Base"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "pdf", "raster", "basic.pdf"],
 	},
 
 	{
-		name: "PDF: Vector, rotated 45 degrees",
 		options: {
 			...usual.conf,
-			rotation: 45
+			rotation: 45,
+			jobName: "PDF Vector Rot45"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "pdf", "vector", "rot45.pdf"],
 	},
 
 	{
-		name: "PDF: Raster, rotated 45 degrees",
 		options: {
 			...usual.conf,
 			rasterize: true,
-			rotation: 45
+			rotation: 45,
+			jobName: "PDF Raster Rot45"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "pdf", "raster", "rot45.pdf"],
 	},
 
 	{
-		name: "PDF: Vector, orientation:reverse-landscape",
 		options: {
 			...usual.conf,
-			orientation: "reverse-landscape"
+			orientation: "reverse-landscape",
+			jobName: "PDF Vector Orientation reverse-landscape"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "pdf", "vector", "orient_revland.pdf"],
 	},
 
 	{
-		name: "PDF: Raster, orientation:reverse-landscape",
 		options: {
 			...usual.conf,
 			rasterize: true,
-			orientation: "reverse-landscape"
+			orientation: "reverse-landscape",
+			jobName: "PDF Raster Orientation reverse-landscape"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "pdf", "raster", "orient_revland.pdf"],
 	},
 
 	{
-		name: "PDF: Vector, orientation:landscape",
 		options: {
 			...usual.conf,
-			orientation: "landscape"
+			orientation: "landscape",
+			jobName: "PDF Vector Orientation landscape"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "pdf", "vector", "orient_land.pdf"],
 	},
 
 	{
-		name: "PDF: Raster, orientation:landscape",
 		options: {
 			...usual.conf,
 			rasterize: true,
-			orientation: "landscape"
+			orientation: "landscape",
+			jobName: "PDF Raster Orientation landscape"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "pdf", "raster", "orient_land.pdf"],
 	},
 
 	{
-		name: "PDF: Vector, uniform margin",
 		options: {
 			...usual.conf,
-			margins: 2
+			margins: 2,
+			jobName: "PDF Vector Margin uniform"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "pdf", "vector", "margin_all.pdf"],
 	},
 
 	{
-		name: "PDF: Raster, uniform margin",
 		options: {
 			...usual.conf,
 			rasterize: true,
-			margins: 2
+			margins: 2,
+			jobName: "PDF Raster Margin uniform"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "pdf", "raster", "margin_all.pdf"],
 	},
 
 	{
-		name: "PDF: Vector, top and left margin",
 		options: {
 			...usual.conf,
-			margins: { top: 2, left: 2 }
+			margins: { top: 2, left: 2 },
+			jobName: "PDF Vector Margin top left"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "pdf", "vector", "margin_top_left.pdf"],
 	},
 
 	{
-		name: "PDF: Raster, top and left margin",
 		options: {
 			...usual.conf,
 			rasterize: true,
-			margins: { top: 2, left: 2 }
+			margins: { top: 2, left: 2 },
+			jobName: "PDF Raster Margin top left"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "pdf", "raster", "margin_top_left.pdf"],
 	},
 
 	{
-		name: "PDF: Vector, size (A4)",
 		options: {
-			...a4.conf
+			...a4.conf,
+			jobName: "PDF Vector A4"
 		},
 		lpadmincode: a4.lpadmincode,
 		outputPath: [outPath, "pdf", "vector", "size_a4.pdf"],
 	},
 
 	{
-		name: "PDF: Raster, size (A4)",
 		options: {
 			...a4.conf,
-			rasterize: true
+			rasterize: true,
+			jobName: "PDF Raster A4"
 		},
 		lpadmincode: a4.lpadmincode,
 		outputPath: [outPath, "pdf", "raster", "size_a4.pdf"],

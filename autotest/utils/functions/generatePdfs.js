@@ -85,7 +85,7 @@ async function processPrintJobs(outputFolder, configs, data, foundPrinter) {
 
 	for ( const configDef of configs ) {
 
-		console.log(`Processing '${configDef.name}'...`);
+		console.log(`Processing '${configDef.options.jobName}'...`);
 
 		const config = qz.configs.create(foundPrinter, configDef.options);
 
