@@ -71,12 +71,12 @@ export async function watchForNewPdf(dir, timeout = 60000) {
 		console.log(`  DEBUG: Adding listener to directory: ${dir}...`);
 
 		const watcher = chokidar.watch(dir, {
-			ignoreInitial: true,
+			ignoreInitial: false,
 			depth: 0,
 			// https://github.com/paulmillr/chokidar?tab=readme-ov-file#performance
 			// stabilityThreshold: For how long must a file remain the same size before the watcher responds
 			// pollInterval: How often the file is "asked" for his size
-			awaitWriteFinish: { stabilityThreshold: 1000, pollInterval: 10 },
+			awaitWriteFinish: { stabilityThreshold: 5 * 1000, pollInterval: 10 },
 		});
 
 		const timer = setTimeout(() => {
