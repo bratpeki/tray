@@ -81,15 +81,15 @@ const qz = (
  */
 async function processPrintJobs(outputFolder, configs, data, foundPrinter) {
 
-	if ( !configs || configs.length === 0 ) return;
+	if (!configs || configs.length === 0) return;
 
-	for ( const configDef of configs ) {
+	for (const configDef of configs) {
 
 		console.log(`Processing '${configDef.options.jobName}'...`);
 
 		const config = qz.configs.create(foundPrinter, configDef.options);
 
-		if ( islinux ) {
+		if (islinux) {
 			try {
 				execSync(`sudo lpadmin -p PDF -o PageSize=${configDef.lpadmincode}`);
 			} catch (e) {
