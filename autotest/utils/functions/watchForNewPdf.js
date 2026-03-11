@@ -2,7 +2,6 @@
 import chokidar from "chokidar";
 import path from "path";
 import fs from "fs/promises";
-import { readdirSync } from "fs";
 
 /**
  * Wait until the given file is no longer locked (i.e. can be opened for reading).
@@ -46,34 +45,31 @@ async function waitForFileReady(filePath, retries = 50, delay = 500) {
  *
  * @returns {Promise<string>} The path to the PDF that's found
  */
-export function watchForNewPdf(dir, timeout = 60000) {
+export async function watchForNewPdf(dir, timeout = 60000) {
+
+	console.log(`  DEBUG: Checking directory for existing files: ${dir}...`);
+
+	const files = await fs.readdir(dir);
+	const immediateFile = files.find(f => path.extname(f).toLowerCase() === ".pdf");
+
+	if (immediateFile) {
+
+		const fullPath = path.join(dir, immediateFile);
+		console.log(`  DEBUG: File already exists, skipping watcher: ${fullPath}`);
+
+		// Sleeping because of a MacOS issue:
+		// "Requested FirstPage is greater than the number of pages in the file: 0"
+		await new Promise(resolve => setTimeout(resolve, 2 * 1000));
+
+		await waitForFileReady(fullPath);
+		return fullPath;
+
+	}
 
 	return new Promise((resolve, reject) => {
 
-		console.log(`  DEBUG: Checking directory for existing files: ${dir}...`);
-
-		try {
-
-			const files = readdirSync(dir);
-			const immediateFile = files.find(f => path.extname(f).toLowerCase() === ".pdf");
-
-			if (immediateFile) {
-				const fullPath = path.join(dir, immediateFile);
-				console.log(`  DEBUG: File already exists, skipping watcher: ${fullPath}`);
-
-				// Explicitly resolve with the fullPath after the file is ready
-				waitForFileReady(fullPath)
-					.then(() => resolve(fullPath))
-					.catch(reject);
-				return;
-			}
-
-		}
-		catch (err) {
-			reject(err);
-		}
-
 		console.log(`  DEBUG: Adding listener to directory: ${dir}...`);
+
 		const watcher = chokidar.watch(dir, {
 			ignoreInitial: true,
 			depth: 0,
@@ -102,9 +98,21 @@ export function watchForNewPdf(dir, timeout = 60000) {
 			try {
 				await waitForFileReady(filePath);
 				resolve(filePath);
-			} catch (err) {
+			}
+			catch(err) {
 				reject(err);
 			}
+
 		});
+
+		// https://github.com/paulmillr/chokidar?tab=readme-ov-file#methods--events
+		// Added just to be safe
+		watcher.on("error", (err) => {
+			clearTimeout(timer);
+			watcher.close();
+			reject(err);
+		});
+
 	});
+
 }
