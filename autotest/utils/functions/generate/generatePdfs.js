@@ -96,9 +96,9 @@ async function processPrintJobs(outputFolder, configs, data, foundPrinter) {
 
 		await qz.print(config, data);
 
-		// We wait for 2 minutes for the PDF to pop up.
+		// We wait for 5 minutes for the PDF to pop up.
 		// Yes, printers on runners are that slow sometimes...
-		const newPDF = await watchForNewPdf(pdfPrintPath, 2 * 60 * 1000);
+		const newPDF = await watchForNewPdf(pdfPrintPath, 5 * 60 * 1000);
 
 		// The line below was removed because of cross-platform file moving issues (EXDEV).
 		// Rather than moving, I copy and delete. That seems to work.
