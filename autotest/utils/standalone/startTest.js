@@ -211,8 +211,7 @@ async function runTest() {
 
 	catch (error) {
 		format.fail("TEST FAILED");
-		// Uncomment if the tests fail for some reason other than actual PDF failure
-		// console.error(error.stack || error.toString());
+		console.error(error.stack || error.toString());
 		process.exit(1);
 	}
 
