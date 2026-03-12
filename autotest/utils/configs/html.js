@@ -1,5 +1,7 @@
 
-import { calculateOutPath } from "../functions/calculateOutPath.js"
+// html.js
+
+import { calculateOutPath } from "../functions/split/calculateOutPath.js"
 
 // Sizes
 // TODO: Remove lpadmincode when we don't need lpadmin anymore; qzind/tray/issues/1409

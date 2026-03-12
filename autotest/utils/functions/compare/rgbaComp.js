@@ -1,23 +1,16 @@
 
+// rgbaComp.js
+
+import fs from "node:fs";
+
 import pixelmatch from "pixelmatch";
-
-// If we need the diff image:
 import { PNG } from "pngjs";
-import fs from "fs";
 
-/**
- * Compares two RGBA buffers.
- *
- * Uses {@link https://github.com/mapbox/pixelmatch}.
- *
- * @param {{data: Uint8ClampedArray, width: number, height: number}} img1 - You get this from {@link pdf2rgba}
- * @param {{data: Uint8ClampedArray, width: number, height: number}} img2 - You get this from {@link pdf2rgba}
- * @param {boolean} makeDiff [false] - A flag to generate a diff image
- * @param {string} diffLocation [""] - The diff image title
- * @param {number} threshold [0.02] - How many red pixels we allow, in %. By default, 0.1%.
- *
- * @return {boolean} true if the buffers are identical, false otherwise
- */
+// Compares two RGBA buffers made with pdf2rgba (img1 and img2).
+//
+// makeDiff toggles DIFF image generation and stores it in diffLocation.
+// threshold is how many erroneous pixels we allow, in %. By default it's 0.1%.
+// Returns true if the error is less than the threshold.
 export function rgbaComp( img1, img2, makeDiff = false, diffLocation = "", threshold = 0.1 ) {
 
 	// Pixelmatch doesn't check this, so it's up to us
@@ -40,10 +33,10 @@ export function rgbaComp( img1, img2, makeDiff = false, diffLocation = "", thres
 	);
 
 	const allowedRed = Math.round(img1.data.length * threshold * 0.01);
-	const good = (numDiffPixels < allowedRed);
+	const underTheThresh = (numDiffPixels < allowedRed);
 
-	// If we want the output diff as a PNG:
-	if ( !good && makeDiff && diffLocation.endsWith(".png") ) {
+	// If we want the diff, it has to be a PNG
+	if ( !underTheThresh && makeDiff && diffLocation.endsWith(".png") ) {
 		const {width, height} = img1;
 		const diff = new PNG({width, height});
 		diff.data = diffBuffer;
@@ -52,7 +45,6 @@ export function rgbaComp( img1, img2, makeDiff = false, diffLocation = "", thres
 
 	console.log("  (total, allowed error, true error) =", [img1.data.length, allowedRed, numDiffPixels])
 
-	// return numDiffPixels === 0;
-	return good;
+	return underTheThresh;
 
 }

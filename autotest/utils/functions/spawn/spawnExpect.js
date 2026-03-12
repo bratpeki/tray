@@ -1,3 +1,9 @@
+
+// spawnExpect.js
+
+// A basically untouched bit of code
+// Tresf wrote some years ago lol
+
 import util from 'node:util';
 import * as spawn from 'node:child_process';
 
@@ -89,3 +95,4 @@ export const spawnExpect = function(cmd, args, waitFor, timeout, env = {}) {
 	});
   });
 };
+

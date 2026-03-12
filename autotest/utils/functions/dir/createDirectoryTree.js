@@ -1,22 +1,18 @@
 
-import { promises as fs } from 'fs';
-import path from 'path';
+// createDirectoryTree.js
 
+import { promises as fs } from 'node:fs';
+import path from 'node:path';
+
+// Levels to the directory tree.
+// Every lvl1 directory has every lvl2 directory.
+// Every lvl2 directory has every lvl3 directory.
 const lvl1 = [ "linux_cupspdf", "macos_pdfwriter", "windows_bullzip" ]
 const lvl2 = [ "pdf", "img", "html" ]
 const lvl3 = [ "vector", "raster" ]
 
-/**
- * Generates the empty PDF directory tree.
- *
- * @async
- *
- * @param {string} baseFolder - The root folder in which the directory tree is made
- *
- * @throws {Error} If <code>fs.mkdir</code> fails for any reason. <p/>
- *
- * @note <code>fs.mkdir</code> doesn't fail if a folder exists.
- */
+// Generates the empty PDF directory tree with baseFolder being the root.
+// fs.mkdir doesn't fail if the folder already exists.
 export async function createDirectoryTree(baseFolder) {
 
 	let directoriesToCreate = [];
@@ -38,3 +34,4 @@ export async function createDirectoryTree(baseFolder) {
 	}
 
 }
+

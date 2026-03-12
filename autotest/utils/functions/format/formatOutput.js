@@ -1,10 +1,12 @@
+
+// formatOutput.js
+
 import 'colors';
 
-/**
- * Logs a status message with color coding (pass, warn, fail).
- * @param {string} type - The status type ("pass", "warn", or "fail").
- * @param {string} msg - The message to log.
- */
+// Logs a status message with color coding (pass, warn, fail).
+//
+// type: The status type ("pass", "warn", or "fail").
+// msg: The message to log.
 const status = function(type, msg) {
 	let coloredType;
 	switch(type) {
@@ -42,12 +44,15 @@ export function fail(err) {
 
 };
 
+// Pad the output to a certain length.
 export const pad = function(s, len) {
 	while (s.length < len) { s += " "; }
 	return s;
 };
 
+// Place a divider.
 export const divider = function(msg) {
-	console.log("\n================================================\n".cyan.bold);
+	console.log("\n==================================================\n".cyan.bold);
 	if (msg) console.log(msg.white.bold);
 };
+

@@ -1,19 +1,15 @@
 
-import { promises as fs } from "fs";
-import { existsSync, mkdirSync, rmSync } from "fs";
+// comparePdfsInFolders.js
+
+// TODO: Can this be under promises 100%?
+import { promises as fs } from "node:fs";
+import { existsSync, mkdirSync, rmSync } from "node:fs";
 import path from "path";
 
-import { calculateDelim } from "./calculateDelim.js"
+import { calculateDelim } from "../split/calculateDelim.js"
 import { pdfComp } from "./pdfComp.js"
 
-/**
- * Traverses the folder recursively and stores all the file paths into `result`
- *
- * @async
- *
- * @param {string} dir - The directory we're traversing
- * @param {string[]} result - The array we're pushing all the found files to
- */
+// Traverses dir recursively and stores all the file paths into result.
 async function traverse(dir, result = []) {
 
 	const files = await fs.readdir(dir);
@@ -30,17 +26,11 @@ async function traverse(dir, result = []) {
 
 }
 
-/**
- * Compares PDF and prints the result.
- * Prints either "All OK" or "Not OK".
- *
- * @async
- *
- * @param {string} baseline - The baseline PDFs (folder)
- * @param {string} latest - The latest printed PDFs (folder)
- */
+// Compares PDFs in of the baseline and latest folder paths and prints the result.
+// The result is either "All OK" or "Not OK".
 export async function comparePdfsInFolders(baseline, latest) {
 
+	// Delete previous diffs.
 	rmSync("diff", { recursive: true, force: true })
 	mkdirSync("diff");
 
@@ -54,6 +44,8 @@ export async function comparePdfsInFolders(baseline, latest) {
 		return 1;
 	}
 
+	// Tracks if there was an error and all the errors.
+	// errarr contains pairs of the path and the error message.
 	var waserr = false;
 	var errarr = []
 
@@ -62,21 +54,27 @@ export async function comparePdfsInFolders(baseline, latest) {
 
 	for (const latestFile of latestFiles) {
 
-		// Added specifically because I got ".DS_Store" when generating stuff and it got very annoying lol
+		// Added specifically because I got ".DS_Store"
+		// when generating stuff and it got very annoying lol
 		const ext = path.extname(latestFile);
 
 		const latestResolve = path.resolve(latest);
 		const latestRelative = path.relative(latestResolve, latestFile);
 
+		// We construct the path to the baseline by piecing together
+		// baselineResolve and latestRelative.
 		const baselineResolve = path.resolve(baseline);
 		const baselineCraftedPath = path.join(baselineResolve, latestRelative);
 
+		// The extension can only be ".pdf"
 		if ( ext.toLowerCase() != ".pdf" ) {
 			console.log(`Skipping ${latestFile}`);
 			console.log("");
 			continue;
 		}
 
+		// The baseline PDF has to exist.
+		// We could probably omit this but I went on the side of caution.
 		try { await fs.stat(baselineCraftedPath); }
 		catch {
 			console.log(`File ${baselineCraftedPath} doesn't exist`);
@@ -92,6 +90,9 @@ export async function comparePdfsInFolders(baseline, latest) {
 
 		try {
 
+			// We make the DIFF and put it in the diff folder.
+			// The filename is the last 4 path sections, for example:
+			// macos-pdfwriter + html + raster + rot45
 			const pdfCompRes = await pdfComp(
 				latestFile, baselineCraftedPath,
 				true,
@@ -132,3 +133,4 @@ export async function comparePdfsInFolders(baseline, latest) {
 	return 0;
 
 }
+

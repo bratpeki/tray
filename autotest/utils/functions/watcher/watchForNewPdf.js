@@ -1,13 +1,15 @@
 
-import chokidar from "chokidar";
-import path from "path";
-import fs from "fs/promises";
+// watchForNewPdf.js
 
-/**
- * Wait until the given file is no longer locked (i.e. can be opened for reading).
- *
- * Node adopted the POSIX error codes: {@link https://en.wikipedia.org/wiki/Errno.h}
- */
+import path from "node:path";
+import { promises as fs } from "node:fs";
+
+import chokidar from "chokidar";
+
+// Wait until the given file is no longer locked (i.e. can be opened for reading).
+//
+// Node adopted the POSIX error codes:
+// https://en.wikipedia.org/wiki/Errno.h
 async function waitForFileReady(filePath, retries = 50, delay = 500) {
 
 	const tempPath = filePath + ".readycheck";
@@ -15,7 +17,6 @@ async function waitForFileReady(filePath, retries = 50, delay = 500) {
 	for (let i = 0; i < retries; i++) {
 		console.log(`  DEBUG: Trying to rename ${filePath} --> ${tempPath} (retry ${i})`);
 		try {
-			// const fh = await fs.open(filePath, "r"); await fh.close();
 			await fs.rename(filePath, tempPath);
 			console.log(`  DEBUG: Trying to rename ${tempPath} --> ${filePath}`);
 			await fs.rename(tempPath, filePath);
@@ -37,14 +38,15 @@ async function waitForFileReady(filePath, retries = 50, delay = 500) {
 
 }
 
-/**
- * Uses {@link https://github.com/paulmillr/chokidar}
- *
- * @param {string} dir - The directory where we're listening for the new PDF
- * @param {number} timeout [60000] - Timeout period in miliseconds, so 60 seconds. If the PDF is not found, the watcher bails
- *
- * @returns {Promise<string>} The path to the PDF that's found
- */
+// The actual watcher used for the PDFs.
+//
+// We first check that the directory exists.
+// Then, if it's not there, we wait for it to appear.
+//
+// timeout is in miliseconds, so it's 60 seconds.
+// If the PDF is not found with that time, the watcher bails.
+//
+// Returns the path to the PDF.
 export async function watchForNewPdf(dir, timeout = 60000) {
 
 	console.log(`  DEBUG: Checking directory for existing files: ${dir}...`);
@@ -116,3 +118,4 @@ export async function watchForNewPdf(dir, timeout = 60000) {
 	});
 
 }
+
