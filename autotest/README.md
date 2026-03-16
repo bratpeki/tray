@@ -5,9 +5,9 @@
 ```
 utils/
 ├── configs
-│   ├── html.js
-│   ├── image.js
-│   └── pdf.js
+│   ├── html.js                      Sample HTML printing configs
+│   ├── image.js                     Sample image printing configs
+│   └── pdf.js                       Sample PDF printing configs
 ├── functions
 │   ├── compare
 │   │   ├── comparePdfsInFolders.js  Compares corresponding PDFs in two folders (baseline/latest).
