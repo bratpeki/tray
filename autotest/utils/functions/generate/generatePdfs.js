@@ -88,7 +88,7 @@ async function processPrintJobs(outputFolder, configs, data, foundPrinter) {
 		// lpadmin call, more about that above.
 		if (islinux) {
 			try {
-				execSync(`sudo lpadmin -p PDF -o PageSize=${configDef.lpadmincode}`);
+				execSync(`sudo lpadmin -p ${foundPrinter} -o PageSize=${configDef.lpadmincode}`);
 			} catch (e) {
 				console.error("Failed to set lpadmin PageSize:", e.message);
 			}
@@ -118,7 +118,7 @@ async function processPrintJobs(outputFolder, configs, data, foundPrinter) {
 		//   No pages will be processed (FirstPage > LastPage).
 		// magick: no images found for operation `-alpha' at CLI arg 6 @ error/operation.c/CLIOption/5481.
 
-		await new Promise(resolve => setTimeout(resolve, 500));
+		await new Promise(resolve => setTimeout(resolve, 1500));
 
 	}
 

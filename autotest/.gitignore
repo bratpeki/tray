@@ -18,3 +18,4 @@ pkey.*
 *.key
 *.pem
 *.der
+*.old
