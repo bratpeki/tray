@@ -6,6 +6,7 @@ import { promises as fs } from "node:fs";
 import { existsSync, mkdirSync, rmSync } from "node:fs";
 import path from "path";
 
+import * as format from "../format/formatOutput.js";
 import { calculateDelim } from "../split/calculateDelim.js"
 import { pdfComp } from "./pdfComp.js"
 
@@ -35,12 +36,12 @@ export async function comparePdfsInFolders(baseline, latest) {
 	mkdirSync("diff");
 
 	if (!(existsSync(baseline))) {
-		console.error(`${baseline} (baseline) does not exist.`);
+		format.fail(`${baseline} (baseline) does not exist.`);
 		return 1;
 	}
 
 	if (!(existsSync(latest))) {
-		console.error(`${latest} (latest) does not exist.`);
+		format.fail(`${latest} (latest) does not exist.`);
 		return 1;
 	}
 
@@ -68,7 +69,7 @@ export async function comparePdfsInFolders(baseline, latest) {
 
 		// The extension can only be ".pdf"
 		if ( ext.toLowerCase() != ".pdf" ) {
-			console.log(`Skipping ${latestFile}`);
+			format.info(`Skipping ${latestFile}`);
 			console.log("");
 			continue;
 		}
@@ -77,16 +78,12 @@ export async function comparePdfsInFolders(baseline, latest) {
 		// We could probably omit this but I went on the side of caution.
 		try { await fs.stat(baselineCraftedPath); }
 		catch {
-			console.log(`File ${baselineCraftedPath} doesn't exist`);
+			format.fail(`File ${baselineCraftedPath} doesn't exist`);
 			console.log("");
 			waserr = true;
 			errarr.push( [ latestRelative, "Corresponding file doesn't exist"] );
 			continue;
 		}
-
-		console.log("Comparing:");
-		console.log(`  ${latestFile}`);
-		console.log(`  ${baselineCraftedPath}`);
 
 		try {
 
@@ -100,27 +97,27 @@ export async function comparePdfsInFolders(baseline, latest) {
 			);
 
 			if ( pdfCompRes === false ) {
-				console.log(`  Error: Content doesn't match`);
+				format.fail(`${latestRelative}: Content doesn't match`);
 				waserr = true;
-				errarr.push( [ latestRelative, "Failed PDF comparison" ] );
+				errarr.push( [ latestRelative, "Content doesn't match" ] );
 			}
 			else {
-				console.log(`  Success`);
+				format.pass(`${latestRelative}: Success`);
 			}
 
 		}
 
 		catch (err) {
-			console.log(`  Error: ${err.message}`);
+			format.fail(`${latestRelative}: ${err.message}`);
 			waserr = true;
 			errarr.push( [ latestRelative, err.message ] );
 		}
 
-		console.log("");
-
 	}
 
-	console.log( waserr ? "Not OK" : "All OK" );
+	format.divider( waserr ? "Not OK" : "All OK" );
+
+	console.log("");
 
 	if (errarr.length > 0) {
 		const tableData = errarr.map(([file, message]) => ({ File: file, Error: message }));

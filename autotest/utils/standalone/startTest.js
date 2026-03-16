@@ -208,16 +208,14 @@ async function runTest() {
 	}
 
 	catch (error) {
-		format.fail("TEST FAILED");
+		format.divider("TEST FAILED");
+		console.log("");
 		console.error(error.stack || error.toString());
-		process.exit(1);
 	}
 
 	finally {
 		format.info("\nAttempting to kill the QZ Tray process and script...");
-		// TODO PEKI: This genuinely doesn't work for me
 		TestRunner.kill();
-		// process.exit(0);
 	}
 }
 

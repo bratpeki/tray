@@ -6,6 +6,8 @@ import fs from "node:fs";
 import pixelmatch from "pixelmatch";
 import { PNG } from "pngjs";
 
+import * as format from "../format/formatOutput.js";
+
 // Compares two RGBA buffers made with pdf2rgba (img1 and img2).
 //
 // makeDiff toggles DIFF image generation and stores it in diffLocation.
@@ -43,7 +45,7 @@ export function rgbaComp( img1, img2, makeDiff = false, diffLocation = "", thres
 		fs.writeFileSync(diffLocation, PNG.sync.write(diff));
 	}
 
-	console.log("  (total, allowed error, true error) =", [img1.data.length, allowedRed, numDiffPixels])
+	// console.log("(total, allowed error, true error) =", [img1.data.length, allowedRed, numDiffPixels])
 
 	return underTheThresh;
 

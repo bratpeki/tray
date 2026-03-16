@@ -15,10 +15,10 @@ async function waitForFileReady(filePath, retries = 50, delay = 500) {
 	const tempPath = filePath + ".readycheck";
 
 	for (let i = 0; i < retries; i++) {
-		console.log(`  DEBUG: Trying to rename ${filePath} --> ${tempPath} (retry ${i})`);
+		// console.log(`  DEBUG: Trying to rename ${filePath} --> ${tempPath} (retry ${i})`);
 		try {
 			await fs.rename(filePath, tempPath);
-			console.log(`  DEBUG: Trying to rename ${tempPath} --> ${filePath}`);
+			// console.log(`  DEBUG: Trying to rename ${tempPath} --> ${filePath}`);
 			await fs.rename(tempPath, filePath);
 			return;
 		}
@@ -26,7 +26,7 @@ async function waitForFileReady(filePath, retries = 50, delay = 500) {
 		catch (err) {
 			// Sleep if the file is still busy
 			if (err.code === "EBUSY") {
-				console.log(`  DEBUG: EBUSY!... Sleeping for ${delay}ms for ${filePath}`);
+				// console.log(`  DEBUG: EBUSY!... Sleeping for ${delay}ms for ${filePath}`);
 				await new Promise((r) => setTimeout(r, delay));
 			}
 			else { throw err; }
@@ -49,7 +49,7 @@ async function waitForFileReady(filePath, retries = 50, delay = 500) {
 // Returns the path to the PDF.
 export async function watchForNewPdf(dir, timeout = 60000) {
 
-	console.log(`  DEBUG: Checking directory for existing files: ${dir}...`);
+	// console.log(`  DEBUG: Checking directory for existing files: ${dir}...`);
 
 	const files = await fs.readdir(dir);
 	const immediateFile = files.find(f => path.extname(f).toLowerCase() === ".pdf");
@@ -57,7 +57,7 @@ export async function watchForNewPdf(dir, timeout = 60000) {
 	if (immediateFile) {
 
 		const fullPath = path.join(dir, immediateFile);
-		console.log(`  DEBUG: File already exists, skipping watcher: ${fullPath}`);
+		// console.log(`  DEBUG: File already exists, skipping watcher: ${fullPath}`);
 
 		// Sleeping because of a MacOS issue:
 		// "Requested FirstPage is greater than the number of pages in the file: 0"
@@ -70,7 +70,7 @@ export async function watchForNewPdf(dir, timeout = 60000) {
 
 	return new Promise((resolve, reject) => {
 
-		console.log(`  DEBUG: Adding listener to directory: ${dir}...`);
+		// console.log(`  DEBUG: Adding listener to directory: ${dir}...`);
 
 		const watcher = chokidar.watch(dir, {
 			ignoreInitial: false,
@@ -86,11 +86,11 @@ export async function watchForNewPdf(dir, timeout = 60000) {
 			reject(new Error("Timeout: No new PDF detected on " + dir));
 		}, timeout);
 
-		console.log(`  DEBUG: Listener added, to directory ${dir}, waiting for 'add' event...`);
+		// console.log(`  DEBUG: Listener added, to directory ${dir}, waiting for 'add' event...`);
 
 		watcher.on("add", async (filePath) => {
 
-			console.log(`  DEBUG: File added: ${filePath}`);
+			// console.log(`  DEBUG: File added: ${filePath}`);
 
 			if (path.extname(filePath).toLowerCase() !== ".pdf") return;
 
