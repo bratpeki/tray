@@ -22,9 +22,8 @@ const qzRoot = path.join(__dirname, "..", "..", "..", "..");
 // Verify the certificate used during priting.
 export function certVer() {
 
-	// TODO: Switch to new names
-	const certPath = path.join(qzRoot, "autotest", "cert.txt");
-	const pkeyPath = path.join(qzRoot, "autotest", "pkey.txt");
+	const certPath = path.join(qzRoot, "autotest", "cert.pem");
+	const pkeyPath = path.join(qzRoot, "autotest", "priv.key");
 
 	if (existsSync(certPath) && existsSync(pkeyPath)) {
 

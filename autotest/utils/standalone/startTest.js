@@ -42,12 +42,10 @@ const ALLOWED_DIR = osSplitter(
 
 // Necessary files
 const ALLOWED = path.resolve(ALLOWED_DIR, 'allowed.dat');
-const TMP_KEY = path.resolve(currentDir, "..", "..", "pkey.txt");
-const TMP_CERT = path.resolve(currentDir, "..", "..", "cert.txt");
+const TMP_KEY = path.resolve(currentDir, "..", "..", "priv.key");
+const TMP_CERT = path.resolve(currentDir, "..", "..", "cert.pem");
 
-// TODO: pkey.txt -> priv.key
-//       cert.txt -> cert.pem
-// Backup old keys to a pkey.txt.old
+// Backup old keys to a priv.key.old
 if ( fs.existsSync(TMP_KEY) ) fs.renameSync(TMP_KEY, TMP_KEY + ".old");
 if ( fs.existsSync(TMP_CERT) ) fs.renameSync(TMP_CERT, TMP_CERT + ".old");
 
