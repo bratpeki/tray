@@ -1,29 +1,15 @@
 
 // certVer.js
 
-import path from "node:path";
 import { existsSync, readFileSync } from "node:fs";
-import { fileURLToPath } from "node:url";
 import { createSign } from "node:crypto";
 
 import qz from "../../../../js/qz-tray.js"
 
-// Recreations of the '__filename' and '__dirname' variables from CommonJS.
-// https://stackoverflow.com/q/46745014
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-//     /..      /..   /..       /..
-// tray/autotest/utils/functions/qz
-const qzRoot = path.join(__dirname, "..", "..", "..", "..");
-
 // Cert Logic
 
 // Verify the certificate used during priting.
-export function certVer() {
-
-	const certPath = path.join(qzRoot, "autotest", "cert.pem");
-	const pkeyPath = path.join(qzRoot, "autotest", "priv.key");
+export function certVer(certPath, pkeyPath) {
 
 	if (existsSync(certPath) && existsSync(pkeyPath)) {
 

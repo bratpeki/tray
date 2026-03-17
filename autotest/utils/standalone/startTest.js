@@ -188,7 +188,7 @@ async function runTest() {
         // If QZ Tray was already running post-install, we need to '--steal' it, but this could take a second
 		await sleep(1000);
 
-		certVer();
+		certVer(TMP_CERT, TMP_KEY);
 
 		format.info("\nAttempting to make the latest prints...");
 		// /..     /..
