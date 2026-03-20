@@ -100,8 +100,8 @@ function sleep(ms) {
 
 // Convert the fingerprint to the allowed.dat format
 function allowedList(fingerprint) {
-	const o = "qz",
-	const cn = "autotestCert"
+	const o = "qz";
+	const cn = "autotestCert";
 	const from = '2000-01-01 00:00:00';
 	const to = '2099-01-01 00:00:00';
 	return util.format("%s\t%s\t%s\t%s\t%s\ttrue\n", o, cn, fingerprint, from, to);
