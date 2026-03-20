@@ -45,8 +45,6 @@ const configsPdf = [
 		outputPath: [outPath, "pdf", "vector", "rot45.pdf"],
 	},
 
-	// Skipping raster rotation as it's intermittently erronous
-	/*
 	{
 		options: {
 			...usual.conf,
@@ -57,7 +55,6 @@ const configsPdf = [
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "pdf", "raster", "rot45.pdf"],
 	},
-	*/
 
 	{
 		options: {

@@ -25,7 +25,6 @@ utils/
 │   ├── spawn
 │   │   └── spawnExpect.js
 │   ├── split
-│   │   ├── calculateDelim.js        Gets the delimiter used by the OS.
 │   │   ├── calculateOutPath.js      Returns the subfolder name for storing generated PDFs based on the current OS.
 │   │   ├── calculatePdfPrintPath.js Calculates the absolute path where the PDF printer outputs generated PDF files.
 │   │   └── osSplitter.js            Get the appropriate item based on the OS.

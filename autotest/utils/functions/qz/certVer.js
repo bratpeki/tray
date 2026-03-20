@@ -35,8 +35,8 @@ export function certVer(certPath, pkeyPath) {
 	else {
 		console.warn("Certificate or Pkey not found, proceding without them, expected:", certPath, pkeyPath)
 		console.warn(" - To resolve: QZ Tray --> Advanced --> Site Manager --> '+' --> Create New")
-		console.warn("   - cp ~'/Desktop/QZ Tray Demo Cert/digital-certificate.txt' ./cert.txt") // TODO
-		console.warn("   - cp ~'/Desktop/QZ Tray Demo Cert/private-key.pem' ./pkey.txt") // TODO
+		console.warn("   - cp ~'/Desktop/QZ Tray Demo Cert/digital-certificate.txt' ./cert.pem")
+		console.warn("   - cp ~'/Desktop/QZ Tray Demo Cert/private-key.pem' ./priv.key")
 	}
 
 }

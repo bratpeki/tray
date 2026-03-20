@@ -48,7 +48,7 @@ const configsHtml = [
 	},
 	*/
 
-	// Skipping raster rotation as it's intermittently erronous
+	// Skipping raster rotation: https://github.com/qzind/tray/issues/1426
 	/*
 	{
 		options: {

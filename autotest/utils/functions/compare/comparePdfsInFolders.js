@@ -1,25 +1,22 @@
 
 // comparePdfsInFolders.js
 
-// TODO: Can this be under promises 100%?
-import { promises as fs } from "node:fs";
-import { existsSync, mkdirSync, rmSync } from "node:fs";
-import path from "path";
+import * as fs from 'node:fs';
+import path from 'node:path';
 
 import * as format from "../format/formatOutput.js";
-import { calculateDelim } from "../split/calculateDelim.js"
 import { pdfComp } from "./pdfComp.js"
 
 // Traverses dir recursively and stores all the file paths into result.
-async function traverse(dir, result = []) {
+function traverse(dir, result = []) {
 
-	const files = await fs.readdir(dir);
+	const files = fs.readdirSync(dir);
 
 	for (const file of files) {
 		const fPath = path.resolve(dir, file);
-		const stat = await fs.stat(fPath);
+		const stat = fs.statSync(fPath);
 		if (stat.isDirectory()) {
-			await traverse(fPath, result);
+			traverse(fPath, result);
 		} else {
 			result.push(fPath);
 		}
@@ -32,15 +29,15 @@ async function traverse(dir, result = []) {
 export async function comparePdfsInFolders(baseline, latest) {
 
 	// Delete previous diffs.
-	rmSync("diff", { recursive: true, force: true })
-	mkdirSync("diff");
+	fs.rmSync("diff", { recursive: true, force: true })
+	fs.mkdirSync("diff");
 
-	if (!(existsSync(baseline))) {
+	if (!(fs.existsSync(baseline))) {
 		format.fail(`${baseline} (baseline) does not exist.`);
 		return 1;
 	}
 
-	if (!(existsSync(latest))) {
+	if (!(fs.existsSync(latest))) {
 		format.fail(`${latest} (latest) does not exist.`);
 		return 1;
 	}
@@ -50,8 +47,8 @@ export async function comparePdfsInFolders(baseline, latest) {
 	var waserr = false;
 	var errarr = []
 
-	var baselineFiles = []; await traverse(baseline, baselineFiles);
-	var latestFiles = []; await traverse(latest, latestFiles);
+	var baselineFiles = []; traverse(baseline, baselineFiles);
+	var latestFiles = []; traverse(latest, latestFiles);
 
 	for (const latestFile of latestFiles) {
 
@@ -76,7 +73,7 @@ export async function comparePdfsInFolders(baseline, latest) {
 
 		// The baseline PDF has to exist.
 		// We could probably omit this but I went on the side of caution.
-		try { await fs.stat(baselineCraftedPath); }
+		try { fs.statSync(baselineCraftedPath); }
 		catch {
 			format.fail(`File ${baselineCraftedPath} doesn't exist`);
 			console.log("");
@@ -93,7 +90,7 @@ export async function comparePdfsInFolders(baseline, latest) {
 			const pdfCompRes = await pdfComp(
 				latestFile, baselineCraftedPath,
 				true,
-				"diff" + calculateDelim() + latestFile.split(calculateDelim()).slice(-4).join("-").replace(".pdf", ".png")
+				"diff" + path.sep + latestFile.split(path.sep).slice(-4).join("-").replace(".pdf", ".png")
 			);
 
 			if ( pdfCompRes === false ) {
