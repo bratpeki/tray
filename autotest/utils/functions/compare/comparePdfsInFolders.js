@@ -1,8 +1,8 @@
 
 // comparePdfsInFolders.js
 
-import * as fs from 'node:fs';
-import path from 'node:path';
+import * as fs from "node:fs";
+import * as path from "node:path";
 
 import * as format from "../format/formatOutput.js";
 import { pdfComp } from "./pdfComp.js"
@@ -65,7 +65,7 @@ export async function comparePdfsInFolders(baseline, latest) {
 		const baselineCraftedPath = path.join(baselineResolve, latestRelative);
 
 		// The extension can only be ".pdf"
-		if ( ext.toLowerCase() != ".pdf" ) {
+		if (ext.toLowerCase() != ".pdf") {
 			format.info(`Skipping ${latestFile}`);
 			console.log("");
 			continue;
@@ -93,7 +93,7 @@ export async function comparePdfsInFolders(baseline, latest) {
 				"diff" + path.sep + latestFile.split(path.sep).slice(-4).join("-").replace(".pdf", ".png")
 			);
 
-			if ( pdfCompRes === false ) {
+			if (pdfCompRes === false) {
 				format.fail(`${latestRelative}: Content doesn't match`);
 				waserr = true;
 				errarr.push( [ latestRelative, "Content doesn't match" ] );

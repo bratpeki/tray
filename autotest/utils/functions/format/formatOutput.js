@@ -1,7 +1,7 @@
 
 // formatOutput.js
 
-import 'colors';
+import * as colors from "colors";
 
 // Logs a status message with color coding (pass, warn, fail).
 //

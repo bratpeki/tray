@@ -1,7 +1,7 @@
 
 // osSplitter.js
 
-import os from "node:os";
+import * as os from "node:os";
 
 // OS username
 const username = os.userInfo().username;

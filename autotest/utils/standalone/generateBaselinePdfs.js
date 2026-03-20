@@ -23,7 +23,7 @@ assert(args[1].includes("generate-baseline-pdfs"));
 
 let dirpdf;
 
-if ( args.length < 3 ) {
+if (args.length < 3) {
 	console.warn("Folder to generate PDFs in hasn't been passed. Using \"baseline\"");
 	dirpdf = "baseline";
 }

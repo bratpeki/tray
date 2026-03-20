@@ -1,8 +1,8 @@
 
 // createDirectoryTree.js
 
-import { promises as fs } from 'node:fs';
-import path from 'node:path';
+import { promises as fs } from "node:fs";
+import * as path from "node:path";
 
 // Levels to the directory tree.
 // Every lvl1 directory has every lvl2 directory.

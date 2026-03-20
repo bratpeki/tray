@@ -1,12 +1,12 @@
 
 // generatePdfs.js
 
-import path from "node:path";
-import os from "node:os";
+import * as path from "node:path";
+import * as os from "node:os";
 import { copyFileSync, unlinkSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
-import WebSocket from "ws";
+import { WebSocket } from "ws";
 
 import { watchForNewPdf } from "../watcher/watchForNewPdf.js";
 import { calculatePdfPrintPath } from "../split/calculatePdfPrintPath.js";
@@ -39,7 +39,7 @@ let sampleImagePath = path.join(qzRoot, "assets", "img", "image_sample.png");
 
 // Browser URLs start with the root, and use forward slashes, so I adjusted sample paths here.
 // If the platform is *Nix, there's no need for this, so there's no osSplitter call.
-if ( os.platform() === "win32" ) {
+if (os.platform() === "win32") {
 	samplePdfPath = "/" + samplePdfPath.replace(/\\/g, "/");
 	sampleImagePath = "/" + sampleImagePath.replace(/\\/g, "/");
 }
@@ -191,9 +191,9 @@ export async function generatePdfs( outputFolder, isPrintPdf = true, isPrintImag
 
 	// Printing
 
-	if ( isPrintPdf ) await processPrintJobs(outputFolder, configsPdf, dataPdf, found);
-	if ( isPrintImage ) await processPrintJobs(outputFolder, configsImage, dataImage, found);
-	if ( isPrintHtml ) await processPrintJobs(outputFolder, configsHtml, dataHtml, found);
+	if (isPrintPdf) await processPrintJobs(outputFolder, configsPdf, dataPdf, found);
+	if (isPrintImage) await processPrintJobs(outputFolder, configsImage, dataImage, found);
+	if (isPrintHtml) await processPrintJobs(outputFolder, configsHtml, dataHtml, found);
 
 	// Closing
 

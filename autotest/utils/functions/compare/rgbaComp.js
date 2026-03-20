@@ -13,7 +13,7 @@ import * as format from "../format/formatOutput.js";
 // makeDiff toggles DIFF image generation and stores it in diffLocation.
 // threshold is how many erroneous pixels we allow, in %. By default it's 0.1%.
 // Returns true if the error is less than the threshold.
-export function rgbaComp( img1, img2, makeDiff = false, diffLocation = "", threshold = 0.1 ) {
+export function rgbaComp(img1, img2, makeDiff = false, diffLocation = "", threshold = 0.1) {
 
 	// Pixelmatch doesn't check this, so it's up to us
 	if (img1.width !== img2.width || img1.height !== img2.height) {
@@ -38,7 +38,7 @@ export function rgbaComp( img1, img2, makeDiff = false, diffLocation = "", thres
 	const underTheThresh = (numDiffPixels < allowedRed);
 
 	// If we want the diff, it has to be a PNG
-	if ( !underTheThresh && makeDiff && diffLocation.endsWith(".png") ) {
+	if (!underTheThresh && makeDiff && diffLocation.endsWith(".png")) {
 		const {width, height} = img1;
 		const diff = new PNG({width, height});
 		diff.data = diffBuffer;

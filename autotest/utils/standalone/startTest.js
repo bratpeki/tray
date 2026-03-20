@@ -45,9 +45,9 @@ const ALLOWED = path.resolve(ALLOWED_DIR, 'allowed.dat');
 const TMP_KEY = path.resolve(currentDir, "..", "..", "priv.key");
 const TMP_CERT = path.resolve(currentDir, "..", "..", "cert.pem");
 
-// Backup old keys to a priv.key.old
-if ( fs.existsSync(TMP_KEY) ) fs.renameSync(TMP_KEY, TMP_KEY + ".old");
-if ( fs.existsSync(TMP_CERT) ) fs.renameSync(TMP_CERT, TMP_CERT + ".old");
+// Backup old keys and certs
+if (fs.existsSync(TMP_KEY)) fs.renameSync(TMP_KEY, TMP_KEY + ".old");
+if (fs.existsSync(TMP_CERT)) fs.renameSync(TMP_CERT, TMP_CERT + ".old");
 
 // Parameters
 
@@ -201,7 +201,7 @@ async function runTest() {
 			path.resolve(currentDir, "..", "..", "latest")
 		);
 
-		if ( compRes === 1 ) throw new Error("Comparison failure");
+		if (compRes === 1) throw new Error("Comparison failure");
 
 		format.divider("TEST SUCCESSFUL");
 

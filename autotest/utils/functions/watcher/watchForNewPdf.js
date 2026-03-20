@@ -1,10 +1,10 @@
 
 // watchForNewPdf.js
 
-import path from "node:path";
+import * as path from "node:path";
 import { promises as fs } from "node:fs";
 
-import chokidar from "chokidar";
+import * as chokidar from "chokidar";
 
 // Wait until the given file is no longer locked (i.e. can be opened for reading).
 //

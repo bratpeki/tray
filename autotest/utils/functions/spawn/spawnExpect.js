@@ -4,8 +4,8 @@
 // A basically untouched bit of code
 // Tresf wrote some years ago lol
 
-import util from 'node:util';
-import * as spawn from 'node:child_process';
+import * as util from "node:util";
+import * as spawn from "node:child_process";
 
 const err = function(cmd, out) {
   return util.format("Failure running %s\n\n%s\n^^^^^^^^\n", cmd, out);
