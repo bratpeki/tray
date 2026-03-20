@@ -114,9 +114,8 @@ export async function comparePdfsInFolders(baseline, latest) {
 
 	format.divider( waserr ? "Not OK" : "All OK" );
 
-	console.log("");
-
 	if (errarr.length > 0) {
+		console.log("");
 		const tableData = errarr.map(([file, message]) => ({ File: file, Error: message }));
 		console.table(tableData);
 		// Ensure the logs hit the screen before we die
