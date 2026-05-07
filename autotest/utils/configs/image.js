@@ -20,7 +20,7 @@ const configsImage = [
 		options: {
 			...usual.conf,
 			rasterize: true,
-			jobName: "IMAGE Raster Base"
+			jobName: "IMAGE Base"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "img", "raster", "basic.pdf"],
@@ -31,7 +31,7 @@ const configsImage = [
 			...usual.conf,
 			rasterize: true,
 			rotation: 45,
-			jobName: "IMAGE Raster Rot45"
+			jobName: "IMAGE Rot45"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "img", "raster", "rot45.pdf"],
@@ -42,7 +42,7 @@ const configsImage = [
 			...usual.conf,
 			rasterize: true,
 			orientation: "reverse-landscape",
-			jobName: "IMAGE Raster Orientation reverse-landscape"
+			jobName: "IMAGE Orientation reverse-landscape"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "img", "raster", "orient_revland.pdf"],
@@ -53,7 +53,7 @@ const configsImage = [
 			...usual.conf,
 			rasterize: true,
 			orientation: "landscape",
-			jobName: "IMAGE Raster Orientation landscape"
+			jobName: "IMAGE Orientation landscape"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "img", "raster", "orient_land.pdf"],
@@ -64,7 +64,7 @@ const configsImage = [
 			...usual.conf,
 			rasterize: true,
 			margins: 2,
-			jobName: "IMAGE Raster Margin uniform"
+			jobName: "IMAGE Margin uniform"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "img", "raster", "margin_all.pdf"],
@@ -75,7 +75,7 @@ const configsImage = [
 			...usual.conf,
 			rasterize: true,
 			margins: { top: 2, left: 2 },
-			jobName: "IMAGE Raster Margin top left"
+			jobName: "IMAGE Margin top left"
 		},
 		lpadmincode: usual.lpadmincode,
 		outputPath: [outPath, "img", "raster", "margin_top_left.pdf"],
@@ -85,7 +85,7 @@ const configsImage = [
 		options: {
 			...a4.conf,
 			rasterize: true,
-			jobName: "IMAGE Raster A4"
+			jobName: "IMAGE A4"
 		},
 		lpadmincode: a4.lpadmincode,
 		outputPath: [outPath, "img", "raster", "size_a4.pdf"],
