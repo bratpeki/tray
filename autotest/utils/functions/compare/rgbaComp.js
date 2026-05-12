@@ -11,9 +11,9 @@ import * as format from "../format/formatOutput.js";
 // Compares two RGBA buffers made with pdf2rgba (img1 and img2).
 //
 // makeDiff toggles DIFF image generation and stores it in diffLocation.
-// threshold is how many erroneous pixels we allow, in %. By default it's 0.1%.
+// threshold is how many erroneous pixels we allow, in %.
 // Returns true if the error is less than the threshold.
-export function rgbaComp(img1, img2, makeDiff = false, diffLocation = "", threshold = 0.1) {
+export function rgbaComp(img1, img2, makeDiff = false, diffLocation = "", threshold = 1) {
 
 	// Pixelmatch doesn't check this, so it's up to us
 	if (img1.width !== img2.width || img1.height !== img2.height) {

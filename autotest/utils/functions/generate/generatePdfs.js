@@ -3,7 +3,7 @@
 
 import * as path from "node:path";
 import * as os from "node:os";
-import { copyFileSync, unlinkSync } from "node:fs";
+import { copyFileSync, unlinkSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
 import { WebSocket } from "ws";
@@ -37,11 +37,13 @@ const qzRoot = path.join(__dirname, "..", "..", "..", "..");
 let samplePdfPath = path.join(qzRoot, "assets", "pdf_sample.pdf");
 let sampleImagePath = path.join(qzRoot, "assets", "img", "image_sample.png");
 
-// Browser URLs start with the root, and use forward slashes, so I adjusted sample paths here.
+// Browser URIs start with the root, and use forward slashes, so I adjusted sample paths here.
 // If the platform is *Nix, there's no need for this, so there's no osSplitter call.
+
+let sampleImageURI = sampleImagePath;
+
 if (os.platform() === "win32") {
-	samplePdfPath = "/" + samplePdfPath.replace(/\\/g, "/");
-	sampleImagePath = "/" + sampleImagePath.replace(/\\/g, "/");
+	sampleImageURI = "/" + sampleImagePath.replace(/\\/g, "/");
 }
 
 // Where the PDF printer prints the prints...
@@ -152,17 +154,18 @@ export async function generatePdfs( outputFolder, isPrintPdf = true, isPrintImag
 	const dataPdf = [{
 		type: 'pixel',
 		format: 'pdf',
-		flavor: 'file',
-		data: "file://" + samplePdfPath
+		flavor: 'base64',
+		data: readFileSync(samplePdfPath).toString('base64')
 	}];
 
 	const dataImage = [{
 		type: 'pixel',
 		format: 'image',
-		flavor: 'file',
-		data: "file://" + sampleImagePath
+		flavor: 'base64',
+		data: readFileSync(sampleImagePath).toString('base64')
 	}];
 
+	// TODO: Unused
 	const qzVersion = await qz.api.getVersion();
 
 	const dataHtml = [{
@@ -180,7 +183,7 @@ export async function generatePdfs( outputFolder, isPrintPdf = true, isPrintImag
 					<span style="color: #D00;">Source:</span> https://qz.io/
 					</td>
 					<td align="right">
-					<img src="file://${sampleImagePath}" />
+					<img src="file://${sampleImageURI}" />
 					</td>
 				</tr>
 				</table>
