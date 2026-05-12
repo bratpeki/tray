@@ -24,6 +24,7 @@ export async function createDirectoryTree(baseFolder) {
 		lvl2.forEach(l2 => {
 			directoriesToCreate.push(path.join(baseFolder, l1, l2));
 			lvl3.forEach(l3 => {
+				if (l2 === "img" && l3 === "vector") { return; }
 				directoriesToCreate.push(path.join(baseFolder, l1, l2, l3));
 			})
 		})
