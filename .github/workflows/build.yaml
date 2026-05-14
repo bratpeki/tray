@@ -49,7 +49,7 @@ jobs:
 
           # Setup printer (CUPS)
           sudo apt-get remove -y cups cups-pdf
-          sudo apt-get install -y --no-install-recommends cups-bsd cups-pdf cups-client
+          sudo apt-get install -y -o Dpkg::Options::="--debug=status,conffile,scripts,triggers" cups-bsd cups-pdf cups-client
           sudo service cups start
 
           # Make the PDF folder
