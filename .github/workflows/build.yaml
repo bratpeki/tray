@@ -40,14 +40,16 @@ jobs:
           node-version: 24
       - name: Run Autotests
         if: ${{ matrix.arch == 'x86_64' }}
+        env:
+          DEBIAN_FRONTEND: noninteractive
         run: |
           # Install Deps
           sudo apt-get update
           sudo apt-get install -y ghostscript imagemagick
 
           # Setup printer (CUPS)
-          sudo apt-get remove -yqq cups cups-pdf
-          sudo apt-get install -yqq cups-bsd cups-pdf cups-client
+          sudo apt-get remove -y cups cups-pdf
+          sudo apt-get install -y cups-bsd cups-pdf cups-client
           sudo service cups start
 
           # Make the PDF folder
