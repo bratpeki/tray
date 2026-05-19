@@ -62,7 +62,7 @@ jobs:
           sudo rm -f /usr/sbin/policy-rc.d
 
           # Now start the CUPS service
-          sudo systemctl cups start
+          sudo systemctl start cups
 
           # Make the PDF folder
           mkdir "$HOME/PDF"
