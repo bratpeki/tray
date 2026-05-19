@@ -47,10 +47,22 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y ghostscript imagemagick
 
-          # Setup printer (CUPS)
+          # Remove the default broken printer (CUPS)
+          # TODO: Why is this broken again?
           sudo apt-get remove -y cups cups-pdf
-          sudo apt-get install -y cups-bsd cups-pdf cups-client
-          sudo service cups start
+
+          # Force a policy that blocks apt from automatically starting services during setup
+          printf '#!/bin/sh\nexit 101\n' | sudo tee /usr/sbin/policy-rc.d
+          sudo chmod +x /usr/sbin/policy-rc.d
+
+          # Okay, now install the packages
+          sudo apt-get install -y --no-install-recommends cups-bsd cups-pdf cups-client
+
+          # Clean up the policy rule so we can manually start the service
+          sudo rm -f /usr/sbin/policy-rc.d
+
+          # Now start the CUPS service
+          sudo systemctl cups start
 
           # Make the PDF folder
           mkdir "$HOME/PDF"
