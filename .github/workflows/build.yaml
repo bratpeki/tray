@@ -61,8 +61,10 @@ jobs:
           # Clean up the policy rule so we can manually start the service
           sudo rm -f /usr/sbin/policy-rc.d
 
-          # Now start the CUPS service
+          # Now start the CUPS service and set the default printer
           sudo systemctl start cups
+          sudo lpadmin -p "PDF" -v "cups-pdf:/" -m "lsb/usr/cups-pdf/CUPS-PDF_opt.ppd" -E
+          sudo lpoptions -d "PDF"
 
           # Make the PDF folder
           mkdir "$HOME/PDF"
