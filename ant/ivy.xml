@@ -4,10 +4,7 @@
         <!--========= Core =========-->
         <dependency name="bcprov-jdk18on" org="${bc.org}" conf="*->default" rev="${bc.rev}"/>
         <dependency name="bcpkix-jdk18on" org="${bc.org}" conf="*->default" rev="${bc.rev}"/>
-        <dependency name="jettison" org="${jettison.org}" conf="*->default" rev="${jettison.rev}">
-            <!-- Skip, needs testing -->
-            <exclude name="*"/>
-        </dependency>
+		<dependency name="jettison" org="${jettison.org}" conf="*->default" rev="${jettison.rev}"/>
         <dependency name="jna" org="${jna.org}" conf="*->default" rev="${jna.rev}"/>
         <dependency name="jna-platform" org="${jna.org}" conf="*->default" rev="${jna.rev}"/>
         <dependency name="${semver.name}" org="${semver.org}" conf="*->default" rev="${semver.rev}"/>
