@@ -43,7 +43,7 @@ public class PrintDirect extends PrintRaw {
     public void parseData(JSONArray printData, PrintOptions options) throws JSONException, UnsupportedOperationException {
         for(int i = 0; i < printData.length(); i++) {
             JSONObject data = printData.optJSONObject(i);
-            if (data == null) { continue; }
+            if (data == null || data == JSONObject.NULL) { continue; }
 
             prints.add(data.getString("data"));
             flavors.add(PrintingUtilities.Flavor.parse(data, PrintingUtilities.Flavor.PLAIN));

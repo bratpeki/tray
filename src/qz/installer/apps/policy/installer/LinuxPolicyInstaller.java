@@ -119,7 +119,7 @@ public class LinuxPolicyInstaller implements PolicyInstaller.PrimitivePolicyInst
         try {
             JSONObject jsonPolicy = readJson(state);
             JSONObject jsonObject = jsonPolicy.optJSONObject(key);
-            if(jsonObject == null) {
+            if(jsonObject == null || jsonObject == JSONObject.NULL) {
                 log.debug("JSON file found '{}' but without map entry for '{}', we'll add it", location, key);
                 jsonObject = new JSONObject();
             }
@@ -174,7 +174,7 @@ public class LinuxPolicyInstaller implements PolicyInstaller.PrimitivePolicyInst
             JSONObject jsonPolicy = readJson(state);
             map = new HashMap<>();
             JSONObject jsonObject = jsonPolicy.optJSONObject(key);
-            if(jsonObject != null) {
+            if(jsonObject != null && jsonObject != JSONObject.NULL) {
                 Iterator<String> iterator = jsonObject.keys(); // unchecked: seems to always be <String>
                 while(iterator.hasNext()) {
                     String mapKey = iterator.next();
@@ -226,7 +226,7 @@ public class LinuxPolicyInstaller implements PolicyInstaller.PrimitivePolicyInst
         switch(state.getAppAlias()) {
             case FIREFOX:
                 JSONObject jsonObject = readJsonFile(state.getLocation()).optJSONObject("policies");
-                return jsonObject != null ? jsonObject : new JSONObject();
+                return (jsonObject != null && jsonObject != JSONObject.NULL) ? jsonObject : new JSONObject();
             case CHROMIUM:
             default:
                 return readJsonFile(state.getLocation());

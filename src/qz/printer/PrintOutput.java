@@ -41,6 +41,7 @@ public class PrintOutput {
             }
         }
 
+        // TODO: What if port is set to null? Can that even happen?
         if (configPrinter.has("host")) {
             host = configPrinter.getString("host");
             port = configPrinter.optInt("port", 9100); // default to port 9100 (HP/JetDirect standard) if not provided

@@ -26,7 +26,7 @@ public class Pgl extends MonoImageConverter {
         int h = getHeight();
         PixelGrid pixelGrid = getImageAsPixelGrid();
 
-        if(logoId == null || logoId.trim().isEmpty()) {
+        if(logoId == JSONObject.NULL || logoId.trim().isEmpty()) {
             throw new InvalidRawImageException("Printronix graphics require a logoId");
         }
         if(igpDots) {

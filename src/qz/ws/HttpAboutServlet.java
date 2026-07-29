@@ -213,7 +213,7 @@ public class HttpAboutServlet extends DefaultServlet {
                 rows.append(titleRow(key));
             }
 
-            if (obj.optJSONObject(key) != null) {
+            if (obj.optJSONObject(key) != null && obj.optJSONObject(key) != JSONObject.NULL) {
                 rows.append(generateFromKeys(obj.getJSONObject(key), false));
             } else {
                 if ("data".equals(key)) { //special case - replace with a "Download" button
@@ -246,7 +246,7 @@ public class HttpAboutServlet extends DefaultServlet {
     private String contentRow(String key, JSONArray value) throws JSONException {
         StringBuilder valueCell = new StringBuilder();
         for(int i = 0; i < value.length(); i++) {
-            if (value.optJSONObject(i) != null) {
+            if (value.optJSONObject(i) != null && value.optJSONObject(i) != JSONObject.NULL) {
                 valueCell.append(newTable());
                 valueCell.append(generateFromKeys(value.getJSONObject(i), false));
                 valueCell.append("</table>");

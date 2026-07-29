@@ -61,7 +61,7 @@ public class Evolis extends ImageConverter {
             // K(black) and O(overlay) are always precision 2
             appendRibbonDataTo( byteBuffer, 'k', 2, cymkData.get(3));
 
-            if (overlay != null) {
+            if (overlay != null && overlay != JSONObject.NULL) {
                 appendRibbonDataTo(byteBuffer, 'o', 2, parseOverlay(overlay, w, h));
             }
         }
