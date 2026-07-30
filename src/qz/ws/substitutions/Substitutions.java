@@ -52,7 +52,7 @@ public class Substitutions {
         JSONArray instructions = new JSONArray(serialized);
         for(int i = 0; i < instructions.length(); i++) {
             JSONObject step = instructions.optJSONObject(i);
-            if(step != null && step != JSONObject.NULL) {
+            if(!JSONObject.NULL.equals(step)) {
                 rules.add(new Rule(step));
             }
         }
@@ -84,11 +84,11 @@ public class Substitutions {
     public static void replace(JSONObject base, JSONObject replace) throws JSONException {
         JSONObject jsonBase = base.optJSONObject("params");
         JSONObject jsonReplace = replace.optJSONObject("params");
-        if(jsonBase == null || jsonBase == JSONObject.NULL) {
+        if(JSONObject.NULL.equals(jsonBase)) {
             // skip, invalid base format for replacement
             return;
         }
-        if(jsonReplace == null || jsonReplace == JSONObject.NULL) {
+        if(JSONObject.NULL.equals(jsonReplace)) {
             throw new SubstitutionException("Replacement JSON is missing \"params\": and is malformed");
         }
 
@@ -113,7 +113,7 @@ public class Substitutions {
     }
 
     private static void removeRestrictedSubkeys(JSONObject jsonObject, Type type) {
-        if(jsonObject == null || jsonObject == JSONObject.NULL) {
+        if(JSONObject.NULL.equals(jsonObject)) {
             return;
         }
 
@@ -122,7 +122,7 @@ public class Substitutions {
 
         for (String parlousFieldName : parlousFieldNames) {
             JSONObject toCheck = jsonObject.optJSONObject(type.getKey());
-            if (toCheck != null && toCheck != JSONObject.NULL && toCheck.has(parlousFieldName)) {
+            if (!JSONObject.NULL.equals(toCheck) && toCheck.has(parlousFieldName)) {
                 log.warn("Use of { \"{}\": { \"{}\": ... } } is restricted, removing", type.getKey(), parlousFieldName);
                 jsonObject.remove(parlousFieldName);
             }
@@ -137,7 +137,7 @@ public class Substitutions {
         ArrayList<Object> toRemove = new ArrayList<>();
         for(int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonObject = jsonArray.optJSONObject(i);
-            if (jsonObject != null && jsonObject != JSONObject.NULL) {
+            if (!JSONObject.NULL.equals(jsonObject)) {
                 String[] parlousFieldNames = parlous.get(type);
                 for (String parlousFieldName : parlousFieldNames) {
                     if (jsonObject.has(parlousFieldName)) {
@@ -326,20 +326,20 @@ public class Substitutions {
 
         Rule(JSONObject json) throws JSONException {
             JSONObject replaceJSON = json.optJSONObject("use");
-            if(replaceJSON != null && replaceJSON != JSONObject.NULL) {
+            if(!JSONObject.NULL.equals(replaceJSON)) {
                 sanitize(replaceJSON);
                 replace = replaceJSON;
             }
 
             JSONObject matchJSON = json.optJSONObject("for");
-            if(matchJSON != null && matchJSON != JSONObject.NULL) {
+            if(!JSONObject.NULL.equals(matchJSON)) {
                 caseSensitive = matchJSON.optBoolean("caseSensitive", false);
                 matchJSON.remove("caseSensitive");
                 sanitize(matchJSON);
                 match = matchJSON;
             }
 
-            if(match == null || match == JSONObject.NULL || replace == null || replace == JSONObject.NULL) {
+            if(JSONObject.NULL.equals(match) || JSONObject.NULL.equals(replace)) {
                 throw new SubstitutionException("Mismatched instructions; Each \"use\" must have a matching \"for\".");
             }
         }

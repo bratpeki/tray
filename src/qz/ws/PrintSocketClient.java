@@ -239,7 +239,7 @@ public class PrintSocketClient {
         String UID = json.optString("uid");
         SocketMethod call = SocketMethod.findFromCall(json.optString("call"));
         JSONObject params = json.optJSONObject("params");
-        if (params == null || params == JSONObject.NULL) { params = new JSONObject(); }
+        if (JSONObject.NULL.equals(params)) { params = new JSONObject(); }
 
         if (call == SocketMethod.INVALID && (UID == null || UID.isEmpty())) {
             //incorrect message format, likely incompatible qz version
@@ -251,7 +251,7 @@ public class PrintSocketClient {
         if (call == SocketMethod.PRINT) {
             //special formatting for print dialogs
             JSONObject pr = params.optJSONObject("printer");
-            if (pr != null && pr != JSONObject.NULL) {
+            if (!JSONObject.NULL.equals(pr)) {
                 prompt = String.format(prompt, pr.optString("name", pr.optString("file", pr.optString("host", "an undefined location"))));
             } else {
                 sendError(session, UID, "A printer must be specified before printing");

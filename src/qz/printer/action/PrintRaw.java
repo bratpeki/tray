@@ -75,14 +75,14 @@ public class PrintRaw implements PrintProcessor {
     public void parseData(JSONArray printData, PrintOptions options) throws JSONException, UnsupportedOperationException {
         for(int i = 0; i < printData.length(); i++) {
             JSONObject data = printData.optJSONObject(i);
-            if (data == null || data == JSONObject.NULL) {
+            if (JSONObject.NULL.equals(data)) {
                 data = new JSONObject();
                 data.put("data", printData.getString(i));
             }
 
             String cmd = data.getString("data");
             JSONObject opt = data.optJSONObject("options");
-            if (opt == null || opt == JSONObject.NULL) { opt = new JSONObject(); }
+            if (JSONObject.NULL.equals(opt)) { opt = new JSONObject(); }
 
             PrintingUtilities.Format format = PrintingUtilities.Format.valueOf(data.optString("format", PrintingUtilities.Format.COMMAND.name()).toUpperCase(Locale.ENGLISH));
             PrintingUtilities.Flavor flavor = PrintingUtilities.Flavor.parse(data, PrintingUtilities.Flavor.PLAIN);
