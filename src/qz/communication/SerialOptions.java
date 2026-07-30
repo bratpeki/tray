@@ -38,7 +38,7 @@ public class SerialOptions {
      * Parses the provided JSON object into relevant SerialPort constants
      */
     public SerialOptions(JSONObject serialOpts, boolean isOpening) {
-        if (serialOpts == null) { return; }
+        if (JSONObject.NULL.equals(serialOpts)) { return; }
 
         //only apply port settings if opening or explicitly set in a send data call
         if (isOpening || serialOpts.has("baudRate") || serialOpts.has("dataBits") || serialOpts.has("stopBits") || serialOpts.has("parity") || serialOpts.has("flowControl")) {
@@ -81,7 +81,7 @@ public class SerialOptions {
             responseFormat.encoding = portSettings.encoding;
 
             JSONObject respOpts = serialOpts.optJSONObject("rx");
-            if (respOpts != null) {
+            if (!JSONObject.NULL.equals(respOpts)) {
                 if (!respOpts.isNull("start")) {
                     try {
                         JSONArray startBits = respOpts.getJSONArray("start");
@@ -127,7 +127,7 @@ public class SerialOptions {
                         JSONObject lengthOpts = respOpts.optJSONObject("lengthBytes");
                         responseFormat.length = new ByteParam();
 
-                        if (lengthOpts != null) {
+                        if (!JSONObject.NULL.equals(lengthOpts)) {
                             if (!lengthOpts.isNull("index")) {
                                 try { responseFormat.length.index = lengthOpts.getInt("index"); }
                                 catch(JSONException se) { LoggerUtilities.optionWarn(log, "integer", "lengthBytes.index", lengthOpts.opt("index")); }
@@ -158,7 +158,7 @@ public class SerialOptions {
                         JSONObject crcOpts = respOpts.optJSONObject("crcBytes");
                         responseFormat.crc = new ByteParam();
 
-                        if (crcOpts != null) {
+                        if (!JSONObject.NULL.equals(crcOpts)) {
                             if (!crcOpts.isNull("index")) {
                                 try { responseFormat.crc.index = crcOpts.getInt("index"); }
                                 catch(JSONException se) { LoggerUtilities.optionWarn(log, "integer", "crcBytes.index", crcOpts.opt("index")); }

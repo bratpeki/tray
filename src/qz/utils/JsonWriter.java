@@ -87,7 +87,8 @@ public class JsonWriter {
             Object baseVal = base.opt(key);
             Object mergeVal = merger.opt(key);
 
-            if (baseVal == null) {
+            // baseVal could be a regular Java object, like a String, or a JSONObject, so we check both
+            if (baseVal == null || JSONObject.NULL.equals(baseVal)) {
                 //add new key
                 base.put(key, mergeVal);
             } else if (baseVal instanceof JSONObject && mergeVal instanceof JSONObject) {
@@ -141,7 +142,7 @@ public class JsonWriter {
                 for(int i = 0; i < ((JSONArray)delVal).length(); i++) {
                     ((JSONArray)baseVal).remove(((JSONArray)delVal).opt(i));
                 }
-            } else if (baseVal != null) {
+            } else if (baseVal != null && !JSONObject.NULL.equals(baseVal)) { // Same case as in merge
                 //delete entire key
                 base.remove(key);
             }
