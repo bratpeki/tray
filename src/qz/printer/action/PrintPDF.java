@@ -78,10 +78,10 @@ public class PrintPDF extends PrintPixel implements PrintProcessor {
             if (!data.isNull("options")) {
                 JSONObject dataOpt = data.getJSONObject("options");
 
-                if (!dataOpt.isNull("pageWidth") && dataOpt.optDouble("pageWidth") > 0) {
+                if (!dataOpt.isNull("pageWidth") && !dataOpt.optString("pageWidth").isEmpty() && dataOpt.optDouble("pageWidth") > 0) {
                     docWidth = dataOpt.optDouble("pageWidth") * convert;
                 }
-                if (!dataOpt.isNull("pageHeight") && dataOpt.optDouble("pageHeight") > 0) {
+                if (!dataOpt.isNull("pageHeight") && !dataOpt.optString("pageHeight").isEmpty() && dataOpt.optDouble("pageHeight") > 0) {
                     docHeight = dataOpt.optDouble("pageHeight") * convert;
                 }
 
