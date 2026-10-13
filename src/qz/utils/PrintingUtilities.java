@@ -128,7 +128,7 @@ public class PrintingUtilities {
     }
 
     public static Type getPrintType(JSONObject data) {
-        if (data == null) {
+        if (JSONObject.NULL.equals(data)) {
             return Type.RAW;
         } else {
             return Type.valueOf(data.optString("type", "RAW").toUpperCase(Locale.ENGLISH));
@@ -181,7 +181,7 @@ public class PrintingUtilities {
     private static void convertVersion(JSONArray dataArr) throws JSONException {
         for(int i = 0; i < dataArr.length(); i++) {
             JSONObject data = dataArr.optJSONObject(i);
-            if (data == null) { data = new JSONObject(); }
+            if (JSONObject.NULL.equals(data)) { data = new JSONObject(); }
 
             if (!data.isNull("flavor")) { return; } //flavor exists only in new version, no need to convert any data
 
