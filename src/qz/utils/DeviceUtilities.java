@@ -28,7 +28,7 @@ public class DeviceUtilities {
         byte[] bytesToSend = null;
 
         JSONObject metadata = params.optJSONObject("data");
-        if (metadata == null) {
+        if (JSONObject.NULL.equals(metadata)) {
             metadata = new JSONObject();
             metadata.put("data", params.get("data"));
             metadata.put("type", "PLAIN");

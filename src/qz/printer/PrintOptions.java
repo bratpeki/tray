@@ -38,7 +38,7 @@ public class PrintOptions {
      * Parses the provided JSON Object into relevant Pixel and Raw options
      */
     public PrintOptions(JSONObject configOpts, PrintOutput output, PrintingUtilities.Format format) {
-        if (configOpts == null) { return; }
+        if (JSONObject.NULL.equals(configOpts)) { return; }
 
         //check for raw options
         if (!configOpts.isNull("forceRaw")) {
@@ -55,7 +55,7 @@ public class PrintOptions {
         rawOptions.destEncoding = Charset.defaultCharset();
         if (!configOpts.isNull("encoding")) {
             JSONObject encodings = configOpts.optJSONObject("encoding");
-            if (encodings != null) {
+            if (!JSONObject.NULL.equals(encodings)) {
                 // encoding may be a string or obj. Since optJSONObject didn't return null, it is an object
                 if (encodings.has("from")) {
                     rawOptions.srcEncoding = StringUtilities.getCharset(encodings.optString("from", Charset.defaultCharset().name()));
@@ -71,7 +71,7 @@ public class PrintOptions {
         }
         if (!configOpts.isNull("spool")) {
             JSONObject spool = configOpts.optJSONObject("spool");
-            if (spool != null) {
+            if (!JSONObject.NULL.equals(spool)) {
                 if (!spool.isNull("size")) {
                     try { rawOptions.spoolSize = spool.getInt("size"); }
                     catch(JSONException e) { LoggerUtilities.optionWarn(log, "integer", "spool.size", spool.opt("size")); }
@@ -145,7 +145,7 @@ public class PrintOptions {
         }
         if (!configOpts.isNull("density")) {
             JSONObject asymmDPI = configOpts.optJSONObject("density");
-            if (asymmDPI != null) {
+            if (!JSONObject.NULL.equals(asymmDPI)) {
                 psOptions.density = asymmDPI.optInt("feed");
                 psOptions.crossDensity = asymmDPI.optInt("cross");
             } else {
@@ -160,7 +160,7 @@ public class PrintOptions {
                         for(int i = 0; i < possibleDPIs.length(); i++) {
                             PrinterResolution compareRes;
                             asymmDPI = possibleDPIs.optJSONObject(i);
-                            if (asymmDPI != null) {
+                            if (!JSONObject.NULL.equals(asymmDPI)) {
                                 compareRes = new PrinterResolution(asymmDPI.optInt("cross"), asymmDPI.optInt("feed"), psOptions.units.resSyntax);
                             } else {
                                 compareRes = new PrinterResolution(possibleDPIs.optInt(i), possibleDPIs.optInt(i), psOptions.units.resSyntax);
@@ -176,7 +176,7 @@ public class PrintOptions {
                     if (usableRes == null) {
                         log.warn("Supported printer densities not found, using first value provided");
                         asymmDPI = possibleDPIs.optJSONObject(0);
-                        if (asymmDPI != null) {
+                        if (!JSONObject.NULL.equals(asymmDPI)) {
                             psOptions.density = asymmDPI.optInt("feed");
                             psOptions.crossDensity = asymmDPI.optInt("cross");
                         } else {
@@ -273,7 +273,7 @@ public class PrintOptions {
         if (!configOpts.isNull("margins")) {
             Margins m = new Margins();
             JSONObject subMargins = configOpts.optJSONObject("margins");
-            if (subMargins != null) {
+            if (!JSONObject.NULL.equals(subMargins)) {
                 //each individually
                 if (!subMargins.isNull("top")) {
                     try { m.top = subMargins.getDouble("top"); }
@@ -312,7 +312,7 @@ public class PrintOptions {
         }
         if (!configOpts.isNull("spool")) {
             JSONObject spool = configOpts.optJSONObject("spool");
-            if (spool != null) {
+            if (!JSONObject.NULL.equals(spool)) {
                 if (!spool.isNull("size")) {
                     try { psOptions.spoolSize = spool.getInt("size"); }
                     catch(JSONException e) { LoggerUtilities.optionWarn(log, "integer", "spool.size", spool.opt("size")); }
@@ -343,7 +343,7 @@ public class PrintOptions {
         if (!configOpts.isNull("size")) {
             Size s = new Size();
             JSONObject subSize = configOpts.optJSONObject("size");
-            if (subSize != null) {
+            if (!JSONObject.NULL.equals(subSize)) {
                 if (!subSize.isNull("width")) {
                     try { s.width = subSize.getDouble("width"); }
                     catch(JSONException e) { LoggerUtilities.optionWarn(log, "double", "size.width", subSize.opt("width")); }
