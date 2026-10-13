@@ -1,5 +1,6 @@
 package qz.utils;
 
+import org.codehaus.jettison.json.JSONObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,7 +14,9 @@ public class LoggerUtilities {
      * @param actualValue  Invalid value passed
      */
     public static void optionWarn(Logger log, String expectedType, String name, Object actualValue) {
-        if (actualValue == null || String.valueOf(actualValue).isEmpty()) { return; } //no need to report an unsupplied value
+        if (actualValue == null || JSONObject.NULL.equals(actualValue)) { return; }
+        String valStr = String.valueOf(actualValue);
+        if (valStr == null || valStr.isEmpty()) { return; } //no need to report an unsupplied value
         log.warn("Cannot read {} as a {} for {}, using default", actualValue, expectedType, name);
     }
 
