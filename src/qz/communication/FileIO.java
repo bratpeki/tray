@@ -68,7 +68,7 @@ public class FileIO implements DeviceListener {
         }
 
         JSONObject options = params.optJSONObject("listener");
-        if (!JSONObject.NULL.equals(options)) {
+        if (!JSONObject.isNullValue(options)) {
             // Setup defaults
             bytes = options.optLong("bytes", -1);
             if (bytes > 0) {
