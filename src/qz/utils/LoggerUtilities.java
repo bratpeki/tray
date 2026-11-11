@@ -14,7 +14,7 @@ public class LoggerUtilities {
      * @param actualValue  Invalid value passed
      */
     public static void optionWarn(Logger log, String expectedType, String name, Object actualValue) {
-        if (actualValue == null || String.valueOf(actualValue).isEmpty() || JSONObject.isNullValue(actualValue)) { return; }
+        if (actualValue == null || JSONObject.isNullValue(actualValue)) { return; }
         String valStr = String.valueOf(actualValue);
         if (valStr == null || valStr.isEmpty()) { return; } //no need to report an unsupplied value
         log.warn("Cannot read {} as a {} for {}, using default", actualValue, expectedType, name);
